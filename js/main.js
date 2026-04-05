@@ -52,7 +52,7 @@ const equiparArmaduraBtn = document.getElementById("equiparArmaduraBtn");
 const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
 
 // ===============================
-// 🔥 BLOQUEO TOTAL AL MORIR
+// BLOQUEO TOTAL AL MORIR
 // ===============================
 function bloquearBotones() {
     atacarBtn.disabled = true;
@@ -61,73 +61,96 @@ function bloquearBotones() {
     equiparArmaduraBtn.disabled = true;
     aprenderMagiaBtn.disabled = true;
 }
+
 // ===============================
-// DIBUJAR ENEMIGOS (PRO + SPRITES DOFUS STYLE)
+// FUNCIONES UTILITARIAS
+// ===============================
+function esCritico() {
+    return Math.random() < 0.2;
+}
+
+function tipoIA() {
+    const tipos = ["agresivo", "defensivo", "mago"];
+    return tipos[Math.floor(Math.random() * tipos.length)];
+}
+
+function darLoot() {
+    const r = Math.random();
+    if (r < 0.5) {
+        jugador.inventario.pocion += 2;
+        return "🧪 Pociones x2";
+    } else if (r < 0.8) {
+        jugador.inventario.espada++;
+        return "⚔️ Espada";
+    } else {
+        jugador.inventario.armadura++;
+        return "🛡️ Armadura";
+    }
+}
+
+function crearEnemigo(nivel, jefe = false) {
+    const factor = 1 + (nivel * 0.15);
+
+    let vida = 30 + (nivel * 6 * factor);
+    let ataque = 5 + (nivel * 1.2 * factor);
+    let defensa = 2 + (nivel * 0.7 * factor);
+
+    let ia = tipoIA();
+
+    if (jefe) {
+        const bossFactor = 2 + (nivel * 0.05);
+        vida *= bossFactor * 0.9;
+        ataque *= (1.3 + nivel * 0.01);
+        defensa *= (1.2 + nivel * 0.01);
+    }
+
+    return {
+        vida: Math.floor(vida),
+        vidaMax: Math.floor(vida),
+        ataque: Math.floor(ataque),
+        defensa: Math.floor(defensa),
+        jefe,
+        ia
+    };
+}
+
+// ===============================
+// DIBUJAR ENEMIGOS
 // ===============================
 function dibujarEnemigos() {
-    // 🔥 Limpiar enemigos anteriores
+    // Limpiar enemigos anteriores
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
 
     enemigos.forEach((e, index) => {
         const div = document.createElement("div");
         div.classList.add("enemigo");
-
-        // ===============================
-        // DATA
-        // ===============================
         div.dataset.index = index;
         div.dataset.jefe = e.jefe;
         div.title = e.ia;
 
-        // ===============================
-        // POSICIÓN
-        // ===============================
         div.style.position = "absolute";
         div.style.left = `${200 + index * 80}px`;
         div.style.top = `${300 + Math.random() * 100}px`;
 
-        // ===============================
-        // 🎨 IMAGEN / SPRITE
-        // ===============================
-        let img = "img/enemigo1.png"; // por defecto
-
-        if (e.jefe) {
-            img = "img/boss.png";
-        } else if (e.ia === "mago") {
-            img = "img/mago.png";
-        } else {
-            const random = Math.floor(Math.random() * 3) + 1;
-            img = `img/enemigo${random}.png`;
-        }
+        // Sprite
+        let img = "img/enemigo1.png";
+        if (e.jefe) img = "img/boss.png";
+        else if (e.ia === "mago") img = "img/mago.png";
+        else img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.png`;
 
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
         div.style.backgroundRepeat = "no-repeat";
         div.style.backgroundPosition = "center";
+        div.classList.add("animado");
 
-        // ===============================
-        // 🎬 ANIMACIÓN SPRITE
-        // ===============================
-        div.classList.add("animado"); // la clase animado maneja el sprite sheet en CSS
-
-        // ===============================
-        // 🎨 FILTRO POR IA
-        // ===============================
+        // Filtro IA
         switch (e.ia) {
-            case "agresivo":
-                div.style.filter = "hue-rotate(0deg)";
-                break;
-            case "defensivo":
-                div.style.filter = "hue-rotate(90deg)";
-                break;
-            case "mago":
-                div.style.filter = "hue-rotate(250deg)";
-                break;
+            case "agresivo": div.style.filter = "hue-rotate(0deg)"; break;
+            case "defensivo": div.style.filter = "hue-rotate(90deg)"; break;
+            case "mago": div.style.filter = "hue-rotate(250deg)"; break;
         }
 
-        // ===============================
-        // 💀 EFECTO BOSS
-        // ===============================
         if (e.jefe) {
             div.style.width = "100px";
             div.style.height = "100px";
@@ -138,9 +161,7 @@ function dibujarEnemigos() {
             div.style.height = "64px";
         }
 
-        // ===============================
-        // ❤️ BARRA DE VIDA PROFESIONAL
-        // ===============================
+        // Barra de vida
         const barra = document.createElement("div");
         barra.classList.add("barra-vida");
         barra.style.position = "absolute";
@@ -160,44 +181,8 @@ function dibujarEnemigos() {
         barra.appendChild(fill);
         div.appendChild(barra);
 
-        // ===============================
-        // AGREGAR AL ESCENARIO
-        // ===============================
         gameArea.appendChild(div);
     });
-}
-// ===============================
-// CREAR ENEMIGO (ESCALADO PRO)
-// ===============================
-function crearEnemigo(nivel, jefe = false) {
-
-    let factor = 1 + (nivel * 0.15);
-
-    let vida = 30 + (nivel * 6 * factor);
-    let ataque = 5 + (nivel * 1.2 * factor);
-    let defensa = 2 + (nivel * 0.7 * factor);
-
-    let ia = tipoIA();
-
-    if (jefe) {
-
-        let bossFactor = 2 + (nivel * 0.05);
-
-        vida *= bossFactor;
-        ataque *= (1.3 + nivel * 0.01);
-        defensa *= (1.2 + nivel * 0.01);
-
-        vida *= 0.9;
-    }
-
-    return {
-        vida: Math.floor(vida),
-        vidaMax: Math.floor(vida),
-        ataque: Math.floor(ataque),
-        defensa: Math.floor(defensa),
-        jefe,
-        ia
-    };
 }
 
 // ===============================
@@ -205,59 +190,30 @@ function crearEnemigo(nivel, jefe = false) {
 // ===============================
 function generarNivel() {
     enemigos = [];
-
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
 
-    let numEnemigos = (nivelActual % 5 === 0) ? 1 : Math.min(3 + nivelActual, 8);
-
+    const numEnemigos = (nivelActual % 5 === 0) ? 1 : Math.min(3 + nivelActual, 8);
     for (let i = 0; i < numEnemigos; i++) {
         enemigos.push(crearEnemigo(nivelActual, nivelActual % 5 === 0));
     }
 
-// ===============================
-// CRÍTICOS
-// ===============================
-function esCritico() {
-    return Math.random() < 0.2;
+    dibujarEnemigos();
 }
 
 // ===============================
-// LOOT
-// ===============================
-function darLoot() {
-    let r = Math.random();
-
-    if (r < 0.5) {
-        jugador.inventario.pocion += 2;
-        return "🧪 Pociones x2";
-    }
-    if (r < 0.8) {
-        jugador.inventario.espada++;
-        return "⚔️ Espada";
-    }
-    jugador.inventario.armadura++;
-    return "🛡️ Armadura";
-}
-
-// ===============================
-// ATAQUE (FIX MUERTE + ANIMACIÓN)
+// ATAQUE JUGADOR
 // ===============================
 function atacar() {
+    if (jugador.vida <= 0 || enemigos.length === 0) return;
 
-    if (jugador.vida <= 0) return; // 🔥 BLOQUEO
-    if (enemigos.length === 0) return;
-
-    // 🔥 ANIMACIÓN ATAQUE (bien ubicada)
+    // Animación ataque
     jugadorDiv.classList.add("atacando");
-    setTimeout(() => {
-        jugadorDiv.classList.remove("atacando");
-    }, 200);
+    setTimeout(() => jugadorDiv.classList.remove("atacando"), 200);
 
-    let enemigo = enemigos[0];
-    let enemigoDiv = gameArea.querySelector(`.enemigo[data-index="0"]`);
+    const enemigo = enemigos[0];
+    const enemigoDiv = gameArea.querySelector(`.enemigo[data-index="0"]`);
 
     let daño = jugador.ataque + jugador.magia - enemigo.defensa;
-
     if (esCritico()) {
         daño *= 2;
         mensajeEl.textContent = "💥 CRÍTICO!";
@@ -269,23 +225,15 @@ function atacar() {
     if (daño < 2) daño = 2;
 
     enemigo.vida -= daño;
-
-    enemigoDiv.querySelector(".barra-vida div").style.width =
-        Math.max(0, (enemigo.vida / enemigo.vidaMax) * 100) + "%";
-
+    enemigoDiv.querySelector(".barra-vida div").style.width = `${Math.max(0, (enemigo.vida / enemigo.vidaMax) * 100)}%`;
     mensajeEl.textContent += `\n⚔️ Daño: ${Math.floor(daño)}`;
 
-    // ===============================
-    // 🔥 MUERTE ENEMIGO
-    // ===============================
     if (enemigo.vida <= 0) {
-
         enemigos.shift();
         enemigoDiv.remove();
 
-        let loot = darLoot();
+        const loot = darLoot();
         sonidoLoot.play();
-
         jugador.puntaje += 10;
         jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 15);
 
@@ -293,182 +241,50 @@ function atacar() {
 
         dibujarEnemigos();
     }
-// ===============================
-// 🤖 IA PRO ENEMIGOS (SEGUIMIENTO + COMBATE)
-// ===============================
 
-function tipoIA() {
-    const tipos = ["agresivo", "defensivo", "mago"];
-    return tipos[Math.floor(Math.random() * tipos.length)];
+    ataqueEnemigos();
+    revisarEstado();
+    actualizarUI();
 }
 
-(function () {
-    console.log("🧠 IA PRO cargada");
-
-    // ===============================
-    // 🔹 CONSTANTES
-    // ===============================
-    const velocidadBase = 1.5;
-    const rangoAtaque = 60;
-
-    // ===============================
-    // 🔹 FUNCIONES DE IA / MOVIMIENTO
-    // ===============================
-    function updateEnemigos() {
-        const jugador = document.getElementById("jugador");
-        if (!jugador) return; // 🔥 bloqueo si jugador no existe
-
-        const jx = jugador.offsetLeft + jugador.offsetWidth / 2;
-        const jy = jugador.offsetTop + jugador.offsetHeight / 2;
-
-        const enemigosDOM = document.querySelectorAll(".enemigo");
-
-        enemigosDOM.forEach((enemigoDiv, i) => {
-            const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
-            const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
-
-            const dx = jx - ex;
-            const dy = jy - ey;
-            const distancia = Math.sqrt(dx * dx + dy * dy);
-
-            // 🎯 COMPORTAMIENTO SEGÚN IA
-            const tipo = enemigoDiv.title || "agresivo";
-            let velocidad = velocidadBase;
-
-            if (tipo === "agresivo") velocidad *= 1.5;
-            if (tipo === "defensivo") velocidad *= 0.7;
-            if (tipo === "mago") velocidad *= 1.1;
-
-            // 🧠 MOVIMIENTO INTELIGENTE
-            if (distancia > rangoAtaque) {
-                let moveX = (dx / distancia) * velocidad;
-                let moveY = (dy / distancia) * velocidad;
-
-                // 🔥 efecto "rodear" para que no se amontonen
-                moveX += Math.sin(Date.now() / 300 + i) * 1.5;
-
-                enemigoDiv.style.left = (enemigoDiv.offsetLeft + moveX) + "px";
-                enemigoDiv.style.top = (enemigoDiv.offsetTop + moveY) + "px";
-            } else {
-                // ⚔️ ATAQUE CERCANO (solo visual)
-                enemigoDiv.style.transform = "scale(1.1)";
-                setTimeout(() => {
-                    enemigoDiv.style.transform = "scale(1)";
-                }, 100);
-            }
-        });
-
-        requestAnimationFrame(updateEnemigos);
-    }
-
-    // ===============================
-    // 🔹 FUNCION DIBUJAR ENEMIGOS
-    // ===============================
-    function dibujarEnemigos() {
-        const gameArea = document.getElementById("gameArea");
-        if (!gameArea) return;
-
-        // Limpiar enemigos antiguos
-        gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
-
-        enemigos.forEach((enemigo, index) => {
-            const enemigoDiv = document.createElement("div");
-            enemigoDiv.classList.add("enemigo");
-
-            // Identificar jefe
-            if (enemigo.jefe) {
-                enemigoDiv.dataset.jefe = "true";
-            }
-
-            // Guardar índice y tipo para IA
-            enemigoDiv.dataset.index = index;
-            enemigoDiv.title = enemigo.ia; // agresivo, defensivo, mago
-
-            // Posición inicial aleatoria en x dentro del escenario
-            enemigoDiv.style.left = (50 + index * 80) + "px";
-            enemigoDiv.style.bottom = "10px";
-
-            // Barra de vida
-            const barraVida = document.createElement("div");
-            barraVida.style.width = (enemigo.vida / enemigo.vidaMax * 100) + "%";
-            barraVida.style.height = "100%";
-            barraVida.style.background = "linear-gradient(to right, #ffcc00, #ff0000)";
-            barraVida.style.borderRadius = "8px";
-
-            const barraContenedor = document.createElement("div");
-            barraContenedor.classList.add("barra-vida");
-            barraContenedor.appendChild(barraVida);
-
-            enemigoDiv.appendChild(barraContenedor);
-            gameArea.appendChild(enemigoDiv);
-        });
-    }
-
-    // ===============================
-    // 🔹 INICIO DEL LOOP
-    // ===============================
-    window.addEventListener("load", () => {
-        dibujarEnemigos(); // Dibuja enemigos al inicio
-        updateEnemigos();  // Inicia loop de IA
+// ===============================
+// ATAQUE ENEMIGOS
+// ===============================
+function ataqueEnemigos() {
+    enemigos.forEach(e => {
+        let daño = e.ataque;
+        if (e.ia === "agresivo") daño *= 1.2;
+        if (e.ia === "defensivo") daño *= 0.7;
+        if (e.ia === "mago") daño += 3;
+        daño -= jugador.defensa;
+        if (daño < 1) daño = 1;
+        jugador.vida -= daño;
     });
+}
 
-})();
-    // ===============================
-    // 🔥 ATAQUE ENEMIGOS
-    // ===============================
-    ataqueEnemigos();
-
-    // ===============================
-    // 🔥 MUERTE JUGADOR
-    // ===============================
+// ===============================
+// REVISAR ESTADO JUEGO
+// ===============================
+function revisarEstado() {
     if (jugador.vida <= 0) {
         jugador.vida = 0;
         mensajeEl.textContent += "\n💀 Has sido derrotado";
-
         bloquearBotones();
-        actualizarUI();
-        return;
     }
 
-    // ===============================
-    // 🔥 SIGUIENTE NIVEL
-    // ===============================
     if (enemigos.length === 0) {
         jugador.nivel++;
         nivelActual++;
         mensajeEl.textContent += `\n✨ Nivel ${jugador.nivel}`;
         generarNivel();
     }
-
-    actualizarUI();
 }
 
 // ===============================
-// IA ENEMIGA
-// ===============================
-function ataqueEnemigos() {
-    enemigos.forEach(e => {
-        let daño = e.ataque;
-
-        if (e.ia === "agresivo") daño *= 1.2;
-        if (e.ia === "defensivo") daño *= 0.7;
-        if (e.ia === "mago") daño += 3;
-
-        daño -= jugador.defensa;
-
-        if (daño < 1) daño = 1;
-
-        jugador.vida -= daño;
-    });
-}
-
-// ===============================
-// UI
+// ACTUALIZAR UI
 // ===============================
 function actualizarUI() {
-    vidaJugadorFill.style.width =
-        Math.max(0, (jugador.vida / jugador.vidaMax) * 100) + "%";
-
+    vidaJugadorFill.style.width = `${Math.max(0, (jugador.vida / jugador.vidaMax) * 100)}%`;
     ataqueJugadorEl.textContent = Math.floor(jugador.ataque);
     defensaJugadorEl.textContent = Math.floor(jugador.defensa);
     magiaJugadorEl.textContent = jugador.magia;
@@ -484,63 +300,32 @@ function actualizarUI() {
 }
 
 // ===============================
-// INVENTARIO VENTANA
-// ===============================
-abrirInventarioBtn.addEventListener("click", () => {
-    ventanaInventario.style.display = "block";
-});
-
-cerrarInventario.addEventListener("click", () => {
-    ventanaInventario.style.display = "none";
-});
-
-// ===============================
-// MOVIMIENTO
-// ===============================
-document.addEventListener("keydown", (e) => {
-    let left = jugadorDiv.offsetLeft;
-
-    if (e.key === "ArrowRight") jugadorDiv.style.left = left + 20 + "px";
-    if (e.key === "ArrowLeft") jugadorDiv.style.left = left - 20 + "px";
-});
-
-// ===============================
-// ACCIONES
+// ACCIONES JUGADOR
 // ===============================
 function curar() {
-    if (jugador.vida <= 0) return;
-
-    if (jugador.inventario.pocion > 0) {
-        jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
-        jugador.inventario.pocion--;
-        mensajeEl.textContent = "🧪 Usaste poción";
-    }
+    if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
+    jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
+    jugador.inventario.pocion--;
+    mensajeEl.textContent = "🧪 Usaste poción";
     actualizarUI();
 }
 
 function equiparArma() {
-    if (jugador.vida <= 0) return;
-
-    if (jugador.inventario.espada > 0) {
-        jugador.ataque += 5;
-        jugador.inventario.espada--;
-    }
+    if (jugador.vida <= 0 || jugador.inventario.espada <= 0) return;
+    jugador.ataque += 5;
+    jugador.inventario.espada--;
     actualizarUI();
 }
 
 function equiparArmadura() {
-    if (jugador.vida <= 0) return;
-
-    if (jugador.inventario.armadura > 0) {
-        jugador.defensa += 3;
-        jugador.inventario.armadura--;
-    }
+    if (jugador.vida <= 0 || jugador.inventario.armadura <= 0) return;
+    jugador.defensa += 3;
+    jugador.inventario.armadura--;
     actualizarUI();
 }
 
 function aprenderMagia() {
     if (jugador.vida <= 0) return;
-
     jugador.magia += 10;
     jugador.inventario.magia++;
     actualizarUI();
@@ -554,6 +339,58 @@ curarBtn.addEventListener("click", curar);
 equiparArmaBtn.addEventListener("click", equiparArma);
 equiparArmaduraBtn.addEventListener("click", equiparArmadura);
 aprenderMagiaBtn.addEventListener("click", aprenderMagia);
+
+abrirInventarioBtn.addEventListener("click", () => ventanaInventario.style.display = "block");
+cerrarInventario.addEventListener("click", () => ventanaInventario.style.display = "none");
+
+document.addEventListener("keydown", e => {
+    const left = jugadorDiv.offsetLeft;
+    if (e.key === "ArrowRight") jugadorDiv.style.left = left + 20 + "px";
+    if (e.key === "ArrowLeft") jugadorDiv.style.left = left - 20 + "px";
+});
+
+// ===============================
+// IA ENEMIGOS (MOVIMIENTO)
+ // ===============================
+(function iniciarIA() {
+    const velocidadBase = 1.5;
+    const rangoAtaque = 60;
+
+    function updateEnemigos() {
+        const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
+        const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
+
+        document.querySelectorAll(".enemigo").forEach((enemigoDiv, i) => {
+            const enemigo = enemigos[i];
+            if (!enemigo) return;
+
+            const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
+            const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
+            const dx = jx - ex;
+            const dy = jy - ey;
+            const distancia = Math.sqrt(dx*dx + dy*dy);
+
+            let velocidad = velocidadBase;
+            if (enemigo.ia === "agresivo") velocidad *= 1.5;
+            if (enemigo.ia === "defensivo") velocidad *= 0.7;
+            if (enemigo.ia === "mago") velocidad *= 1.1;
+
+            if (distancia > rangoAtaque) {
+                let moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 1.5;
+                let moveY = (dy / distancia) * velocidad;
+                enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
+                enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
+            } else {
+                enemigoDiv.style.transform = "scale(1.1)";
+                setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
+            }
+        });
+
+        requestAnimationFrame(updateEnemigos);
+    }
+
+    window.addEventListener("load", () => updateEnemigos());
+})();
 
 // ===============================
 // START
