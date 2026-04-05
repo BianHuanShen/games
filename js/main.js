@@ -63,14 +63,6 @@ function bloquearBotones() {
 }
 
 // ===============================
-// IA ENEMIGA
-// ===============================
-function tipoIA() {
-    const tipos = ["agresivo", "defensivo", "mago"];
-    return tipos[Math.floor(Math.random() * tipos.length)];
-}
-
-// ===============================
 // CREAR ENEMIGO (ESCALADO PRO)
 // ===============================
 function crearEnemigo(nivel, jefe = false) {
