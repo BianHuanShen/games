@@ -1,5 +1,5 @@
-﻿/* =========================================
-   🎮 MINI RPG - PROFESSIONAL CSS STRUCTURE
+/* =========================================
+   🎮 MINI RPG -
    ========================================= */
 
 /* =========================
@@ -11,31 +11,35 @@
 
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #111, #333);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #000;
     color: #fff;
     overflow-x: hidden;
-    text-align: center;
-}
-
-h1, h2, h3 {
-    text-shadow: 1px 1px 5px #000;
 }
 
 /* =========================
-   🔹 2. LAYOUT
+   🔹 2. LAYOUT GENERAL
    ========================= */
+
+h1 {
+    margin: 10px;
+    text-shadow: 2px 2px 10px #000;
+}
+
+/* ESCENARIO FULL RESPONSIVE */
 #escenario {
     position: relative;
     width: 100%;
-    height: 500px;
-    margin: 0 auto;
-    border: 2px solid #444;
+    height: 60vh; /* 🔥 adaptable */
+    min-height: 300px;
+    max-height: 600px;
+    border-bottom: 3px solid #222;
     overflow: hidden;
     background-size: cover;
     background-position: center;
 }
 
+/* AREA JUEGO */
 #gameArea {
     position: relative;
     width: 100%;
@@ -43,214 +47,154 @@ h1, h2, h3 {
 }
 
 /* =========================
-   🔹 3. UI COMPONENTS
+   🔹 3. HUD FLEX (CLAVE)
    ========================= */
 
-/* Caja general */
-.caja {
-    width: 90%;
+.hud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    width: 95%;
     margin: 10px auto;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid #444;
-    border-radius: 10px;
 }
 
-/* Botones */
+/* Caja */
+.caja {
+    flex: 1;
+    min-width: 280px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #444;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+/* =========================
+   🔹 4. BOTONES PRO
+   ========================= */
+
 button {
-    padding: 10px 15px;
+    padding: 12px;
     margin: 5px;
     border: none;
-    border-radius: 5px;
-    background: #007bff;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
     color: #fff;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.25s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-    button:hover {
-        background: #3399ff;
-    }
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #00c6ff, #007bff);
+}
 
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 /* =========================
-   🔹 4. GAME SYSTEM
+   🔹 5. PERSONAJES
    ========================= */
 
-/* Jugador */
 #jugador {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     left: 50px;
     width: 60px;
     height: 60px;
-    background: #007bff;
+    background: #00aaff;
     border-radius: 10px;
     z-index: 10;
-    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 0 15px #00aaff;
 }
 
-    #jugador.atacando {
-        transform: translateX(20px);
-        background: #3399ff;
-    }
-
-/* Enemigos */
+/* ENEMIGOS */
 .enemigo {
     position: absolute;
     width: 50px;
     height: 50px;
-    background: #dc3545;
+    background: #ff3b3b;
     border-radius: 10px;
-    z-index: 9;
-    transition: transform 0.2s, background 0.2s;
+    bottom: 10px;
+    box-shadow: 0 0 10px #ff0000;
 }
 
-    .enemigo.atacando {
-        transform: translateX(-10px);
-        background: #ff6666;
-    }
-
-    /* Boss */
-    .enemigo[data-jefe="true"] {
-        width: 80px;
-        height: 80px;
-        background: #6f42c1;
-    }
+.enemigo[data-jefe="true"] {
+    width: 80px;
+    height: 80px;
+    background: #8a2be2;
+    box-shadow: 0 0 20px #8a2be2;
+}
 
 /* =========================
-   🔹 5. BARRAS DE VIDA
+   🔹 6. VIDA
    ========================= */
 
 .barra-vida {
     width: 100%;
-    height: 20px;
-    background: #333;
-    border-radius: 5px;
-    position: relative;
-    margin-bottom: 5px;
+    height: 18px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .barra-vida div {
     height: 100%;
     width: 100%;
-    background: linear-gradient(to right, #28a745, #a3e635);
-    border-radius: 5px;
+    background: linear-gradient(to right, #00ff88, #a3ff12);
     transition: width 0.3s;
 }
 
-/* Barra enemigo */
-.enemigo .barra-vida {
-    position: absolute;
-    top: -15px;
-    height: 10px;
-}
-
 /* =========================
-   🔹 6. VENTANAS (MODALES)
+   🔹 7. MODAL
    ========================= */
 
 .ventana {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.8);
     z-index: 100;
 }
 
 .ventana-contenido {
-    width: 50%;
+    width: 90%;
+    max-width: 500px;
     margin: 10% auto;
     padding: 20px;
-    background: #333;
+    background: #222;
     border-radius: 10px;
-    border: 2px solid #444;
 }
-
-.cerrar {
-    float: right;
-    font-size: 28px;
-    cursor: pointer;
-    color: #aaa;
-}
-
-    .cerrar:hover {
-        color: #fff;
-    }
 
 /* =========================
-   🔹 7. HUD
+   🔹 8. MENSAJES
    ========================= */
-
-#infoJugador p {
-    margin: 5px 0;
-}
 
 .mensaje {
-    margin-top: 10px;
-    min-height: 20px;
     font-weight: bold;
-    color: #ff0;
-    text-shadow: 0 0 5px #000;
+    color: #ffeb3b;
+    margin: 10px;
 }
 
 /* =========================
-   🔹 8. ANIMACIONES
+   🔹 9. MOBILE
    ========================= */
 
-@keyframes shake {
-    0% {
-        transform: translateX(0);
+@media (max-width: 768px) {
+    .hud {
+        flex-direction: column;
     }
 
-    25% {
-        transform: translateX(-5px);
+    #escenario {
+        height: 50vh;
     }
 
-    50% {
-        transform: translateX(5px);
-    }
-
-    75% {
-        transform: translateX(-5px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-/* =========================
-   🔹 9. EFECTOS (PARTÍCULAS)
-   ========================= */
-
-.particle {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: rgba(255,255,255,0.5);
-    border-radius: 50%;
-    animation: float 3s linear infinite;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    50% {
-        transform: translateY(-50px);
-        opacity: 0.5;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
+    button {
+        width: 100%;
     }
 }
