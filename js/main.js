@@ -140,10 +140,10 @@ function dibujarEnemigos() {
         div.style.top = `${300 + Math.random() * 100}px`;
 
         // Sprite
-        let img = "img/enemigo1.png";
-        if (e.jefe) img = "img/boss.png";
-        else if (e.ia === "mago") img = "img/mago.png";
-        else img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.png`;
+        let img = "img/enemigo1.jpeg";
+        if (e.jefe) img = "img/boss.jpeg";
+        else if (e.ia === "mago") img = "img/mago.jpeg";
+        else img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
 
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
