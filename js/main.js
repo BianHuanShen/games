@@ -122,38 +122,6 @@ function generarNivel() {
 }
 
 // ===============================
-// DIBUJAR ENEMIGOS
-// ===============================
-function dibujarEnemigos() {
-    gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
-
-    enemigos.forEach((e, index) => {
-        const div = document.createElement("div");
-        div.classList.add("enemigo");
-
-        div.dataset.index = index;
-        div.dataset.jefe = e.jefe;
-        div.title = e.ia;
-
-        div.style.left = `${200 + index * 80}px`;
-        div.style.top = `${300 + Math.random() * 100}px`; // 🔥 posición dinámica
-
-        div.style.position = "absolute"; // 🔥 obligatorio para IA
-
-        const barra = document.createElement("div");
-        barra.classList.add("barra-vida");
-
-        const fill = document.createElement("div");
-        fill.style.width = "100%";
-
-        barra.appendChild(fill);
-        div.appendChild(barra);
-
-        gameArea.appendChild(div);
-    });
-}
-
-// ===============================
 // CRÍTICOS
 // ===============================
 function esCritico() {
