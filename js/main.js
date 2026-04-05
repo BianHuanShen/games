@@ -113,7 +113,14 @@ function crearEnemigo(nivel, jefe = false) {
         ia
     };
 }
-
+// ===============================
+// 🎯 FIX IMÁGENES ENEMIGOS JPEG
+// ===============================
+function getRutaEnemigo(enemigo) {
+    if (enemigo.jefe) return "img/boss.jpeg";
+    if (enemigo.ia === "mago") return "img/mago.jpeg";
+    return `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
+}
 // ===============================
 // DIBUJAR ENEMIGOS
 // ===============================
@@ -184,14 +191,7 @@ function dibujarEnemigos() {
         gameArea.appendChild(div);
     });
 }
-// ===============================
-// 🎯 FIX IMÁGENES ENEMIGOS JPEG
-// ===============================
-function getRutaEnemigo(enemigo) {
-    if (enemigo.jefe) return "img/boss.jpeg";
-    if (enemigo.ia === "mago") return "img/mago.jpeg";
-    return `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
-}
+
 // ===============================
 // GENERAR NIVEL
 // ===============================
