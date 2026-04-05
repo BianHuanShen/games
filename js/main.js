@@ -119,8 +119,13 @@ function crearEnemigo(nivel, jefe = false) {
 function getRutaEnemigo(enemigo) {
     if (enemigo.jefe) return "img/boss.jpeg";
     if (enemigo.ia === "mago") return "img/mago.jpeg";
-    return `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
+    // Para enemigos normales, asignamos aleatorio una sola vez
+    if (!enemigo.img) {
+        enemigo.img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
+    }
+    return enemigo.img;
 }
+
 // ===============================
 // DIBUJAR ENEMIGOS
 // ===============================
@@ -139,12 +144,8 @@ function dibujarEnemigos() {
         div.style.left = `${200 + index * 80}px`;
         div.style.top = `${300 + Math.random() * 100}px`;
 
-        // Sprite
-        let img = "img/enemigo1.jpeg";
-        if (e.jefe) img = "img/boss.jpeg";
-        else if (e.ia === "mago") img = "img/mago.jpeg";
-        else img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
-
+        // Sprite usando getRutaEnemigo
+        const img = getRutaEnemigo(e);
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
         div.style.backgroundRepeat = "no-repeat";
@@ -158,6 +159,7 @@ function dibujarEnemigos() {
             case "mago": div.style.filter = "hue-rotate(250deg)"; break;
         }
 
+        // Tamaño y animación
         if (e.jefe) {
             div.style.width = "100px";
             div.style.height = "100px";
