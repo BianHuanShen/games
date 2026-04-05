@@ -17,7 +17,7 @@
     // CONFIG
     // ===============================
     const rutas = [
-    "img/escenario1.jpeg", // 🔥 IMPORTANTE ruta correcta
+    "../img/escenario1.jpeg", // 🔥 IMPORTANTE ruta correcta
 ];
 
     // ===============================
