@@ -177,13 +177,18 @@ function darLoot() {
 }
 
 // ===============================
-// ATAQUE (FIX MUERTE)
+// ATAQUE (FIX MUERTE + ANIMACIÓN)
 // ===============================
 function atacar() {
 
     if (jugador.vida <= 0) return; // 🔥 BLOQUEO
-
     if (enemigos.length === 0) return;
+
+    // 🔥 ANIMACIÓN ATAQUE (bien ubicada)
+    jugadorDiv.classList.add("atacando");
+    setTimeout(() => {
+        jugadorDiv.classList.remove("atacando");
+    }, 200);
 
     let enemigo = enemigos[0];
     let enemigoDiv = gameArea.querySelector(`.enemigo[data-index="0"]`);
@@ -205,8 +210,11 @@ function atacar() {
     enemigoDiv.querySelector(".barra-vida div").style.width =
         Math.max(0, (enemigo.vida / enemigo.vidaMax) * 100) + "%";
 
-    mensajeEl.textContent += `\nDaño: ${Math.floor(daño)}`;
+    mensajeEl.textContent += `\n⚔️ Daño: ${Math.floor(daño)}`;
 
+    // ===============================
+    // 🔥 MUERTE ENEMIGO
+    // ===============================
     if (enemigo.vida <= 0) {
 
         enemigos.shift();
@@ -223,9 +231,14 @@ function atacar() {
         dibujarEnemigos();
     }
 
+    // ===============================
+    // 🔥 ATAQUE ENEMIGOS
+    // ===============================
     ataqueEnemigos();
 
-    // 🔥 MUERTE REAL
+    // ===============================
+    // 🔥 MUERTE JUGADOR
+    // ===============================
     if (jugador.vida <= 0) {
         jugador.vida = 0;
         mensajeEl.textContent += "\n💀 Has sido derrotado";
@@ -235,6 +248,9 @@ function atacar() {
         return;
     }
 
+    // ===============================
+    // 🔥 SIGUIENTE NIVEL
+    // ===============================
     if (enemigos.length === 0) {
         jugador.nivel++;
         nivelActual++;
