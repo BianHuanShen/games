@@ -1,7 +1,13 @@
 // ===============================
 // 🤖 IA PRO ENEMIGOS (SEGUIMIENTO + COMBATE)
 // ===============================
-
+// ===============================
+// IA ENEMIGA
+// ===============================
+function tipoIA() {
+    const tipos = ["agresivo", "defensivo", "mago"];
+    return tipos[Math.floor(Math.random() * tipos.length)];
+}
 (function () {
 
     console.log("🧠 IA PRO cargada");
