@@ -1,44 +1,39 @@
 // ===============================
 // 🤖 IA PRO ENEMIGOS (SEGUIMIENTO + COMBATE)
 // ===============================
-// ===============================
-// IA ENEMIGA
-// ===============================
+
 function tipoIA() {
     const tipos = ["agresivo", "defensivo", "mago"];
     return tipos[Math.floor(Math.random() * tipos.length)];
 }
-(function () {
 
+(function () {
     console.log("🧠 IA PRO cargada");
 
     const velocidadBase = 1.5;
     const rangoAtaque = 60;
 
     function updateEnemigos() {
-
         const jugador = document.getElementById("jugador");
-        if (!jugador) return;
+        if (!jugador) return; // 🔥 bloqueo si jugador no existe
 
-        const jx = jugador.offsetLeft;
-        const jy = jugador.offsetTop;
+        const jx = jugador.offsetLeft + jugador.offsetWidth / 2;
+        const jy = jugador.offsetTop + jugador.offsetHeight / 2;
 
         const enemigosDOM = document.querySelectorAll(".enemigo");
 
         enemigosDOM.forEach((enemigoDiv, i) => {
-
-            let ex = enemigoDiv.offsetLeft;
-            let ey = enemigoDiv.offsetTop;
+            let ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
+            let ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
 
             let dx = jx - ex;
             let dy = jy - ey;
-
             let distancia = Math.sqrt(dx * dx + dy * dy);
 
             // ===============================
             // 🎯 COMPORTAMIENTO SEGÚN IA
             // ===============================
-            let tipo = enemigoDiv.title;
+            let tipo = enemigoDiv.title || "agresivo";
             let velocidad = velocidadBase;
 
             if (tipo === "agresivo") velocidad *= 1.5;
@@ -49,26 +44,23 @@ function tipoIA() {
             // 🧠 MOVIMIENTO INTELIGENTE
             // ===============================
             if (distancia > rangoAtaque) {
+                let moveX = (dx / distancia) * velocidad;
+                let moveY = (dy / distancia) * velocidad;
 
-                let moveX = (dx / distancia) * velocidad * 2;
-                let moveY = (dy / distancia) * velocidad * 2;
-
-                // 🔥 efecto "rodear" (no fila india)
+                // 🔥 efecto "rodear" para que no se amontonen
                 moveX += Math.sin(Date.now() / 300 + i) * 1.5;
 
-                enemigoDiv.style.left = (ex + moveX) + "px";
-                enemigoDiv.style.top = (ey + moveY) + "px";
-
+                enemigoDiv.style.left = (enemigoDiv.offsetLeft + moveX) + "px";
+                enemigoDiv.style.top = (enemigoDiv.offsetTop + moveY) + "px";
             } else {
                 // ===============================
-                // ⚔️ ATAQUE CERCANO (VISUAL)
+                // ⚔️ ATAQUE CERCANO (solo visual)
                 // ===============================
                 enemigoDiv.style.transform = "scale(1.1)";
                 setTimeout(() => {
                     enemigoDiv.style.transform = "scale(1)";
                 }, 100);
             }
-
         });
 
         requestAnimationFrame(updateEnemigos);
@@ -77,8 +69,7 @@ function tipoIA() {
     // ===============================
     // START LOOP
     // ===============================
-    document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(updateEnemigos, 500);
+    window.addEventListener("load", () => {
+        updateEnemigos(); // 🔥 loop infinito
     });
-
 })();
