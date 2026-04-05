@@ -17,11 +17,8 @@
     // CONFIG
     // ===============================
     const rutas = [
-        "../img/escenario1.jpeg", // tu imagen generada
-        "img/escenario2.png",
-        "img/escenario3.png",
-        "img/escenario4.png"
-    ];
+    "img/escenario1.jpeg", // 🔥 IMPORTANTE ruta correcta
+];
 
     // ===============================
     // CAMBIAR ESCENARIO DINÁMICO
