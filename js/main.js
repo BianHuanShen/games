@@ -353,7 +353,7 @@ document.addEventListener("keydown", e => {
 // IA ENEMIGOS (MOVIMIENTO)
  // ===============================
 (function iniciarIA() {
-    const velocidadBase = 4.0;
+    const velocidadBase = 0.1;
     const rangoAtaque = 60;
 
     function updateEnemigos() {
