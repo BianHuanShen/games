@@ -1,5 +1,5 @@
 /* =========================================
-   🎮 MINI RPG -
+   🎮 MINI RPG - LIMPIO
    ========================================= */
 
 /* =========================
@@ -95,42 +95,6 @@ button:hover {
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-/* =========================
-   🔹 5. PERSONAJES
-   ========================= */
-
-#jugador {
-    position: absolute;
-    bottom: 10px;
-    left: 50px;
-    width: 60px;
-    height: 60px;
-    background: #00aaff;
-    border-radius: 10px;
-    z-index: 10;
-    box-shadow: 0 0 15px #00aaff;
-    transition: left 0.1s linear, top 0.1s linear;
-}
-
-/* ENEMIGOS */
-.enemigo {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: #ff3b3b;
-    border-radius: 10px;
-    bottom: 10px;
-    box-shadow: 0 0 10px #ff0000;
-    transition: left 0.1s linear, top 0.1s linear, transform 0.1s ease-in-out;
-}
-
-.enemigo[data-jefe="true"] {
-    width: 80px;
-    height: 80px;
-    background: #8a2be2;
-    box-shadow: 0 0 20px #8a2be2;
 }
 
 /* =========================
