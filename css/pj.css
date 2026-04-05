@@ -1,36 +1,64 @@
 /* =========================
-   🧍 PERSONAJE CON SPRITE
+   🧟 ENEMIGOS CON SPRITE
    ========================= */
 
-#jugador {
+.enemigo {
     position: absolute;
-    bottom: 10px;
-    left: 50px;
-    width: 70px;
-    height: 70px;
-
-    background-image: url("../img/personaje.png"); /* 🔥 tu imagen */
+    width: 64px;  /* tamaño por defecto */
+    height: 64px;
+    background-image: url("../img/enemigo1.png"); /* placeholder inicial */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
-    z-index: 10;
-
-    transition: transform 0.2s;
+    z-index: 5; /* debajo del jugador */
+    transition: transform 0.2s, filter 0.2s;
 }
 
-/* 🔥 animación idle (respira) */
-@keyframes idle {
+/* 🔥 animación idle (respira/mueve ligeramente) */
+@keyframes idle-enemigo {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+    50% { transform: translateY(-3px); }
     100% { transform: translateY(0px); }
 }
 
-#jugador {
-    animation: idle 2s infinite ease-in-out;
+.enemigo {
+    animation: idle-enemigo 2s infinite ease-in-out;
 }
 
-/* 🔥 ataque */
-#jugador.atacando {
-    transform: scale(1.2) rotate(-5deg);
+/* 🔥 animación de ataque */
+.enemigo.atacando {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* 🔥 animación jefe */
+.enemigo[data-jefe="true"] {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 0 30px red;
+    animation: idle-enemigo 1.5s infinite ease-in-out;
+}
+
+/* 🔥 barra de vida */
+.enemigo .barra-vida {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 3px;
+}
+
+.enemigo .barra-vida div {
+    width: 100%;
+    height: 100%;
+    background: limegreen;
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+/* 🔥 jefe tiene barra roja */
+.enemigo[data-jefe="true"] .barra-vida div {
+    background: red;
 }
