@@ -1,5 +1,5 @@
 // ===============================
-// RENDER SYSTEM (ESCENARIO PRO)
+// RENDER SYSTEM (ESCENARIO + PLAYER)
 // ===============================
 
 (function () {
@@ -14,24 +14,24 @@
     }
 
     // ===============================
-    // CONFIG (RUTA CORRECTA 🔥)
+    // CONFIG
     // ===============================
     const rutas = [
-        "img/escenario1.jpeg" // ✅ correcta desde index.html
+        "img/escenario1.jpeg"
     ];
 
+    const personajeRuta = "img/personaje.png"; // 🔥 tu personaje
+
     // ===============================
-    // CAMBIAR ESCENARIO DINÁMICO
+    // FONDO
     // ===============================
     function cambiarEscenario() {
 
         if (typeof nivelActual === "undefined") return;
 
         let index = nivelActual % rutas.length;
-
         const rutaFinal = rutas[index];
 
-        // 🔥 FORZAR CARGA (debug incluido)
         const img = new Image();
         img.src = rutaFinal;
 
@@ -41,16 +41,49 @@
             escenario.style.backgroundPosition = "center";
             escenario.style.backgroundRepeat = "no-repeat";
 
-            console.log("✅ Escenario cargado:", rutaFinal);
+            console.log("✅ Escenario cargado");
         };
 
         img.onerror = () => {
-            console.error("❌ ERROR cargando imagen:", rutaFinal);
+            console.error("❌ Error fondo:", rutaFinal);
         };
     }
 
     // ===============================
-    // INTERCEPTAR GENERAR NIVEL 🔥
+    // 🧍 APLICAR IMAGEN AL JUGADOR
+    // ===============================
+    function aplicarPersonaje() {
+
+        const jugador = document.getElementById("jugador");
+
+        if (!jugador) {
+            console.warn("⏳ Jugador aún no existe...");
+            return;
+        }
+
+        const img = new Image();
+        img.src = personajeRuta;
+
+        img.onload = () => {
+
+            jugador.style.backgroundImage = `url('${personajeRuta}')`;
+            jugador.style.backgroundSize = "contain";
+            jugador.style.backgroundRepeat = "no-repeat";
+            jugador.style.backgroundPosition = "center";
+
+            // 🔥 quitar color azul original
+            jugador.style.backgroundColor = "transparent";
+
+            console.log("🧍 Personaje cargado");
+        };
+
+        img.onerror = () => {
+            console.error("❌ Error personaje:", personajeRuta);
+        };
+    }
+
+    // ===============================
+    // INTERCEPTAR NIVEL
     // ===============================
     const originalGenerarNivel = window.generarNivel;
 
@@ -61,13 +94,21 @@
         }
 
         cambiarEscenario();
+
+        // 🔥 asegurar personaje siempre visible
+        setTimeout(aplicarPersonaje, 50);
     };
 
     // ===============================
-    // PRIMER CARGA
+    // INICIO
     // ===============================
     document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(cambiarEscenario, 200);
+
+        setTimeout(() => {
+            cambiarEscenario();
+            aplicarPersonaje();
+        }, 300);
+
     });
 
 })();
