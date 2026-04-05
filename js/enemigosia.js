@@ -65,7 +65,47 @@ function tipoIA() {
 
         requestAnimationFrame(updateEnemigos);
     }
+// ===============================
+// DIBUJAR ENEMIGOS EN EL GAMEAREA
+// ===============================
+function dibujarEnemigos() {
+    // Limpiar enemigos antiguos
+    const gameArea = document.getElementById("gameArea");
+    gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
 
+    enemigos.forEach((enemigo, index) => {
+        const enemigoDiv = document.createElement("div");
+        enemigoDiv.classList.add("enemigo");
+
+        // Identificar jefe
+        if (enemigo.jefe) {
+            enemigoDiv.dataset.jefe = "true";
+        }
+
+        // Guardar índice y tipo para IA
+        enemigoDiv.dataset.index = index;
+        enemigoDiv.title = enemigo.ia; // agresivo, defensivo, mago
+
+        // Posición inicial aleatoria en x dentro del escenario
+        enemigoDiv.style.left = (50 + index * 80) + "px";
+        enemigoDiv.style.bottom = "10px";
+
+        // Barra de vida
+        const barraVida = document.createElement("div");
+        barraVida.style.width = (enemigo.vida / enemigo.vidaMax * 100) + "%";
+        barraVida.style.height = "100%";
+        barraVida.style.background = "linear-gradient(to right, #ffcc00, #ff0000)";
+        barraVida.style.borderRadius = "8px";
+
+        const barraContenedor = document.createElement("div");
+        barraContenedor.classList.add("barra-vida");
+        barraContenedor.appendChild(barraVida);
+
+        enemigoDiv.appendChild(barraContenedor);
+
+        gameArea.appendChild(enemigoDiv);
+    });
+}
     // ===============================
     // START LOOP
     // ===============================
