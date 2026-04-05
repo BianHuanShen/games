@@ -111,6 +111,7 @@ button:disabled {
     border-radius: 10px;
     z-index: 10;
     box-shadow: 0 0 15px #00aaff;
+    transition: left 0.1s linear, top 0.1s linear;
 }
 
 /* ENEMIGOS */
@@ -122,6 +123,7 @@ button:disabled {
     border-radius: 10px;
     bottom: 10px;
     box-shadow: 0 0 10px #ff0000;
+    transition: left 0.1s linear, top 0.1s linear, transform 0.1s ease-in-out;
 }
 
 .enemigo[data-jefe="true"] {
@@ -197,4 +199,19 @@ button:disabled {
     button {
         width: 100%;
     }
+}
+
+/* =========================
+   🔹 10. ANIMACIONES
+   ========================= */
+
+.animado {
+    width: 64px; /* ancho de cada frame */
+    height: 64px; /* alto de cada frame */
+    animation: caminar 0.6s steps(4) infinite;
+}
+
+@keyframes caminar {
+    from { background-position-x: 0; }
+    to { background-position-x: 256px; } /* ancho total del sprite sheet */
 }
