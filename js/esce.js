@@ -92,9 +92,9 @@ function aplicarImagenEnemigos() {
         if (!enemigo) return;
 
         // Selección de imagen según tipo
-        let ruta = "img/enemigo1.png"; // default
-        if (enemigo.jefe) ruta = "img/boss.png";
-        else if (enemigo.ia === "mago") ruta = "img/mago.png";
+        let ruta = "img/enemigo1.jpeg"; // default
+        if (enemigo.jefe) ruta = "img/boss.jpeg";
+        else if (enemigo.ia === "mago") ruta = "img/mago.jpeg";
         else ruta = `img/enemigo${Math.floor(Math.random() * 3) + 1}.png`;
 
         const img = new Image();
