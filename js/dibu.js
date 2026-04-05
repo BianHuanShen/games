@@ -3,11 +3,10 @@
 // ===============================
 function dibujarEnemigos() {
 
-    // limpiar enemigos anteriores
+    // Limpiar enemigos anteriores
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
 
     enemigos.forEach((e, index) => {
-
         const div = document.createElement("div");
         div.classList.add("enemigo");
 
@@ -23,12 +22,12 @@ function dibujarEnemigos() {
         // ===============================
         div.style.position = "absolute";
         div.style.left = `${200 + index * 80}px`;
-        div.style.top = `${300 + Math.random() * 100}px`;
+        div.style.top = `${300 + Math.random() * 100}px`; // posición dinámica
 
         // ===============================
         // 🎨 SELECCIÓN DE IMAGEN
         // ===============================
-        let img = "img/enemigo1.png";
+        let img = "img/enemigo1.png"; // default
 
         if (e.jefe) {
             img = "img/boss.png";
@@ -50,18 +49,18 @@ function dibujarEnemigos() {
         div.classList.add("animado");
 
         // ===============================
-        // 🎨 VARIACIÓN POR IA
+        // 🎨 FILTRO POR IA
         // ===============================
-        if (e.ia === "agresivo") {
-            div.style.filter = "hue-rotate(0deg)";
-        }
-
-        if (e.ia === "defensivo") {
-            div.style.filter = "hue-rotate(90deg)";
-        }
-
-        if (e.ia === "mago") {
-            div.style.filter = "hue-rotate(250deg)";
+        switch (e.ia) {
+            case "agresivo":
+                div.style.filter = "hue-rotate(0deg)";
+                break;
+            case "defensivo":
+                div.style.filter = "hue-rotate(90deg)";
+                break;
+            case "mago":
+                div.style.filter = "hue-rotate(250deg)";
+                break;
         }
 
         // ===============================
@@ -90,6 +89,5 @@ function dibujarEnemigos() {
         // AGREGAR AL ESCENARIO
         // ===============================
         gameArea.appendChild(div);
-
     });
 }
