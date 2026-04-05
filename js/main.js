@@ -353,7 +353,7 @@ document.addEventListener("keydown", e => {
 // IA ENEMIGOS (MOVIMIENTO)
  // ===============================
 (function iniciarIA() {
-    const velocidadBase = 1.5;
+    const velocidadBase = 4.0;
     const rangoAtaque = 60;
 
     function updateEnemigos() {
@@ -371,9 +371,9 @@ document.addEventListener("keydown", e => {
             const distancia = Math.sqrt(dx*dx + dy*dy);
 
             let velocidad = velocidadBase;
-            if (enemigo.ia === "agresivo") velocidad *= 1.5;
-            if (enemigo.ia === "defensivo") velocidad *= 0.7;
-            if (enemigo.ia === "mago") velocidad *= 1.1;
+            if (enemigo.ia === "agresivo") velocidad *= 0.7;
+            if (enemigo.ia === "defensivo") velocidad *= 0.2;
+            if (enemigo.ia === "mago") velocidad *= 0.4;
 
             if (distancia > rangoAtaque) {
                 let moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 1.5;
