@@ -20,7 +20,7 @@
         "img/escenario1.jpeg"
     ];
 
-    const personajeRuta = "img/img/personaje.jpeg"; // 🔥 tu personaje
+    const personajeRuta = "img/personaje.jpeg"; // 🔥 tu personaje
 
     // ===============================
     // FONDO
