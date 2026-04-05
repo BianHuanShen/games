@@ -81,7 +81,52 @@
             console.error("❌ Error personaje:", personajeRuta);
         };
     }
+// ===============================
+// 🧟 APLICAR IMAGEN A ENEMIGOS
+// ===============================
+function aplicarImagenEnemigos() {
+    document.querySelectorAll(".enemigo").forEach(enemigoDiv => {
+        const index = enemigoDiv.dataset.index;
+        const enemigo = enemigos[index];
 
+        if (!enemigo) return;
+
+        // Selección de imagen según tipo
+        let ruta = "img/enemigo1.png"; // default
+        if (enemigo.jefe) ruta = "img/boss.png";
+        else if (enemigo.ia === "mago") ruta = "img/mago.png";
+        else ruta = `img/enemigo${Math.floor(Math.random() * 3) + 1}.png`;
+
+        const img = new Image();
+        img.src = ruta;
+
+        img.onload = () => {
+            enemigoDiv.style.backgroundImage = `url('${ruta}')`;
+            enemigoDiv.style.backgroundSize = "contain";
+            enemigoDiv.style.backgroundRepeat = "no-repeat";
+            enemigoDiv.style.backgroundPosition = "center";
+
+            // Quitar color de fondo por defecto
+            enemigoDiv.style.backgroundColor = "transparent";
+
+            console.log(`🧟 Enemigo #${index} cargado: ${ruta}`);
+        };
+
+        img.onerror = () => {
+            console.error(`❌ Error cargando enemigo #${index}: ${ruta}`);
+        };
+    });
+}
+
+// ===============================
+// HOOK: después de dibujar enemigos
+// ===============================
+const originalDibujarEnemigos = window.dibujarEnemigos;
+window.dibujarEnemigos = function () {
+    if (originalDibujarEnemigos) originalDibujarEnemigos();
+    // Aplicar imágenes a todos los enemigos dibujados
+    setTimeout(aplicarImagenEnemigos, 50);
+};
     // ===============================
     // INTERCEPTAR NIVEL
     // ===============================
