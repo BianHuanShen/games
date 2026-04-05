@@ -14,11 +14,11 @@
     }
 
     // ===============================
-    // CONFIG
+    // CONFIG (RUTA CORRECTA 🔥)
     // ===============================
     const rutas = [
-    "../img/escenario1.jpeg", // 🔥 IMPORTANTE ruta correcta
-];
+        "img/escenario1.jpeg" // ✅ correcta desde index.html
+    ];
 
     // ===============================
     // CAMBIAR ESCENARIO DINÁMICO
@@ -29,13 +29,24 @@
 
         let index = nivelActual % rutas.length;
 
-        escenario.style.backgroundImage = `url('${rutas[index]}')`;
+        const rutaFinal = rutas[index];
 
-        escenario.style.backgroundSize = "cover";
-        escenario.style.backgroundPosition = "center";
-        escenario.style.backgroundRepeat = "no-repeat";
+        // 🔥 FORZAR CARGA (debug incluido)
+        const img = new Image();
+        img.src = rutaFinal;
 
-        console.log("🌄 Escenario:", rutas[index]);
+        img.onload = () => {
+            escenario.style.backgroundImage = `url('${rutaFinal}')`;
+            escenario.style.backgroundSize = "cover";
+            escenario.style.backgroundPosition = "center";
+            escenario.style.backgroundRepeat = "no-repeat";
+
+            console.log("✅ Escenario cargado:", rutaFinal);
+        };
+
+        img.onerror = () => {
+            console.error("❌ ERROR cargando imagen:", rutaFinal);
+        };
     }
 
     // ===============================
@@ -49,14 +60,14 @@
             originalGenerarNivel();
         }
 
-        cambiarEscenario(); // 🔥 se actualiza automáticamente
+        cambiarEscenario();
     };
 
     // ===============================
     // PRIMER CARGA
     // ===============================
     document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(cambiarEscenario, 100);
+        setTimeout(cambiarEscenario, 200);
     });
 
 })();
