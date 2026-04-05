@@ -114,12 +114,13 @@ function crearEnemigo(nivel, jefe = false) {
     };
 }
 // ===============================
-// 🎯 FIX IMÁGENES ENEMIGOS JPEG
+// 🎯 GET RUTA DE IMAGEN DEL ENEMIGO
 // ===============================
 function getRutaEnemigo(enemigo) {
     if (enemigo.jefe) return "img/boss.jpeg";
     if (enemigo.ia === "mago") return "img/mago.jpeg";
-    // Para enemigos normales, asignamos aleatorio una sola vez
+
+    // Enemigos normales: asignar una imagen aleatoria solo una vez
     if (!enemigo.img) {
         enemigo.img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
     }
@@ -127,7 +128,7 @@ function getRutaEnemigo(enemigo) {
 }
 
 // ===============================
-// DIBUJAR ENEMIGOS
+// 🎯 DIBUJAR ENEMIGOS
 // ===============================
 function dibujarEnemigos() {
     // Limpiar enemigos anteriores
@@ -144,7 +145,7 @@ function dibujarEnemigos() {
         div.style.left = `${200 + index * 80}px`;
         div.style.top = `${300 + Math.random() * 100}px`;
 
-        // Sprite usando getRutaEnemigo
+        // Imagen consistente según tipo
         const img = getRutaEnemigo(e);
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
@@ -152,7 +153,7 @@ function dibujarEnemigos() {
         div.style.backgroundPosition = "center";
         div.classList.add("animado");
 
-        // Filtro IA
+        // Filtro según IA
         switch (e.ia) {
             case "agresivo": div.style.filter = "hue-rotate(0deg)"; break;
             case "defensivo": div.style.filter = "hue-rotate(90deg)"; break;
@@ -193,7 +194,6 @@ function dibujarEnemigos() {
         gameArea.appendChild(div);
     });
 }
-
 // ===============================
 // GENERAR NIVEL
 // ===============================
