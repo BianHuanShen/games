@@ -136,7 +136,9 @@ function dibujarEnemigos() {
         div.title = e.ia;
 
         div.style.left = `${200 + index * 80}px`;
-        div.style.bottom = "0px";
+        div.style.top = `${300 + Math.random() * 100}px`; // 🔥 posición dinámica
+
+        div.style.position = "absolute"; // 🔥 obligatorio para IA
 
         const barra = document.createElement("div");
         barra.classList.add("barra-vida");
