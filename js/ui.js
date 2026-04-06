@@ -151,3 +151,59 @@ function animarBoton(btn) {
     btn.classList.add("usar-item-anim");
     setTimeout(() => btn.classList.remove("usar-item-anim"), 300);
 }
+// ===============================
+// BARRA VISUAL DE MAGIA
+// ===============================
+function actualizarBarraMagia(maxMagia) {
+    let barraMagia = document.getElementById("barraMagia");
+
+    if (!barraMagia) {
+        barraMagia = document.createElement("div");
+        barraMagia.id = "barraMagia";
+        barraMagia.style.width = "200px";
+        barraMagia.style.height = "20px";
+        barraMagia.style.background = "#444";
+        barraMagia.style.border = "2px solid #000";
+        barraMagia.style.borderRadius = "5px";
+        barraMagia.style.position = "relative";
+        barraMagia.style.marginTop = "10px";
+
+        const fillBase = document.createElement("div");
+        fillBase.id = "barraMagiaFillBase";
+        fillBase.style.height = "100%";
+        fillBase.style.width = "0%";
+        fillBase.style.background = "#00f"; // magia base: azul
+        fillBase.style.borderRadius = "3px";
+        fillBase.style.position = "absolute";
+        fillBase.style.left = "0";
+        fillBase.style.top = "0";
+
+        const fillBonus = document.createElement("div");
+        fillBonus.id = "barraMagiaFillBonus";
+        fillBonus.style.height = "100%";
+        fillBonus.style.width = "0%";
+        fillBonus.style.background = "#0ff"; // magia extra de Orbes: cian
+        fillBonus.style.borderRadius = "3px";
+        fillBonus.style.position = "absolute";
+        fillBonus.style.left = "0";
+        fillBonus.style.top = "0";
+
+        barraMagia.appendChild(fillBase);
+        barraMagia.appendChild(fillBonus);
+
+        document.getElementById("gameArea").appendChild(barraMagia);
+    }
+
+    const fillBase = document.getElementById("barraMagiaFillBase");
+    const fillBonus = document.getElementById("barraMagiaFillBonus");
+
+    // Calculamos magia base y bonus
+    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
+    const bonusOrbes = jugador.inventario.orbeUsados || 0;
+    const magiaBase = Math.min(jugador.magia, maxMagiaBase);
+    const magiaBonus = Math.max(0, jugador.magia - maxMagiaBase);
+
+    // Actualizamos las barras
+    fillBase.style.width = maxMagiaBase > 0 ? (magiaBase / maxMagia) * 100 + "%" : "0%";
+    fillBonus.style.width = maxMagia > 0 ? (magiaBonus / maxMagia) * 100 + "%" : "0%";
+}
