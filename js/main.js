@@ -11,7 +11,7 @@ const jugador = {
     magia: 0,
     nivel: 1,
     puntaje: 0,
-    inventario: { pocion: 30, espada: 1, armadura: 1, magia: 0, cristal: 0, orbe: 2, espadaLegendaria: 1,armaduraEpica: 0}
+    inventario: { pocion: 30, espada: 1, armadura: 1, magia: 0, cristal: 0, orbe: 0, espadaLegendaria: 1,armaduraEpica: 0}
 };
 // ===== ESTADO =====
 let enemigos = [];
