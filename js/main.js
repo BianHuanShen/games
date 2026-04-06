@@ -188,17 +188,39 @@ function dibujarEnemigos() {
         gameArea.appendChild(div);
     });
 }
-
 // ===============================
-// GENERAR NIVEL
+// GENERAR NIVEL PROFESIONAL
 // ===============================
 function generarNivel() {
     enemigos = [];
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
 
-    const numEnemigos = (nivelActual % 5 === 0) ? 1 : Math.min(3 + nivelActual, 8);
+    // Calcular dificultad base según el nivel
+    // Nivel 1-2: fácil, nivel 3: un poco más difícil, progresivo
+    const dificultadBase = 1 + Math.floor(nivelActual / 2); // aumenta cada 2 niveles
+    const multiplicadorDificultad = 1 + (nivelActual * 0.1); // 10% más fuerte por nivel
+
+    // Número de enemigos: de 1 a 8, aumenta con el nivel pero no demasiado
+    let numEnemigos;
+    if (nivelActual % 5 === 0) { 
+        // jefe cada 5 niveles
+        numEnemigos = 1;
+    } else {
+        numEnemigos = Math.min(3 + dificultadBase, 8); 
+    }
+
     for (let i = 0; i < numEnemigos; i++) {
-        enemigos.push(crearEnemigo(nivelActual, nivelActual % 5 === 0));
+        // Crear enemigos con stats ajustadas por dificultad
+        const esJefe = (nivelActual % 5 === 0);
+        const enemigo = crearEnemigo(nivelActual, esJefe);
+
+        // Ajustar stats por nivel: vida, ataque, defensa
+        enemigo.vidaMax = Math.floor(enemigo.vidaMax * multiplicadorDificultad);
+        enemigo.vida = enemigo.vidaMax;
+        enemigo.ataque = Math.floor(enemigo.ataque * multiplicadorDificultad);
+        enemigo.defensa = Math.floor(enemigo.defensa * multiplicadorDificultad);
+
+        enemigos.push(enemigo);
     }
 
     dibujarEnemigos();
