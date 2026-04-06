@@ -324,7 +324,7 @@ function atacar() {
 function ataqueEnemigos() {
     enemigos.forEach(e => {
         let daño = e.ataque;
-        if (e.ia === "agresivo") daño *= 1.2;
+        if (e.ia === "agresivo") daño *= 1.0;
         if (e.ia === "defensivo") daño *= 0.7;
         if (e.ia === "mago") daño += 3;
         daño -= jugador.defensa;
@@ -382,7 +382,7 @@ function ataqueEnemigos() {
 // IA ENEMIGOS (MOVIMIENTO)
 // ===============================
 (function iniciarMovimientoEnemigos() {
-    const velocidadBase = 0.3;
+    const velocidadBase = 0.3 * 0.9; // 10% más lento
     const rangoAtaque = 60;
 
     function moverEnemigos() {
@@ -399,15 +399,15 @@ function ataqueEnemigos() {
             const dy = jy - ey;
             const distancia = Math.sqrt(dx*dx + dy*dy);
 
-            // Ajustar velocidad según tipo
+            // Ajustar velocidad según tipo y reducir 10%
             let velocidad = velocidadBase;
             if (enemigo.ia === "agresivo") velocidad *= 1.2;
             if (enemigo.ia === "defensivo") velocidad *= 0.7;
             if (enemigo.ia === "mago") velocidad *= 0.5;
 
-            // Movimiento solo si está lejos
+            // Movimiento libre en cualquier dirección si está fuera del rango de ataque
             if (distancia > rangoAtaque) {
-                const moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 0.5;
+                const moveX = (dx / distancia) * velocidad;
                 const moveY = (dy / distancia) * velocidad;
                 enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
                 enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
