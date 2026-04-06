@@ -1,0 +1,125 @@
+﻿/* ===============================
+   📱 MOBILE (hasta 600px)
+=============================== */
+@media (max-width: 600px) {
+
+    body {
+        overflow: auto;
+    }
+
+    h1 {
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    #escenario {
+        height: 40vh;
+    }
+
+    .hud {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .caja {
+        width: 90%;
+        padding: 10px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .mensaje {
+        font-size: 12px;
+        max-width: 90%;
+        left: 5%;
+        bottom: 5px;
+    }
+
+    .ventana-contenido {
+        width: 90%;
+        margin: 30% auto;
+    }
+
+    p {
+        font-size: 13px;
+    }
+}
+
+/* ===============================
+   📲 TABLET (601px - 1024px)
+=============================== */
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    #escenario {
+        height: 50vh;
+    }
+
+    .hud {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .caja {
+        width: 45%;
+        min-width: 220px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .mensaje {
+        max-width: 250px;
+        font-size: 13px;
+    }
+
+    .ventana-contenido {
+        width: 60%;
+    }
+}
+
+/* ===============================
+   💻 DESKTOP GRANDE (1025px+)
+=============================== */
+@media (min-width: 1025px) {
+
+    .hud {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .caja {
+        width: 260px;
+    }
+
+    #escenario {
+        height: 65vh;
+    }
+}
+
+/* ===============================
+   🖥️ PANTALLAS MUY GRANDES (1440px+)
+=============================== */
+@media (min-width: 1440px) {
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .caja {
+        width: 300px;
+        padding: 20px;
+    }
+
+    #escenario {
+        height: 70vh;
+    }
+
+    .mensaje {
+        font-size: 14px;
+    }
+}
