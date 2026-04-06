@@ -114,17 +114,22 @@ function crearEnemigo(nivel, jefe = false) {
     };
 }
 // ===============================
-// 🎯 GET RUTA DE IMAGEN DEL ENEMIGO
+// IMAGEN ENEMIGO (FIX PRO)
 // ===============================
 function getRutaEnemigo(enemigo) {
-    if (enemigo.jefe) return "img/boss.jpeg";
-    if (enemigo.ia === "mago") return "img/mago.jpeg";
 
-    // Enemigos normales: asignar una imagen aleatoria solo una vez
-    if (!enemigo.img) {
-        enemigo.img = `img/enemigo${Math.floor(Math.random() * 3) + 1}.jpeg`;
+    // 🟥 BOSS cada 5 niveles
+    if (enemigo.jefe) {
+        return "img/boss.jpeg";
     }
-    return enemigo.img;
+
+    // 🟪 MAGO desde nivel 2 en adelante
+    if (nivelActual >= 2) {
+        return "img/mago.jpeg";
+    }
+
+    // 🟩 ENEMIGO NORMAL
+    return "img/enemigo1.jpeg";
 }
 
 // ===============================
