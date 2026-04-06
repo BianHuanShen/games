@@ -12,7 +12,7 @@ function actualizarUI() {
 
     // Calcula magia máxima considerando bonus de Orbes
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
-    const bonusOrbes = jugador.inventario.orbeUsados || 0;
+    const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
     const maxMagia = maxMagiaBase + bonusOrbes;
 
     // Inventario visual
@@ -46,7 +46,7 @@ function aprenderMagia() {
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
 
     // Bonus de magia por Orbes usados
-    const bonusOrbes = jugador.inventario.orbeUsados || 0;
+   const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
 
     const maxMagia = maxMagiaBase + bonusOrbes;
 
@@ -203,7 +203,7 @@ function actualizarBarraMagia(maxMagia) {
 
     // Calculamos magia base y bonus
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
-    const bonusOrbes = jugador.inventario.orbeUsados || 0;
+    const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
     const magiaBase = Math.min(jugador.magia, maxMagiaBase);
     const magiaBonus = Math.max(0, jugador.magia - maxMagiaBase);
 
