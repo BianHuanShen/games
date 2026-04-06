@@ -327,13 +327,60 @@ function equiparArmadura() {
     actualizarUI();
 }
 
+// ===============================
+// APRENDER MAGIA LIMITADA (VISUAL)
+// ===============================
 function aprenderMagia() {
     if (jugador.vida <= 0) return;
-    jugador.magia += 10;
-    jugador.inventario.magia++;
-    actualizarUI();
-}
 
+    // Máximo magia permitida: 1-2 puntos cada 3 niveles
+    const maxMagia = Math.floor(jugador.nivel / 3) * 2; // Cada 3 niveles -> +2 magia
+    const magiaRestante = maxMagia - jugador.magia;    // Puntos que puede aprender todavía
+
+    if (magiaRestante > 0) {
+        jugador.magia++;
+        jugador.inventario.magia++;
+        mensajeEl.textContent = `✨ Aprendiste magia! Magia actual: ${jugador.magia} (faltan ${magiaRestante - 1} para el límite del nivel)`;
+    } else {
+        mensajeEl.textContent = `⚠️ No puedes aumentar magia todavía (nivel ${jugador.nivel})`;
+    }
+
+    actualizarUI();
+    actualizarBarraMagia(maxMagia);
+}
+// ===============================
+// BARRA VISUAL DE MAGIA
+// ===============================
+function actualizarBarraMagia(maxMagia) {
+    let barraMagia = document.getElementById("barraMagia");
+    
+    // Si la barra no existe, crearla
+    if (!barraMagia) {
+        barraMagia = document.createElement("div");
+        barraMagia.id = "barraMagia";
+        barraMagia.style.width = "200px";
+        barraMagia.style.height = "20px";
+        barraMagia.style.background = "#444";
+        barraMagia.style.border = "2px solid #000";
+        barraMagia.style.borderRadius = "5px";
+        barraMagia.style.position = "relative";
+        barraMagia.style.marginTop = "10px";
+
+        const fill = document.createElement("div");
+        fill.id = "barraMagiaFill";
+        fill.style.height = "100%";
+        fill.style.width = "0%";
+        fill.style.background = "#00f";
+        fill.style.borderRadius = "3px";
+        barraMagia.appendChild(fill);
+
+        document.getElementById("gameArea").appendChild(barraMagia);
+    }
+
+    const fill = document.getElementById("barraMagiaFill");
+    const porcentaje = maxMagia > 0 ? (jugador.magia / maxMagia) * 100 : 0;
+    fill.style.width = porcentaje + "%";
+}
 // ===============================
 // EVENTOS
 // ===============================
@@ -383,7 +430,6 @@ document.addEventListener("keydown", e => {
             x = e.clientX - offsetX;
             y = e.clientY - offsetY;
         }
-        // Limitar dentro del gameArea
         const maxX = gameArea.offsetWidth - jugadorDiv.offsetWidth;
         const maxY = gameArea.offsetHeight - jugadorDiv.offsetHeight;
         jugadorDiv.style.left = Math.min(Math.max(0, x), maxX) + "px";
