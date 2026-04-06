@@ -1,5 +1,5 @@
 /* ======================================= */
-/* CSS BASE PROFESIONAL MINI RPG           */
+/* CSS BASE PROFESIONAL MINI RPG - MEJORADO */
 /* ======================================= */
 
 * {
@@ -7,10 +7,11 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.2s ease-in-out;
 }
 
 body {
-    background: linear-gradient(to bottom, #1a1a1a, #333);
+    background: linear-gradient(to bottom, #1a1a1a, #2c2c2c);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -20,9 +21,9 @@ body {
 
 h1 {
     margin: 20px 0;
-    font-size: 2rem;
+    font-size: 2.2rem;
     text-align: center;
-    text-shadow: 2px 2px 5px #000;
+    text-shadow: 2px 2px 8px #000;
 }
 
 /* ======================================= */
@@ -34,11 +35,12 @@ h1 {
     height: 400px;
     background: url('../img/fondo.jpg') no-repeat center center;
     background-size: cover;
-    border: 2px solid #fff;
-    border-radius: 10px;
+    border: 3px solid #fff;
+    border-radius: 15px;
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 20px #000 inset;
 }
 
 #gameArea {
@@ -56,7 +58,7 @@ h1 {
     background: url('../img/jugador.png') no-repeat center center;
     background-size: contain;
     position: absolute;
-    transition: left 0.1s, top 0.1s;
+    transition: left 0.1s, top 0.1s, transform 0.2s;
     z-index: 10;
 }
 
@@ -65,7 +67,7 @@ h1 {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transition: left 0.1s, top 0.1s, transform 0.1s;
+    transition: left 0.1s, top 0.1s, transform 0.2s;
     z-index: 5;
 }
 
@@ -74,27 +76,28 @@ h1 {
 /* ======================================= */
 .barra-vida, #barraMagia {
     width: 100%;
-    height: 20px;
+    height: 22px;
     background: rgba(0,0,0,0.5);
     border: 2px solid #fff;
-    border-radius: 5px;
+    border-radius: 6px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 10px #000 inset;
 }
 
 .barra-vida div, #barraMagiaFill {
     height: 100%;
     width: 100%;
-    transition: width 0.3s ease-in-out;
-    border-radius: 3px;
+    transition: width 0.3s ease-in-out, background 0.3s ease-in-out;
+    border-radius: 4px;
 }
 
 #vidaJugadorFill {
-    background: #e74c3c;
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
 }
 
 #barraMagiaFill {
-    background: #3498db;
+    background: linear-gradient(90deg, #3498db, #2980b9);
 }
 
 /* ======================================= */
@@ -111,46 +114,47 @@ h1 {
 }
 
 .caja {
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.8);
     border: 2px solid #fff;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 15px;
     flex: 1 1 250px;
     min-width: 220px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
 }
 
 .caja h2 {
-    margin-bottom: 10px;
-    font-size: 1.3rem;
+    margin-bottom: 12px;
+    font-size: 1.4rem;
     color: #f1c40f;
     text-align: center;
-    text-shadow: 1px 1px 3px #000;
+    text-shadow: 1px 1px 5px #000;
 }
 
 .caja button {
     display: block;
     width: 100%;
-    margin: 5px 0;
-    padding: 10px;
+    margin: 6px 0;
+    padding: 12px;
     background: linear-gradient(135deg, #2ecc71, #27ae60);
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     color: #fff;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
 .caja button:disabled {
     background: #555;
     cursor: not-allowed;
+    opacity: 0.6;
 }
 
 .caja button:hover:not(:disabled) {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px #2ecc71;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px #2ecc71, 0 0 8px #27ae60 inset;
 }
 
 /* ======================================= */
@@ -159,14 +163,15 @@ h1 {
 .mensaje {
     width: 90%;
     max-width: 1200px;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     border: 2px solid #fff;
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 12px;
+    padding: 12px;
     margin-bottom: 20px;
     min-height: 50px;
     text-align: center;
     white-space: pre-line;
+    box-shadow: 0 0 15px rgba(0,0,0,0.7);
 }
 
 /* ======================================= */
@@ -181,24 +186,24 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
 }
 
 .ventana-contenido {
     background-color: #222;
-    margin: 10% auto;
+    margin: 8% auto;
     padding: 20px;
     border: 2px solid #fff;
     width: 90%;
     max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
 }
 
 .cerrar {
     color: #f1c40f;
     float: right;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
     cursor: pointer;
 }
@@ -208,8 +213,15 @@ h1 {
 }
 
 #listaInventario li {
-    padding: 5px 0;
+    padding: 6px 0;
     font-size: 1.1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+#listaInventario li.critico {
+    color: #f39c12;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px #000;
 }
 
 /* ======================================= */
@@ -219,11 +231,36 @@ h1 {
     animation: caminar 1s steps(4) infinite;
 }
 
+.usando-item {
+    animation: usarItem 0.5s ease forwards;
+}
+
 @keyframes caminar {
     from { background-position: 0 0; }
     to { background-position: -256px 0; }
 }
 
+@keyframes usarItem {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+/* ======================================= */
+/* RESPONSIVE DESIGN                         */
+/* ======================================= */
+@media (max-width: 768px) {
+    .hud { flex-direction: column; align-items: center; }
+    #escenario { height: 300px; }
+    #jugador, .enemigo { width: 48px; height: 48px; }
+}
+
+@media (max-width: 480px) {
+    .caja { min-width: 180px; padding: 10px; }
+    .caja button { font-size: 0.9rem; padding: 8px; }
+    #escenario { height: 250px; }
+    #jugador, .enemigo { width: 40px; height: 40px; }
+}
 /* ======================================= */
 /* RESPONSIVE DESIGN                         */
 /* ======================================= */
