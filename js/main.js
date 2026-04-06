@@ -282,7 +282,6 @@ function revisarEstado() {
         generarNivel();
     }
 }
-
 // ===============================
 // ACTUALIZAR UI
 // ===============================
@@ -294,12 +293,18 @@ function actualizarUI() {
     nivelJugadorEl.textContent = jugador.nivel;
     puntajeEl.textContent = jugador.puntaje;
 
+    // Calcular máximo magia según nivel
+    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
+
     listaInventarioEl.innerHTML = `
         <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
         <li>⚔️ Espadas: ${jugador.inventario.espada}</li>
         <li>🛡️ Armaduras: ${jugador.inventario.armadura}</li>
-        <li>✨ Magia: ${jugador.inventario.magia}</li>
+        <li>✨ Magia: ${jugador.magia} / ${maxMagia}</li>
     `;
+
+    // Actualizar barra de magia visual
+    actualizarBarraMagia(maxMagia);
 }
 
 // ===============================
@@ -309,7 +314,7 @@ function curar() {
     if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
     jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
     jugador.inventario.pocion--;
-    mensajeEl.textContent = "🧪 Usaste poción";
+    mensajeEl.textContent = "🧪 Usaste Poción";
     actualizarUI();
 }
 
@@ -317,6 +322,7 @@ function equiparArma() {
     if (jugador.vida <= 0 || jugador.inventario.espada <= 0) return;
     jugador.ataque += 5;
     jugador.inventario.espada--;
+    mensajeEl.textContent = "🧪 Usaste 1 Espada";
     actualizarUI();
 }
 
@@ -324,9 +330,9 @@ function equiparArmadura() {
     if (jugador.vida <= 0 || jugador.inventario.armadura <= 0) return;
     jugador.defensa += 3;
     jugador.inventario.armadura--;
+    mensajeEl.textContent = "🧪 Usaste 1 Armadura";
     actualizarUI();
 }
-
 // ===============================
 // APRENDER MAGIA LIMITADA (CORREGIDA)
 // ===============================
