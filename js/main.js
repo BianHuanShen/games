@@ -251,10 +251,10 @@ function atacar() {
 }
 
 // ===============================
-// ATAQUE ENEMIGOS SIN DUPLICAR DAÑO
+// ATAQUE ENEMIGOS (REACTIVO Y POR PROXIMIDAD)
 // ===============================
 function ataqueEnemigos() {
-    const rangoAtaque = 60; // misma distancia que la IA de movimiento
+    const rangoAtaque = 60; // distancia para atacar al jugador
 
     enemigos.forEach((e, i) => {
         const enemigoDiv = document.querySelector(`.enemigo[data-index="${i}"]`);
@@ -269,17 +269,22 @@ function ataqueEnemigos() {
         const dy = jy - ey;
         const distancia = Math.sqrt(dx*dx + dy*dy);
 
-        // Solo hacer daño si está cerca
+        // DAÑO POR ESTAR CERCA
         if (distancia <= rangoAtaque) {
             let daño = e.ataque;
             if (e.ia === "agresivo") daño *= 1.2;
             if (e.ia === "defensivo") daño *= 0.7;
             if (e.ia === "mago") daño += 3;
+
             daño -= jugador.defensa;
             if (daño < 1) daño = 1;
 
             jugador.vida -= daño;
             jugador.vida = Math.max(0, jugador.vida);
+
+            // Animación de ataque del enemigo
+            enemigoDiv.style.transform = "scale(1.1)";
+            setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
         }
     });
 
