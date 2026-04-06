@@ -1,243 +1,116 @@
 /* ============================================
-   🔥 UPGRADE PRO ESTABLE (SIN BUGS REALES)
+   🔥 UPGRADE PRO (ADAPTADO A TU CSS REAL)
 ============================================ */
 
-/* Fondo épico optimizado */
+/* Fondo mejorado */
 body {
-    background: radial-gradient(circle at top, #1a1a2e 0%, #0a0a0f 60%, #000 100%);
+    background: radial-gradient(circle at top, #1a1a2e, #000);
 }
 
-/* =========================
-   🧠 FIX GLOBAL CRÍTICO
-========================= */
-
-/* Evita bugs de render en grids y modales */
-.panel-box,
-.modal-window,
-#left-panel,
-#right-panel,
-.combat-log {
-    position: relative;
-    z-index: 1;
-}
-
-/* Asegura que hijos SIEMPRE se vean */
-.inventory-grid,
-.modal-content,
-.skill-tree,
-.skills-panel {
-    position: relative;
-    z-index: 2;
-}
-
-/* Items internos siempre visibles */
-.inventory-item,
-.skill-slot,
-.skill-node {
-    position: relative;
-    z-index: 3;
-}
-
-/* =========================
-   💎 PANEL STYLE (SIN BACKDROP BUG)
-========================= */
-
-.panel-box,
-#game-header,
-#right-panel,
-#left-panel,
-.combat-log,
-.menu-btn {
-    position: relative;
-    background: rgba(20, 20, 35, 0.92);
+/* ===============================
+   🧱 CAJAS (TU .caja)
+=============================== */
+.caja {
+    background: linear-gradient(145deg, #111, #1c1c2a);
     border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 
-        inset 0 0 20px rgba(0,0,0,0.6),
-        0 0 15px rgba(255, 215, 0, 0.05);
-    overflow: visible; /* 🔥 CLAVE */
+    box-shadow:
+        inset 0 0 15px rgba(0,0,0,0.7),
+        0 0 10px rgba(255,215,0,0.05);
+    transition: all 0.2s ease;
 }
 
-/* 🔥 Glass effect SEGURO (sin romper layout) */
-.panel-box::before,
-.modal-window::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    backdrop-filter: blur(8px);
-    border-radius: inherit;
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* Contenido por encima del blur */
-.panel-box > *,
-.modal-window > * {
-    position: relative;
-    z-index: 2;
-}
-
-/* Hover mejorado */
-.panel-box:hover {
-    box-shadow: 
-        inset 0 0 25px rgba(0,0,0,0.8),
-        0 0 25px rgba(255, 215, 0, 0.15);
+.caja:hover {
     transform: translateY(-2px);
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.9),
+        0 0 20px rgba(255,215,0,0.15);
 }
 
-/* Header premium */
-#game-header {
-    background: linear-gradient(90deg, rgba(255,215,0,0.05), transparent);
-    border: 1px solid rgba(255,215,0,0.3);
-}
-
-/* =========================
-   🎮 BOTONES PRO
-========================= */
-
-.action-btn {
-    background: linear-gradient(145deg, #1f1f2f, #12121a);
+/* ===============================
+   🎮 BOTONES MEJORADOS
+=============================== */
+button {
+    background: linear-gradient(180deg, #2a2a3a, #12121a);
     border: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-    overflow: hidden;
 }
 
-.action-btn:hover {
+button:hover {
     box-shadow: 
-        0 0 20px rgba(255,215,0,0.2),
-        inset 0 0 10px rgba(255,255,255,0.05);
+        0 0 15px rgba(255,215,0,0.3);
 }
 
-/* Shine seguro */
-.action-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
-    opacity: 0;
+/* ===============================
+   ❤️ BARRA VIDA MÁS PRO
+=============================== */
+.barra-vida {
+    border: 1px solid #333;
+    box-shadow: inset 0 0 10px black;
 }
 
-.action-btn:hover::after {
-    opacity: 1;
-    animation: shineMove 0.8s linear;
+#vidaJugadorFill {
+    box-shadow: 0 0 10px rgba(0,255,136,0.4);
 }
 
-@keyframes shineMove {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(100%); }
-}
-
-/* =========================
-   🧙 VISUALES RPG
-========================= */
-
-.character-avatar {
-    box-shadow: 
-        inset 0 0 30px rgba(0,0,0,0.8),
-        0 0 20px rgba(0, 212, 255, 0.15);
-}
-
-.bar-fill {
-    box-shadow: 0 0 10px rgba(255,255,255,0.1);
-}
-
-.enemy-container {
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7));
-}
-
-.enemy-container:hover {
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
-}
-
+/* ===============================
+   🗺️ ESCENARIO
+=============================== */
 #escenario {
     filter: contrast(1.1) saturate(1.2);
 }
 
-#player-sprite {
-    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
+/* ===============================
+   💬 MENSAJE
+=============================== */
+.mensaje {
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* =========================
-   📜 LOG
-========================= */
-
-.combat-log {
-    font-family: 'Roboto Condensed', monospace;
+/* ===============================
+   🎒 INVENTARIO (TU SISTEMA REAL)
+=============================== */
+.ventana {
+    backdrop-filter: blur(5px);
 }
 
-.combat-log::-webkit-scrollbar {
-    width: 6px;
+.ventana-contenido {
+    background: linear-gradient(145deg, #111, #1a1a2e);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow:
+        0 0 25px rgba(0,0,0,0.9),
+        0 0 15px rgba(255,215,0,0.1);
 }
 
-.combat-log::-webkit-scrollbar-thumb {
-    background: linear-gradient(#ffd700, #ff6b35);
-    border-radius: 10px;
-}
-
-/* =========================
-   🎒 INVENTARIO (FIX REAL)
-========================= */
-
-.inventory-grid {
-    display: grid;
-    z-index: 5;
-}
-
-.inventory-item {
-    background: radial-gradient(circle, #1a1a2e, #0f0f1a);
-}
-
-.inventory-item:hover {
-    box-shadow: 
-        0 0 20px rgba(255,215,0,0.3),
-        inset 0 0 10px rgba(255,255,255,0.05);
-}
-
-/* =========================
-   🧠 SKILLS
-========================= */
-
-.skill-slot {
-    background: radial-gradient(circle, #0f0f1a, #05050a);
-}
-
-.skill-slot:hover {
-    box-shadow: 0 0 20px rgba(0,212,255,0.4);
-}
-
-/* =========================
-   🪟 MODALES FIX
-========================= */
-
-.modal-window {
+/* 🔥 FIX IMPORTANTE: lista visible */
+ul {
     position: relative;
-    border: 1px solid rgba(255,215,0,0.3);
-    overflow: visible;
+    z-index: 2;
 }
 
-.modal-content {
-    position: relative;
-    z-index: 5;
+ul li {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.2s;
 }
 
-/* =========================
-   💬 TOOLTIP
-========================= */
-
-.tooltip {
-    background: rgba(0,0,0,0.95);
-    box-shadow: 0 0 15px rgba(255,215,0,0.2);
+ul li:hover {
+    color: #ffd700;
+    transform: translateX(5px);
 }
 
-/* =========================
-   ✨ PARTICULAS SUAVES
-========================= */
+/* ===============================
+   ✨ DETALLES
+=============================== */
+h1 {
+    text-shadow: 0 0 15px #ffd700;
+}
 
+/* partículas suaves */
 body::after {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
     background-size: 3px 3px;
-    opacity: 0.25;
+    opacity: 0.2;
 }
