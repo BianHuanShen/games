@@ -13,8 +13,6 @@ function actualizarUI() {
     nivelJugadorEl.textContent = jugador.nivel;
     puntajeEl.textContent = jugador.puntaje;
 
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
-
     // Inventario visual
     listaInventarioEl.innerHTML = `
         <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
@@ -27,8 +25,6 @@ function actualizarUI() {
         <li>✨ Magia: ${jugador.magia} / ${maxMagia}</li>
     `;
 
-    actualizarBarraMagia(maxMagia);
-
     // 🔹 Mostrar u ocultar botones de items raros
     usarCristalBtn.style.display = jugador.inventario.cristal > 0 ? "block" : "none";
     usarOrbeBtn.style.display = jugador.inventario.orbe > 0 ? "block" : "none";
@@ -38,6 +34,34 @@ function actualizarUI() {
     // 🔹 Botón de inventario siempre visible
     if (abrirInventarioBtn) abrirInventarioBtn.style.display = "block";
 }
+// ===============================
+// APRENDER MAGIA (actualizado)
+// ===============================
+function aprenderMagia() {
+    if (jugador.vida <= 0) return;
+
+    // Magia base por nivel
+    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
+
+    // Bonus de magia por Orbes usados
+    const bonusOrbes = jugador.inventario.orbeUsados || 0;
+
+    const maxMagia = maxMagiaBase + bonusOrbes;
+
+    // Si todavía puedes aprender magia
+    if (jugador.magia < maxMagia) {
+        jugador.magia++; // Subir 1 punto
+        jugador.inventario.magia++;
+        const magiaRestante = maxMagia - jugador.magia;
+        mensajeEl.textContent = `✨ Aprendiste magia! Magia actual: ${jugador.magia} (faltan ${magiaRestante} para el límite del nivel + Orbes)`;
+    } else {
+        mensajeEl.textContent = `⚠️ No puedes aumentar magia todavía (nivel ${jugador.nivel})`;
+    }
+
+    actualizarUI();
+    actualizarBarraMagia(maxMagia);
+}
+
 // ===============================
 // ACCIONES JUGADOR
 // ===============================
@@ -79,16 +103,27 @@ function usarCristal() {
     animarBoton(usarCristalBtn);
     actualizarUI();
 }
-
+// ===============================
+// USAR ORBE ( para bonus)
+// ===============================
 function usarOrbe() {
     if (jugador.inventario.orbe <= 0) return;
-    jugador.magia += 5;
-    jugador.inventario.orbe--;
-    mensajeEl.textContent = "🔮 Usaste Orbe Arcano (+5 magia)";
+
+    // Inicializa el contador de Orbes usados si no existe
+    if (!jugador.inventario.orbeUsados) jugador.inventario.orbeUsados = 0;
+
+    jugador.magia += 2;                  // Cada Orbe da +2 magia
+    jugador.inventario.orbe--;           
+    jugador.inventario.orbeUsados++;     // Suma al bonus de magia
+
+    mensajeEl.textContent = `🔮 Usaste Orbe Arcano (+2 magia)`;
     animarBoton(usarOrbeBtn);
     actualizarUI();
-}
 
+    // Actualiza barra de magia considerando bonus de Orbes
+    const maxMagia = Math.floor(jugador.nivel / 3) * 2 + jugador.inventario.orbeUsados;
+    actualizarBarraMagia(maxMagia);
+}
 function equiparEspadaLegendaria() {
     if (jugador.inventario.espadaLegendaria <= 0) return;
     jugador.ataque += 25;
