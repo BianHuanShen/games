@@ -266,7 +266,6 @@ class Enemigo {
         this.ia = ia; // "agresivo", "defensivo", "mago"
     }
 }
-
 // ===============================
 // ATAQUE DEL JUGADOR
 // ===============================
@@ -482,7 +481,6 @@ function aprenderMagia() {
     actualizarUI();
     actualizarBarraMagia(maxMagia);
 }
-
 // ===============================
 // BARRA VISUAL DE MAGIA
 // ===============================
@@ -532,7 +530,6 @@ document.addEventListener("keydown", e => {
     if (e.key === "ArrowRight") jugadorDiv.style.left = left + 20 + "px";
     if (e.key === "ArrowLeft") jugadorDiv.style.left = left - 20 + "px";
 });
-
 // ===============================
 // FUNCIONALIDAD DE ARRASTRE
 // ===============================
