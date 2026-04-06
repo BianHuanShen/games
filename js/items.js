@@ -5,7 +5,7 @@ function asegurarInventario() {
     const items = [
         "pocion", "espada", "armadura",
         "cristal", "orbe",
-        "espadaLegendaria", "armaduraEpica"
+        "espadaLegendaria", "armaduraEpica", "magia"
     ];
 
     items.forEach(item => {
@@ -14,13 +14,8 @@ function asegurarInventario() {
 
     jugador.magia = Number(jugador.magia) || 0;
 }
-
-// ===============================
-// ACCIONES JUGADOR
-// ===============================
 function curar() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
 
     jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
@@ -32,7 +27,6 @@ function curar() {
 
 function equiparArma() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.espada <= 0) return;
 
     jugador.ataque += 5;
@@ -44,7 +38,6 @@ function equiparArma() {
 
 function equiparArmadura() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.armadura <= 0) return;
 
     jugador.defensa += 3;
@@ -53,18 +46,12 @@ function equiparArmadura() {
     mensajeEl.textContent = "🛡️ Usaste 1 Armadura (+3 defensa)";
     actualizarUI();
 }
-
-// ===============================
-// ITEMS RAROS
-// ===============================
 function usarCristal() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.cristal <= 0) return;
 
     const boost = 15 + Math.floor(jugador.nivel * 1.5);
     jugador.ataque += boost;
-
     jugador.inventario.cristal--;
 
     mensajeEl.textContent = `💎 Cristal usado (+${boost} ataque)`;
@@ -73,14 +60,12 @@ function usarCristal() {
 
 function usarOrbe() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.orbe <= 0) return;
 
     const maxMagia = Math.floor(jugador.nivel / 3) * 2;
 
     if (jugador.magia < maxMagia) {
         const aumento = 3;
-
         jugador.magia = Math.min(maxMagia, jugador.magia + aumento);
         jugador.inventario.orbe--;
 
@@ -95,11 +80,9 @@ function usarOrbe() {
 
 function equiparEspadaLegendaria() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.espadaLegendaria <= 0) return;
 
     const boost = 25 + jugador.nivel * 2;
-
     jugador.ataque += boost;
     jugador.inventario.espadaLegendaria--;
 
@@ -109,40 +92,28 @@ function equiparEspadaLegendaria() {
 
 function equiparArmaduraEpica() {
     asegurarInventario();
-
     if (jugador.vida <= 0 || jugador.inventario.armaduraEpica <= 0) return;
 
     const boost = 15 + jugador.nivel * 2;
-
     jugador.defensa += boost;
     jugador.inventario.armaduraEpica--;
 
     mensajeEl.textContent = `🛡️ Armadura Épica (+${boost} defensa)`;
     actualizarUI();
 }
-
-// ===============================
-// APRENDER MAGIA LIMITADA
-// ===============================
 function aprenderMagia() {
     asegurarInventario();
-
     if (jugador.vida <= 0) return;
 
     const maxMagia = Math.floor(jugador.nivel / 3) * 2;
 
     if (jugador.magia < maxMagia) {
         jugador.magia++;
-        jugador.inventario.magia = Number(jugador.inventario.magia) || 0;
         jugador.inventario.magia++;
 
-        const restante = maxMagia - jugador.magia;
-
-        mensajeEl.textContent =
-            `✨ Aprendiste magia (${jugador.magia}/${maxMagia})`;
+        mensajeEl.textContent = `✨ Aprendiste magia (${jugador.magia}/${maxMagia})`;
     } else {
-        mensajeEl.textContent =
-            `⚠️ Magia al máximo para nivel ${jugador.nivel}`;
+        mensajeEl.textContent = `⚠️ Magia al máximo para nivel ${jugador.nivel}`;
     }
 
     actualizarUI();
