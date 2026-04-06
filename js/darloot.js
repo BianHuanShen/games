@@ -1,7 +1,7 @@
 // ===============================
 // Función combinada de loot (básico + avanzado)
 // ===============================
-function darLootCombinado(nivel, esBoss = false) {
+function darLoot(nivel, esBoss = false) {
     // Inicializar inventario seguro
     const keys = [
         "pocion", "espada", "armadura",
