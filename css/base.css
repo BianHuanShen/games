@@ -67,7 +67,8 @@ h1 {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transition: left 0.1s, top 0.1s, transform 0.2s;
+    /* transition: left 0.1s, top 0.1s;  <- eliminar */
+    transition: transform 0.2s; /* solo animación de ataque */
     z-index: 5;
 }
 
