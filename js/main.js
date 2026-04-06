@@ -225,47 +225,6 @@ function generarNivel() {
 
     dibujarEnemigos();
 }
-// ===============================
-// ATAQUE ENEMIGOS (REACTIVO Y POR PROXIMIDAD)
-// ===============================
-function ataqueEnemigos() {
-    const rangoAtaque = 60; // distancia para atacar al jugador
-
-    enemigos.forEach((e, i) => {
-        const enemigoDiv = document.querySelector(`.enemigo[data-index="${i}"]`);
-        if (!enemigoDiv) return;
-
-        const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
-        const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
-
-        const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
-        const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
-        const dx = jx - ex;
-        const dy = jy - ey;
-        const distancia = Math.sqrt(dx*dx + dy*dy);
-
-        // DAÑO POR ESTAR CERCA
-        if (distancia <= rangoAtaque) {
-            let daño = e.ataque;
-            if (e.ia === "agresivo") daño *= 1.2;
-            if (e.ia === "defensivo") daño *= 0.7;
-            if (e.ia === "mago") daño += 3;
-
-            daño -= jugador.defensa;
-            if (daño < 1) daño = 1;
-
-            jugador.vida -= daño;
-            jugador.vida = Math.max(0, jugador.vida);
-
-            // Animación de ataque del enemigo
-            enemigoDiv.style.transform = "scale(1.1)";
-            setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
-        }
-    });
-
-    actualizarUI();
-}
-
 
 // ===============================
 // ATAQUE DEL JUGADOR
@@ -312,6 +271,98 @@ function atacar() {
     revisarEstado();
     actualizarUI();
 }
+// ===============================
+// ATAQUE ENEMIGOS (REACTIVO Y POR PROXIMIDAD)
+// ===============================
+function ataqueEnemigos() {
+    const rangoAtaque = 60; // distancia para atacar al jugador
+
+    enemigos.forEach((e, i) => {
+        const enemigoDiv = document.querySelector(`.enemigo[data-index="${i}"]`);
+        if (!enemigoDiv) return;
+
+        const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
+        const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
+
+        const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
+        const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
+        const dx = jx - ex;
+        const dy = jy - ey;
+        const distancia = Math.sqrt(dx*dx + dy*dy);
+
+        // DAÑO POR ESTAR CERCA
+        if (distancia <= rangoAtaque) {
+            let daño = e.ataque;
+            if (e.ia === "agresivo") daño *= 1.2;
+            if (e.ia === "defensivo") daño *= 0.7;
+            if (e.ia === "mago") daño += 3;
+
+            daño -= jugador.defensa;
+            if (daño < 1) daño = 1;
+
+            jugador.vida -= daño;
+            jugador.vida = Math.max(0, jugador.vida);
+
+            // Animación de ataque del enemigo
+            enemigoDiv.style.transform = "scale(1.1)";
+            setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
+        }
+    });
+
+    actualizarUI();
+}
+// ===============================
+// IA ENEMIGOS (MOVIMIENTO + DAÑO)
+// ===============================
+(function iniciarIA() {
+    const velocidadBase = 0.3; // velocidad base normal
+    const rangoAtaque = 60;    // distancia para hacer daño
+
+    function updateEnemigos() {
+        const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
+        const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
+
+        document.querySelectorAll(".enemigo").forEach((enemigoDiv, i) => {
+            const enemigo = enemigos[i];
+            if (!enemigo) return;
+
+            const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
+            const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
+            const dx = jx - ex;
+            const dy = jy - ey;
+            const distancia = Math.sqrt(dx*dx + dy*dy);
+
+            // Ajustar velocidad según tipo
+            let velocidad = velocidadBase;
+            if (enemigo.ia === "agresivo") velocidad *= 1.2;   // un poco más rápido
+            if (enemigo.ia === "defensivo") velocidad *= 0.7;  // más lento
+            if (enemigo.ia === "mago") velocidad *= 0.5;       // lento pero sigue
+         
+            // Solo se mueve si está lejos del jugador
+            if (distancia > rangoAtaque) {
+                const moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 0.5;
+                const moveY = (dy / distancia) * velocidad;
+                enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
+                enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
+            }
+
+            // Si está cerca del jugador, hacer daño
+            if (distancia <= rangoAtaque) {
+                enemigoDiv.style.transform = "scale(1.1)";
+                setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
+
+                // Hacer 1 de daño por frame cercano
+                jugador.vida -= 1;
+                jugador.vida = Math.max(0, jugador.vida);
+                actualizarUI();
+            }
+        });
+
+        requestAnimationFrame(updateEnemigos);
+    }
+
+    window.addEventListener("load", () => updateEnemigos());
+})();
 // ===============================
 // REVISAR ESTADO JUEGO
 // ===============================
@@ -501,59 +552,6 @@ document.addEventListener("keydown", e => {
     jugadorDiv.addEventListener("touchstart", startDrag);
     document.addEventListener("touchmove", onDrag);
     document.addEventListener("touchend", stopDrag);
-})();
-
-// ===============================
-// IA ENEMIGOS (MOVIMIENTO + DAÑO)
-// ===============================
-(function iniciarIA() {
-    const velocidadBase = 0.3; // velocidad base normal
-    const rangoAtaque = 60;    // distancia para hacer daño
-
-    function updateEnemigos() {
-        const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
-        const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
-
-        document.querySelectorAll(".enemigo").forEach((enemigoDiv, i) => {
-            const enemigo = enemigos[i];
-            if (!enemigo) return;
-
-            const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
-            const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
-            const dx = jx - ex;
-            const dy = jy - ey;
-            const distancia = Math.sqrt(dx*dx + dy*dy);
-
-            // Ajustar velocidad según tipo
-            let velocidad = velocidadBase;
-            if (enemigo.ia === "agresivo") velocidad *= 1.2;   // un poco más rápido
-            if (enemigo.ia === "defensivo") velocidad *= 0.7;  // más lento
-            if (enemigo.ia === "mago") velocidad *= 0.5;       // lento pero sigue
-         
-            // Solo se mueve si está lejos del jugador
-            if (distancia > rangoAtaque) {
-                const moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 0.5;
-                const moveY = (dy / distancia) * velocidad;
-                enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
-                enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
-            }
-
-            // Si está cerca del jugador, hacer daño
-            if (distancia <= rangoAtaque) {
-                enemigoDiv.style.transform = "scale(1.1)";
-                setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
-
-                // Hacer 1 de daño por frame cercano
-                jugador.vida -= 1;
-                jugador.vida = Math.max(0, jugador.vida);
-                actualizarUI();
-            }
-        });
-
-        requestAnimationFrame(updateEnemigos);
-    }
-
-    window.addEventListener("load", () => updateEnemigos());
 })();
 // ===============================
 // START
