@@ -465,38 +465,6 @@ function revisarEstado() {
     }
 }
 // ===============================
-// BARRA VISUAL DE MAGIA
-// ===============================
-function actualizarBarraMagia(maxMagia) {
-    let barraMagia = document.getElementById("barraMagia");
-
-    if (!barraMagia) {
-        barraMagia = document.createElement("div");
-        barraMagia.id = "barraMagia";
-        barraMagia.style.width = "200px";
-        barraMagia.style.height = "20px";
-        barraMagia.style.background = "#444";
-        barraMagia.style.border = "2px solid #000";
-        barraMagia.style.borderRadius = "5px";
-        barraMagia.style.position = "relative";
-        barraMagia.style.marginTop = "10px";
-
-        const fill = document.createElement("div");
-        fill.id = "barraMagiaFill";
-        fill.style.height = "100%";
-        fill.style.width = "0%";
-        fill.style.background = "#00f";
-        fill.style.borderRadius = "3px";
-        barraMagia.appendChild(fill);
-
-        document.getElementById("gameArea").appendChild(barraMagia);
-    }
-
-    const fill = document.getElementById("barraMagiaFill");
-    const porcentaje = maxMagia > 0 ? (jugador.magia / maxMagia) * 100 : 0;
-    fill.style.width = porcentaje + "%";
-}
-// ===============================
 // ===== EVENTOS =====
 // ===============================
 
