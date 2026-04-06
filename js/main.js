@@ -384,8 +384,9 @@ function ataqueEnemigos() {
 (function iniciarMovimientoEnemigos() {
     const velocidadBase = 0.3 * 0.9; // 10% más lento
     const rangoAtaque = 60;
-    const aceleracion = 0.02; // cuánto cambia la velocidad por frame
-    const enemigosVelocidad = []; // guarda la velocidad actual de cada enemigo
+    const aceleracion = 0.02; // suavizado de velocidad
+    const enemigosVelocidad = []; // velocidad actual de cada enemigo
+    const enemigosOscilacion = []; // oscilación aleatoria para cada enemigo
 
     function moverEnemigos() {
         const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
@@ -395,8 +396,9 @@ function ataqueEnemigos() {
             const enemigo = enemigos[i];
             if (!enemigo) return;
 
-            // Inicializa la velocidad si no existe
+            // Inicializar velocidad y oscilación si no existe
             if (!enemigosVelocidad[i]) enemigosVelocidad[i] = { vx: 0, vy: 0 };
+            if (!enemigosOscilacion[i]) enemigosOscilacion[i] = Math.random() * Math.PI * 2;
 
             const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
             const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
@@ -404,7 +406,7 @@ function ataqueEnemigos() {
             const dy = jy - ey;
             const distancia = Math.sqrt(dx*dx + dy*dy);
 
-            // Ajustar velocidad objetivo según tipo
+            // Velocidad objetivo según tipo
             let velocidadObjetivo = velocidadBase;
             if (enemigo.ia === "agresivo") velocidadObjetivo *= 1.2;
             if (enemigo.ia === "defensivo") velocidadObjetivo *= 0.7;
@@ -415,11 +417,16 @@ function ataqueEnemigos() {
                 const dirX = dx / distancia;
                 const dirY = dy / distancia;
 
-                // Velocidad deseada
-                const targetVX = dirX * velocidadObjetivo;
-                const targetVY = dirY * velocidadObjetivo;
+                // Oscilación para curvas suaves (torpedeo)
+                enemigosOscilacion[i] += 0.05 + Math.random()*0.02; // pequeña variación cada frame
+                const curvaX = Math.sin(enemigosOscilacion[i]) * 0.5; // desviación horizontal
+                const curvaY = Math.cos(enemigosOscilacion[i]) * 0.5; // desviación vertical
 
-                // Suavizado: aceleración hacia la velocidad deseada
+                // Velocidad deseada con curva
+                const targetVX = (dirX * velocidadObjetivo) + curvaX * 0.1;
+                const targetVY = (dirY * velocidadObjetivo) + curvaY * 0.1;
+
+                // Aceleración hacia la velocidad deseada
                 enemigosVelocidad[i].vx += (targetVX - enemigosVelocidad[i].vx) * aceleracion;
                 enemigosVelocidad[i].vy += (targetVY - enemigosVelocidad[i].vy) * aceleracion;
 
@@ -427,7 +434,7 @@ function ataqueEnemigos() {
                 enemigoDiv.style.left = enemigoDiv.offsetLeft + enemigosVelocidad[i].vx + "px";
                 enemigoDiv.style.top = enemigoDiv.offsetTop + enemigosVelocidad[i].vy + "px";
             } else {
-                // Dentro del rango de ataque, desacelerar suavemente a cero
+                // Dentro del rango de ataque, desacelerar suavemente
                 enemigosVelocidad[i].vx += (0 - enemigosVelocidad[i].vx) * aceleracion;
                 enemigosVelocidad[i].vy += (0 - enemigosVelocidad[i].vy) * aceleracion;
                 enemigoDiv.style.left = enemigoDiv.offsetLeft + enemigosVelocidad[i].vx + "px";
