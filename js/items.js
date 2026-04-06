@@ -135,27 +135,5 @@ function animarBoton(btn) {
     btn.classList.add("usar-item-anim");
     setTimeout(() => btn.classList.remove("usar-item-anim"), 300);
 }
-
-// ===============================
-// BARRA DE MAGIA
-// ===============================
-function actualizarBarraMagia(maxMagia) {
-    let barraMagia = document.getElementById("barraMagia");
-
-    if (!barraMagia) {
-        barraMagia = document.createElement("div");
-        barraMagia.id = "barraMagia";
-
-        const fill = document.createElement("div");
-        fill.id = "barraMagiaFill";
-        fill.style.height = "100%";
-        fill.style.width = "0%";
-        fill.style.background = "#00f";
-
-        barraMagia.appendChild(fill);
-        document.getElementById("gameArea").appendChild(barraMagia);
-    }
-
-    const fill = document.getElementById("barraMagiaFill");
     fill.style.width = maxMagia > 0 ? (jugador.magia / maxMagia) * 100 + "%" : "0%";
 }
