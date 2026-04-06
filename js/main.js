@@ -77,18 +77,68 @@ function tipoIA() {
     return tipos[Math.floor(Math.random() * tipos.length)];
 }
 
-function darLoot() {
-    const r = Math.random();
-    if (r < 0.5) {
-        jugador.inventario.pocion += 2;
-        return "🧪 Pociones x2";
-    } else if (r < 0.8) {
-        jugador.inventario.espada++;
-        return "⚔️ Espada";
-    } else {
-        jugador.inventario.armadura++;
-        return "🛡️ Armadura";
+function darLoot(nivel, esBoss = false) {
+    let r = Math.random();
+
+    // Loot básico para enemigos normales nivel 1-4
+    if (!esBoss && nivel >= 1 && nivel <= 4) {
+        if (r < 0.5) {
+            jugador.inventario.pocion += 2;
+            return "🧪 Pociones x2";
+        } else if (r < 0.8) {
+            jugador.inventario.espada++;
+            return "⚔️ Espada";
+        } else {
+            jugador.inventario.armadura++;
+            return "🛡️ Armadura";
+        }
     }
+
+    // Loot mejorado para boss de nivel 5
+    if (esBoss && nivel === 5) {
+        if (r < 0.4) {
+            jugador.inventario.pocion += 4;
+            return "🧪 Pociones x4";
+        } else if (r < 0.7) {
+            jugador.inventario.espada += 2;
+            return "⚔️ Espada x2";
+        } else {
+            jugador.inventario.armadura += 2;
+            return "🛡️ Armadura x2";
+        }
+    }
+
+    // Loot para niveles 6-9 (enemigos normales o bosses)
+    if (nivel >= 6 && nivel <= 9) {
+        if (r < 0.35) {
+            jugador.inventario.pocion += 5;
+            return "🧪 Pociones x5";
+        } else if (r < 0.65) {
+            jugador.inventario.espada += 3;
+            return "⚔️ Espada x3";
+        } else {
+            jugador.inventario.armadura += 3;
+            return "🛡️ Armadura x3";
+        }
+    }
+
+    // Loot del boss nivel 10
+    if (esBoss && nivel === 10) {
+        if (r < 0.3) {
+            jugador.inventario.pocion += 10;
+            return "🧪 Pociones x10";
+        } else if (r < 0.6) {
+            jugador.inventario.espada += 5;
+            return "⚔️ Espada x5";
+        } else {
+            jugador.inventario.armadura += 5;
+            return "🛡️ Armadura x5";
+        }
+    }
+
+    // Loot por defecto si no cae en los anteriores casos
+    jugador.inventario.pocion += 1;
+    return "🧪 Poción x1";
 }
 
 function crearEnemigo(nivel, jefe = false) {
