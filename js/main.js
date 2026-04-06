@@ -51,6 +51,10 @@ const atacarBtn = document.getElementById("atacarBtn");
 const curarBtn = document.getElementById("curarBtn");
 const equiparArmaBtn = document.getElementById("equiparArmaBtn");
 const equiparArmaduraBtn = document.getElementById("equiparArmaduraBtn");
+const usarCristalBtn = document.getElementById("usarCristalBtn");
+const usarOrbeBtn = document.getElementById("usarOrbeBtn");
+const equiparEspadaLegendariaBtn = document.getElementById("equiparEspadaLegendariaBtn");
+const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
 const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
 
 // ===============================
