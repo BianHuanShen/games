@@ -384,6 +384,8 @@ function ataqueEnemigos() {
 (function iniciarMovimientoEnemigos() {
     const velocidadBase = 0.3 * 0.9; // 10% más lento
     const rangoAtaque = 60;
+    const aceleracion = 0.02; // cuánto cambia la velocidad por frame
+    const enemigosVelocidad = []; // guarda la velocidad actual de cada enemigo
 
     function moverEnemigos() {
         const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
@@ -393,24 +395,43 @@ function ataqueEnemigos() {
             const enemigo = enemigos[i];
             if (!enemigo) return;
 
+            // Inicializa la velocidad si no existe
+            if (!enemigosVelocidad[i]) enemigosVelocidad[i] = { vx: 0, vy: 0 };
+
             const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
             const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
             const dx = jx - ex;
             const dy = jy - ey;
             const distancia = Math.sqrt(dx*dx + dy*dy);
 
-            // Ajustar velocidad según tipo y reducir 10%
-            let velocidad = velocidadBase;
-            if (enemigo.ia === "agresivo") velocidad *= 1.2;
-            if (enemigo.ia === "defensivo") velocidad *= 0.7;
-            if (enemigo.ia === "mago") velocidad *= 0.5;
+            // Ajustar velocidad objetivo según tipo
+            let velocidadObjetivo = velocidadBase;
+            if (enemigo.ia === "agresivo") velocidadObjetivo *= 1.2;
+            if (enemigo.ia === "defensivo") velocidadObjetivo *= 0.7;
+            if (enemigo.ia === "mago") velocidadObjetivo *= 0.5;
 
-            // Movimiento libre en cualquier dirección si está fuera del rango de ataque
             if (distancia > rangoAtaque) {
-                const moveX = (dx / distancia) * velocidad;
-                const moveY = (dy / distancia) * velocidad;
-                enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
-                enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
+                // Vector unitario hacia el jugador
+                const dirX = dx / distancia;
+                const dirY = dy / distancia;
+
+                // Velocidad deseada
+                const targetVX = dirX * velocidadObjetivo;
+                const targetVY = dirY * velocidadObjetivo;
+
+                // Suavizado: aceleración hacia la velocidad deseada
+                enemigosVelocidad[i].vx += (targetVX - enemigosVelocidad[i].vx) * aceleracion;
+                enemigosVelocidad[i].vy += (targetVY - enemigosVelocidad[i].vy) * aceleracion;
+
+                // Actualiza posición
+                enemigoDiv.style.left = enemigoDiv.offsetLeft + enemigosVelocidad[i].vx + "px";
+                enemigoDiv.style.top = enemigoDiv.offsetTop + enemigosVelocidad[i].vy + "px";
+            } else {
+                // Dentro del rango de ataque, desacelerar suavemente a cero
+                enemigosVelocidad[i].vx += (0 - enemigosVelocidad[i].vx) * aceleracion;
+                enemigosVelocidad[i].vy += (0 - enemigosVelocidad[i].vy) * aceleracion;
+                enemigoDiv.style.left = enemigoDiv.offsetLeft + enemigosVelocidad[i].vx + "px";
+                enemigoDiv.style.top = enemigoDiv.offsetTop + enemigosVelocidad[i].vy + "px";
             }
         });
 
