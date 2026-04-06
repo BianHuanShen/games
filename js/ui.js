@@ -1,9 +1,6 @@
 // ===============================
 // Actualización de UI del jugador
 // ===============================
-// ===============================
-// Actualización de UI del jugador
-// ===============================
 function actualizarUI() {
     // Vida, ataque, defensa, magia, nivel y puntaje
     vidaJugadorFill.style.width = `${Math.max(0, (jugador.vida / jugador.vidaMax) * 100)}%`;
@@ -12,11 +9,12 @@ function actualizarUI() {
     magiaJugadorEl.textContent = jugador.magia;
     nivelJugadorEl.textContent = jugador.nivel;
     puntajeEl.textContent = jugador.puntaje;
+
     // Calcula magia máxima considerando bonus de Orbes
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
     const bonusOrbes = jugador.inventario.orbeUsados || 0;
     const maxMagia = maxMagiaBase + bonusOrbes;
-    
+
     // Inventario visual
     listaInventarioEl.innerHTML = `
         <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
@@ -26,7 +24,7 @@ function actualizarUI() {
         <li>🔮 Orbes: ${jugador.inventario.orbe}</li>
         <li>⚔️ Espadas Legendarias: ${jugador.inventario.espadaLegendaria}</li>
         <li>🛡️ Armaduras Épicas: ${jugador.inventario.armaduraEpica}</li>
-        <li>✨ Magia: ${jugador.magia} / ${maxMagia}</li>
+        <li>✨ Magia: ${jugador.magia} / ${maxMagia} ${bonusOrbes > 0 ? `(+${bonusOrbes} Orbes)` : ""}</li>
     `;
 
     // 🔹 Mostrar u ocultar botones de items raros
