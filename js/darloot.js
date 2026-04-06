@@ -1,3 +1,67 @@
+function darLoot(nivel, esBoss = false) {
+    const r = Math.random();
+
+    // ===============================
+    // Configuración del inventario base
+    // ===============================
+    const inventarioItems = ["pocion", "espada", "armadura", "cristal", "orbe", "espadaLegendaria", "armaduraEpica"];
+    inventarioItems.forEach(item => {
+        jugador.inventario[item] = jugador.inventario[item] || 0;
+    });
+
+    // ===============================
+    // Escala de loot
+    // ===============================
+    const base = Math.max(1, Math.ceil(nivel * 1.5)); // Base según nivel
+    const bossMultiplier = esBoss ? 2.5 : 1;           // Multiplicador de bosses
+
+    // ===============================
+    // Probabilidades dinámicas
+    // ===============================
+    const probRaro = esBoss ? 0.15 + nivel * 0.02 : 0.02;        // Raro
+    const probPocion = Math.max(0.5 - nivel * 0.03, 0.25);        // Pociones
+    const probEspada = Math.min(0.3 + nivel * 0.04, 0.5);         // Espadas
+    const probArmadura = 1 - probPocion - probEspada;            // Armaduras comunes
+
+    const lootRaro = [
+        { nombre: "💎 Cristal Místico", inventario: "cristal" },
+        { nombre: "🔮 Orbe Arcano", inventario: "orbe" },
+        { nombre: "⚔️ Espada Legendaria", inventario: "espadaLegendaria" },
+        { nombre: "🛡️ Armadura Épica", inventario: "armaduraEpica" }
+    ];
+
+    // ===============================
+    // Determinar loot
+    // ===============================
+    let cantidad;
+    let loot;
+
+    if (r < probRaro) {
+        // Loot raro
+        const item = lootRaro[Math.floor(Math.random() * lootRaro.length)];
+        cantidad = Math.ceil(base * bossMultiplier * 0.5); // Raros son más escasos
+        cantidad = Math.max(1, cantidad); // Siempre al menos 1
+        jugador.inventario[item.inventario] += cantidad;
+        loot = `${item.nombre} x${cantidad}`;
+    } else if (r < probRaro + probPocion) {
+        // Pociones
+        cantidad = Math.ceil(base * bossMultiplier * 0.8);
+        jugador.inventario.pocion += cantidad;
+        loot = `🧪 Pociones x${cantidad}`;
+    } else if (r < probRaro + probPocion + probEspada) {
+        // Espadas
+        cantidad = Math.ceil(base * bossMultiplier * 0.6);
+        jugador.inventario.espada += cantidad;
+        loot = `⚔️ Espadas x${cantidad}`;
+    } else {
+        // Armaduras
+        cantidad = Math.ceil(base * bossMultiplier * 0.6);
+        jugador.inventario.armadura += cantidad;
+        loot = `🛡️ Armaduras x${cantidad}`;
+    }
+
+    return loot;
+}
 function darLootAvanzado(nivel, esBoss = false) {
     // ===============================
     // Inventario base y loot posible
