@@ -203,53 +203,6 @@ function generarNivel() {
 
     dibujarEnemigos();
 }
-
-// ===============================
-// ATAQUE JUGADOR
-// ===============================
-function atacar() {
-    if (jugador.vida <= 0 || enemigos.length === 0) return;
-
-    jugadorDiv.classList.add("atacando");
-    setTimeout(() => jugadorDiv.classList.remove("atacando"), 200);
-
-    const enemigo = enemigos[0];
-    const enemigoDiv = gameArea.querySelector(`.enemigo[data-index="0"]`);
-
-    let daño = jugador.ataque + jugador.magia - enemigo.defensa;
-    if (esCritico()) {
-        daño *= 2;
-        mensajeEl.textContent = "💥 CRÍTICO!";
-        sonidoCritico.play();
-    } else {
-        sonidoGolpe.play();
-    }
-
-    if (daño < 2) daño = 2;
-
-    enemigo.vida -= daño;
-    enemigoDiv.querySelector(".barra-vida div").style.width = `${Math.max(0, (enemigo.vida / enemigo.vidaMax) * 100)}%`;
-    mensajeEl.textContent += `\n⚔️ Daño: ${Math.floor(daño)}`;
-
-    if (enemigo.vida <= 0) {
-        enemigos.shift();
-        enemigoDiv.remove();
-
-        const loot = darLoot();
-        sonidoLoot.play();
-        jugador.puntaje += 10;
-        jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 15);
-
-        mensajeEl.textContent += `\n🎁 ${loot}`;
-
-        dibujarEnemigos();
-    }
-
-    ataqueEnemigos();
-    revisarEstado();
-    actualizarUI();
-}
-
 // ===============================
 // ATAQUE ENEMIGOS (REACTIVO Y POR PROXIMIDAD)
 // ===============================
@@ -288,6 +241,53 @@ function ataqueEnemigos() {
         }
     });
 
+    actualizarUI();
+}
+
+
+// ===============================
+// ATAQUE DEL JUGADOR
+// ===============================
+function atacar() {
+    if (jugador.vida <= 0 || enemigos.length === 0) return;
+
+    const enemigo = enemigos[0];
+    const enemigoDiv = gameArea.querySelector(`.enemigo[data-index="0"]`);
+
+    let daño = jugador.ataque + jugador.magia - enemigo.defensa;
+    if (esCritico()) {
+        daño *= 2;
+        mensajeEl.textContent = "💥 CRÍTICO!";
+        sonidoCritico.play();
+    } else {
+        sonidoGolpe.play();
+    }
+
+    if (daño < 2) daño = 2;
+
+    enemigo.vida -= daño;
+    enemigoDiv.querySelector(".barra-vida div").style.width = `${Math.max(0, (enemigo.vida / enemigo.vidaMax) * 100)}%`;
+    mensajeEl.textContent += `\n⚔️ Daño: ${Math.floor(daño)}`;
+
+    // Si el enemigo muere
+    if (enemigo.vida <= 0) {
+        enemigos.shift();
+        enemigoDiv.remove();
+
+        const loot = darLoot();
+        sonidoLoot.play();
+        jugador.puntaje += 10;
+        jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 15);
+
+        mensajeEl.textContent += `\n🎁 ${loot}`;
+
+        dibujarEnemigos();
+    }
+
+    // Los enemigos reaccionan al ataque
+    ataqueEnemigos();
+
+    revisarEstado();
     actualizarUI();
 }
 // ===============================
