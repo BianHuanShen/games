@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -9,35 +9,36 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/pj.css">
     <link rel="stylesheet" href="css/respo.css">
-   
 </head>
 <body>
 
-<center><h1>Senda Épica</h1></center>
+<h1>Senda Épica</h1>
 
-<!-- ESCENARIO -->
-<div id="escenario">
-    <div id="gameArea"></div>
-</div>
-   
-<!-- 🔥 HUD FLEX -->
-<div class="hud">
- <!-- ACCIONES -->
+<!-- 🔥 NUEVO LAYOUT PRINCIPAL -->
+<div class="game-layout">
+
+    <!-- ACCIONES (IZQUIERDA) -->
     <div id="acciones" class="caja">
         <h2>🎮 Acciones</h2>
         
-    <button id="atacarBtn">⚔️ Atacar</button>
-    <button id="curarBtn">🧪 Curar</button>
-    <button id="equiparArmaBtn">⚔️ Equipar Espada</button>
-    <button id="equiparEspadaLegendariaBtn">⚔️ Espada Legendaria</button>
-    <button id="equiparArmaduraBtn">🛡️ Equipar Armadura</button>
-    <button id="equiparArmaduraEpicaBtn">🛡️ Armadura Épica</button>
-    <button id="usarCristalBtn">💎 Usar Cristal</button>
-    <button id="usarOrbeBtn">🔮 Usar Orbe</button>
-    <button id="aprenderMagiaBtn">✨ Aprender Magia</button>
-    <button id="abrirInventarioBtn">🎒 Inventario</button>
+        <button id="atacarBtn">⚔️ Atacar</button>
+        <button id="curarBtn">🧪 Curar</button>
+        <button id="equiparArmaBtn">⚔️ Equipar Espada</button>
+        <button id="equiparEspadaLegendariaBtn">⚔️ Espada Legendaria</button>
+        <button id="equiparArmaduraBtn">🛡️ Equipar Armadura</button>
+        <button id="equiparArmaduraEpicaBtn">🛡️ Armadura Épica</button>
+        <button id="usarCristalBtn">💎 Usar Cristal</button>
+        <button id="usarOrbeBtn">🔮 Usar Orbe</button>
+        <button id="aprenderMagiaBtn">✨ Aprender Magia</button>
+        <button id="abrirInventarioBtn">🎒 Inventario</button>
     </div>
-    <!-- JUGADOR -->
+
+    <!-- ESCENARIO (CENTRO) -->
+    <div id="escenario">
+        <div id="gameArea"></div>
+    </div>
+
+    <!-- JUGADOR (DERECHA) -->
     <div id="infoJugador" class="caja">
         <h2>🧙 Jugador</h2>
 
@@ -64,12 +65,14 @@
 </div>
 
 <p id="mensaje" class="mensaje"></p>
-<script src="js/ui.js"></script>       <!-- interfaz -->
-<script src="js/esce.js"></script>     <!-- combate/escena -->
+
+<script src="js/ui.js"></script>
+<script src="js/esce.js"></script>
 <script src="js/items.js"></script>
-<script src="js/darloot.js"></script>  <!-- sistema de loot -->
-<script src="js/main.js"></script>     <!-- jugador, variables base -->
-<script src="js/reinicio.js"></script> <!-- reinicio -->
-<script src="js/fnc.js"></script>      <!-- funciones generales -->
+<script src="js/darloot.js"></script>
+<script src="js/main.js"></script>
+<script src="js/reinicio.js"></script>
+<script src="js/fnc.js"></script>
+
 </body>
 </html>
