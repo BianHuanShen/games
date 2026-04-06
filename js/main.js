@@ -64,39 +64,37 @@ function bloquearBotones() {
     equiparArmaduraBtn.disabled = true;
     aprenderMagiaBtn.disabled = true;
 }
-
 // ===============================
-// FUNCIONES loot
+// DAR LOOT
 // ===============================
 function darLoot(nivel, esBoss = false) {
     let r = Math.random();
 
-    // Escala de loot según nivel
-    const base = Math.ceil(nivel * 1.2); // Loot base según nivel
-    const bossMultiplier = esBoss ? 2 : 1; // Boss da loot doble
+    // Base de loot según nivel, ajustada para que múltiples enemigos den loot moderado
+    const base = Math.max(1, Math.ceil(nivel * 1.5)); // mínimo 1 loot por enemigo
+    const bossMultiplier = esBoss ? 2.5 : 1; // Boss da loot más generoso
 
-    // Probabilidades dinámicas
-    const probPocion = Math.max(0.5 - nivel * 0.03, 0.2); // Pociones menos frecuentes en niveles altos
-    const probEspada = Math.min(0.3 + nivel * 0.03, 0.5); // Espadas más probables en niveles altos
-    // Armadura ocupa el resto
-    const probArmadura = 1 - probPocion - probEspada;
+    // Probabilidades dinámicas según nivel
+    const probPocion = Math.max(0.5 - nivel * 0.03, 0.25); // pociones más frecuentes en niveles bajos
+    const probEspada = Math.min(0.3 + nivel * 0.04, 0.5); // armas suben con nivel
+    const probArmadura = 1 - probPocion - probEspada; // armadura ocupa resto
 
-    // Asignación de loot
+    // Determinar loot según probabilidad
+    let cantidad;
     if (r < probPocion) {
-        const cantidad = Math.ceil(base * bossMultiplier * 0.8); // 80% del loot base
+        cantidad = Math.ceil(base * bossMultiplier * 0.8); // pociones ligeramente más abundantes
         jugador.inventario.pocion += cantidad;
         return `🧪 Pociones x${cantidad}`;
     } else if (r < probPocion + probEspada) {
-        const cantidad = Math.ceil(base * bossMultiplier * 0.6); // 60% del loot base
+        cantidad = Math.ceil(base * bossMultiplier * 0.6); // espadas
         jugador.inventario.espada += cantidad;
         return `⚔️ Espada x${cantidad}`;
     } else {
-        const cantidad = Math.ceil(base * bossMultiplier * 0.6);
+        cantidad = Math.ceil(base * bossMultiplier * 0.6); // armadura
         jugador.inventario.armadura += cantidad;
         return `🛡️ Armadura x${cantidad}`;
     }
 }
-
 // ===============================
 // FUNCIONES UTILITARIAS
 // ===============================
