@@ -1,6 +1,3 @@
-// ===============================
-// Actualización de UI del jugador
-// ===============================
 function actualizarUI() {
     vidaJugadorFill.style.width = `${Math.max(0, (jugador.vida / jugador.vidaMax) * 100)}%`;
     ataqueJugadorEl.textContent = Math.floor(jugador.ataque);
@@ -24,10 +21,13 @@ function actualizarUI() {
         <li>✨ Magia: ${jugador.magia} / ${maxMagia} ${bonusOrbes > 0 ? `(+${bonusOrbes})` : ""}</li>
     `;
 
+    // 🔥 VISIBILIDAD DE BOTONES
     usarCristalBtn.style.display = jugador.inventario.cristal > 0 ? "block" : "none";
     usarOrbeBtn.style.display = jugador.inventario.orbe > 0 ? "block" : "none";
+
     equiparArmaBtn.style.display = jugador.inventario.espada > 0 ? "block" : "none";
     equiparArmaduraBtn.style.display = jugador.inventario.armadura > 0 ? "block" : "none";
+
     equiparEspadaLegendariaBtn.style.display = jugador.inventario.espadaLegendaria > 0 ? "block" : "none";
     equiparArmaduraEpicaBtn.style.display = jugador.inventario.armaduraEpica > 0 ? "block" : "none";
 
