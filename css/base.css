@@ -1,68 +1,120 @@
 /* ============================================
-   🔥 MEJORA VISUAL RPG (SIN CAMBIAR TU SISTEMA)
+   🔥 MEJORAS VISUALES RPG CON HUD IZQUIERDA/DERECHA
 ============================================ */
 
-/* Fuente más pro */
+/* ===============================
+   RESET + BASE
+=============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
+    background: radial-gradient(circle at center, #1a1a1a, #000);
+    color: #eee;
+    overflow: hidden;
 }
 
 /* ===============================
-   🏆 TÍTULO RPG
+   TÍTULO RPG
 =============================== */
 h1 {
+    text-align: center;
     font-family: 'Cinzel', serif;
     letter-spacing: 3px;
-    text-shadow: 
-        0 0 10px #ffd700,
-        0 0 25px rgba(255,215,0,0.5);
+    font-size: 28px;
+    padding: 15px;
+    color: #ffd700;
+    text-shadow: 0 0 10px #ffd700, 0 0 25px rgba(255,215,0,0.5);
 }
 
 /* ===============================
-   🧱 CAJAS (TU .caja)
+   ESCENARIO
+=============================== */
+#escenario {
+    width: 100%;
+    height: 60vh;
+    border: 3px solid #333;
+    box-shadow: inset 0 0 50px black;
+    position: relative;
+    overflow: hidden;
+    filter: contrast(1.1) saturate(1.2);
+}
+
+#gameArea {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* ===============================
+   HUD (panel izquierdo/derecho)
+=============================== */
+.hud {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    gap: 20px;
+}
+
+/* ===============================
+   CAJAS RPG PRO
 =============================== */
 .caja {
     background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
     border: 1px solid #3a3a4a;
-    box-shadow:
-        inset 0 0 20px rgba(0,0,0,0.8),
-        0 0 15px rgba(255,215,0,0.08);
+    border-radius: 12px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8),
+                0 0 15px rgba(255,215,0,0.08);
     transition: all 0.3s ease;
 }
 
 .caja:hover {
     border-color: #ffd700;
-    box-shadow:
-        inset 0 0 25px rgba(0,0,0,0.9),
-        0 0 25px rgba(255,215,0,0.2);
+    box-shadow: inset 0 0 25px rgba(0,0,0,0.9),
+                0 0 25px rgba(255,215,0,0.2);
     transform: translateY(-3px);
 }
 
 .caja h2 {
+    text-align: center;
     font-family: 'Cinzel', serif;
     letter-spacing: 2px;
     text-shadow: 0 0 10px #ffd700;
+    margin-bottom: 10px;
 }
 
 /* ===============================
-   🎮 BOTONES PRO
+   BOTONES RPG PRO
 =============================== */
 button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
     font-family: 'Cinzel', serif;
-    background: linear-gradient(145deg, #2a2a3a, #12121a);
+    font-weight: bold;
     border: 1px solid #3a3a4a;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #2a2a3a, #12121a);
+    color: #fff;
+    cursor: pointer;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 8px rgba(0,0,0,0.8);
+    transition: all 0.3s ease;
 }
 
 button:hover {
     border-color: #ffd700;
-    box-shadow: 
-        0 0 15px rgba(255,215,0,0.3),
-        inset 0 0 10px rgba(255,255,255,0.05);
+    box-shadow: 0 0 15px rgba(255,215,0,0.3),
+                inset 0 0 10px rgba(255,255,255,0.05);
 }
 
-/* brillo estilo RPG */
 button::after {
     content: '';
     position: absolute;
@@ -81,51 +133,102 @@ button:hover::after {
     to { transform: translateX(100%); }
 }
 
+button:active {
+    transform: scale(0.95);
+}
+
+button:disabled {
+    background: #111;
+    color: #555;
+    cursor: not-allowed;
+}
+
 /* ===============================
-   ❤️ BARRA VIDA PRO
+   BARRA DE VIDA RPG
 =============================== */
 .barra-vida {
+    width: 100%;
+    height: 18px;
+    background: #111;
     border: 1px solid #3a3a4a;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
     box-shadow: inset 0 0 10px black;
 }
 
 #vidaJugadorFill {
+    height: 100%;
+    width: 100%;
     background: linear-gradient(90deg, #00ff88, #00aa55);
     box-shadow: 0 0 10px rgba(0,255,136,0.5);
+    transition: width 0.3s ease;
 }
 
 /* ===============================
-   🗺️ ESCENARIO MÁS VIVO
-=============================== */
-#escenario {
-    filter: contrast(1.1) saturate(1.2);
-}
-
-/* ===============================
-   💬 MENSAJE
+   MENSAJE
 =============================== */
 .mensaje {
-    backdrop-filter: blur(4px);
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    white-space: pre-line;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
     border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    max-width: 300px;
+    font-size: 13px;
+    backdrop-filter: blur(4px);
 }
 
 /* ===============================
-   🎒 INVENTARIO PRO (TU .ventana)
+   INVENTARIO (VENTANA MODAL RPG PRO)
 =============================== */
 .ventana {
-    backdrop-filter: blur(6px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+    z-index: 100;
 }
 
 .ventana-contenido {
     background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
     border: 1px solid #3a3a4a;
-    box-shadow:
-        0 0 30px rgba(0,0,0,0.9),
-        0 0 20px rgba(255,215,0,0.1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    margin: 10% auto;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(0,0,0,0.9),
+                0 0 20px rgba(255,215,0,0.1);
 }
 
-/* lista tipo RPG */
+.cerrar {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.2s ease;
+}
+
+.cerrar:hover {
+    color: #ff2a2a;
+    text-shadow: 0 0 10px red;
+}
+
+ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
 ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #333;
     transition: all 0.2s ease;
 }
 
@@ -135,14 +238,8 @@ ul li:hover {
     text-shadow: 0 0 10px rgba(255,215,0,0.5);
 }
 
-/* botón cerrar */
-.cerrar:hover {
-    color: #ff2a2a;
-    text-shadow: 0 0 10px red;
-}
-
 /* ===============================
-   ✨ EFECTO GLOBAL SUAVE
+   EFECTO GLOBAL SUAVE
 =============================== */
 body::after {
     content: '';
