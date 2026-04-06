@@ -1,8 +1,11 @@
 // ===============================
 // Actualización de UI del jugador
 // ===============================
+// ===============================
+// Actualización de UI del jugador
+// ===============================
 function actualizarUI() {
-    // Actualiza vida, ataque, defensa, magia, nivel y puntaje
+    // Vida, ataque, defensa, magia, nivel y puntaje
     vidaJugadorFill.style.width = `${Math.max(0, (jugador.vida / jugador.vidaMax) * 100)}%`;
     ataqueJugadorEl.textContent = Math.floor(jugador.ataque);
     defensaJugadorEl.textContent = Math.floor(jugador.defensa);
@@ -12,7 +15,7 @@ function actualizarUI() {
 
     const maxMagia = Math.floor(jugador.nivel / 3) * 2;
 
-    // Actualiza inventario
+    // Inventario visual
     listaInventarioEl.innerHTML = `
         <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
         <li>⚔️ Espadas: ${jugador.inventario.espada}</li>
@@ -31,8 +34,10 @@ function actualizarUI() {
     usarOrbeBtn.style.display = jugador.inventario.orbe > 0 ? "block" : "none";
     equiparEspadaLegendariaBtn.style.display = jugador.inventario.espadaLegendaria > 0 ? "block" : "none";
     equiparArmaduraEpicaBtn.style.display = jugador.inventario.armaduraEpica > 0 ? "block" : "none";
-}
 
+    // 🔹 Botón de inventario siempre visible
+    if (abrirInventarioBtn) abrirInventarioBtn.style.display = "block";
+}
 // ===============================
 // ACCIONES JUGADOR
 // ===============================
