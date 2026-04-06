@@ -52,8 +52,12 @@ const atacarBtn = document.getElementById("atacarBtn");
 const curarBtn = document.getElementById("curarBtn");
 const equiparArmaBtn = document.getElementById("equiparArmaBtn");
 const equiparArmaduraBtn = document.getElementById("equiparArmaduraBtn");
+const equiparEspadaLegendariaBtn = document.getElementById("equiparEspadaLegendariaBtn");
+const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
+const usarCristalBtn = document.getElementById("usarCristalBtn");
+const usarOrbeBtn = document.getElementById("usarOrbeBtn");
 const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
-
+const abrirInventarioBtn = document.getElementById("abrirInventarioBtn");
 // ===============================
 // BLOQUEO TOTAL AL MORIR
 // ===============================
