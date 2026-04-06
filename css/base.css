@@ -1,18 +1,16 @@
 /* ======================================= */
-/* CSS BASE PROFESIONAL MINI RPG - MEJORADO */
+/* RESET + BASE                            */
 /* ======================================= */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: all 0.2s ease-in-out;
 }
 
 body {
     background: linear-gradient(to bottom, #1a1a1a, #2c2c2c);
     color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,7 +25,7 @@ h1 {
 }
 
 /* ======================================= */
-/* 🔥 LAYOUT PRINCIPAL (NUEVO)             */
+/* 🔥 LAYOUT PRINCIPAL                     */
 /* ======================================= */
 .game-layout {
     display: flex;
@@ -38,7 +36,7 @@ h1 {
     max-width: 1400px;
 }
 
-/* COLUMNAS LATERALES */
+/* LATERALES */
 #acciones,
 #infoJugador {
     width: 260px;
@@ -46,7 +44,7 @@ h1 {
 }
 
 /* ======================================= */
-/* ESCENARIO Y GAME AREA                   */
+/* ESCENARIO                               */
 /* ======================================= */
 #escenario {
     flex: 1;
@@ -67,29 +65,7 @@ h1 {
 }
 
 /* ======================================= */
-/* JUGADOR & ENEMIGOS                      */
-/* ======================================= */
-#jugador {
-    width: 64px;
-    height: 64px;
-    background: url('../img/jugador.png') no-repeat center center;
-    background-size: contain;
-    position: absolute;
-    transition: left 0.1s, top 0.1s, transform 0.2s;
-    z-index: 10;
-}
-
-.enemigo {
-    position: absolute;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.2s;
-    z-index: 5;
-}
-
-/* ======================================= */
-/* BARRA DE VIDA & MAGIA                   */
+/* BARRAS                                  */
 /* ======================================= */
 .barra-vida, 
 #barraMagia {
@@ -100,15 +76,13 @@ h1 {
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 12px;
-    box-shadow: 0 0 10px #000 inset;
 }
 
 .barra-vida div, 
 #barraMagiaFill {
     height: 100%;
     width: 100%;
-    transition: width 0.3s ease-in-out, background 0.3s ease-in-out;
-    border-radius: 4px;
+    transition: width 0.3s ease-in-out;
 }
 
 #vidaJugadorFill {
@@ -120,16 +94,15 @@ h1 {
 }
 
 /* ======================================= */
-/* CAJAS (UI LATERAL)                      */
+/* UI CAJAS                                */
 /* ======================================= */
 .caja {
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     border: 2px solid #fff;
     border-radius: 12px;
     padding: 15px;
     min-width: 220px;
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
 }
 
 .caja h2 {
@@ -137,12 +110,10 @@ h1 {
     font-size: 1.4rem;
     color: #f1c40f;
     text-align: center;
-    text-shadow: 1px 1px 5px #000;
 }
 
 /* BOTONES */
 .caja button {
-    display: block;
     width: 100%;
     margin: 6px 0;
     padding: 12px;
@@ -151,153 +122,54 @@ h1 {
     border-radius: 6px;
     color: #fff;
     font-weight: bold;
-    font-size: 1rem;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-.caja button:disabled {
-    background: #555;
-    cursor: not-allowed;
-    opacity: 0.6;
+.caja button:hover {
+    transform: scale(1.05);
 }
 
-.caja button:hover:not(:disabled) {
-    transform: scale(1.08);
-    box-shadow: 0 0 15px #2ecc71, 0 0 8px #27ae60 inset;
-}
-
-/* SCROLL PARA MUCHOS BOTONES */
+/* SCROLL */
 #acciones {
     max-height: 500px;
     overflow-y: auto;
 }
 
 /* ======================================= */
-/* MENSAJE JUEGO                           */
+/* MENSAJE                                 */
 /* ======================================= */
 .mensaje {
     width: 90%;
     max-width: 1200px;
+    margin-top: 20px;
+    padding: 12px;
     background: rgba(0,0,0,0.85);
     border: 2px solid #fff;
     border-radius: 12px;
-    padding: 12px;
-    margin-top: 20px;
-    min-height: 50px;
     text-align: center;
-    white-space: pre-line;
-    box-shadow: 0 0 15px rgba(0,0,0,0.7);
 }
 
 /* ======================================= */
-/* VENTANA INVENTARIO                      */
+/* INVENTARIO                              */
 /* ======================================= */
 .ventana {
     display: none;
     position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background: rgba(0,0,0,0.85);
 }
 
 .ventana-contenido {
-    background-color: #222;
+    background: #222;
     margin: 8% auto;
     padding: 20px;
     border: 2px solid #fff;
     width: 90%;
     max-width: 500px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.7);
 }
 
 .cerrar {
-    color: #f1c40f;
     float: right;
-    font-size: 1.6rem;
-    font-weight: bold;
     cursor: pointer;
-}
-
-.cerrar:hover {
-    color: #e74c3c;
-}
-
-#listaInventario li {
-    padding: 6px 0;
-    font-size: 1.1rem;
-}
-
-#listaInventario li.critico {
-    color: #f39c12;
-    font-weight: bold;
-}
-
-/* ======================================= */
-/* ANIMACIONES                             */
-/* ======================================= */
-.animado {
-    animation: caminar 1s steps(4) infinite;
-}
-
-.usando-item {
-    animation: usarItem 0.5s ease forwards;
-}
-
-@keyframes caminar {
-    from { background-position: 0 0; }
-    to { background-position: -256px 0; }
-}
-
-@keyframes usarItem {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.2) rotate(10deg); }
-    100% { transform: scale(1) rotate(0deg); }
-}
-
-/* ======================================= */
-/* RESPONSIVE DESIGN                       */
-/* ======================================= */
-@media (max-width: 900px) {
-    .game-layout {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #acciones,
-    #infoJugador {
-        width: 100%;
-    }
-
-    #escenario {
-        width: 100%;
-        height: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    #escenario {
-        height: 250px;
-    }
-
-    .caja {
-        min-width: 180px;
-        padding: 10px;
-    }
-
-    .caja button {
-        font-size: 0.9rem;
-        padding: 8px;
-    }
-
-    #jugador,
-    .enemigo {
-        width: 40px;
-        height: 40px;
-    }
 }
