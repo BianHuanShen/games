@@ -42,6 +42,9 @@ const cerrarInventario = document.getElementById("cerrarInventario");
 // jugador visual
 const jugadorDiv = document.createElement("div");
 jugadorDiv.id = "jugador";
+jugadorDiv.style.position = "absolute";
+jugadorDiv.style.left = "100px";
+jugadorDiv.style.top = "300px";
 gameArea.appendChild(jugadorDiv);
 
 // ===== BOTONES =====
@@ -113,22 +116,13 @@ function crearEnemigo(nivel, jefe = false) {
         ia
     };
 }
+
 // ===============================
 // IMAGEN ENEMIGO (FIX PRO)
 // ===============================
 function getRutaEnemigo(enemigo) {
-
-    // 🟥 BOSS cada 5 niveles
-    if (enemigo.jefe) {
-        return "img/boss.jpeg";
-    }
-
-    // 🟪 MAGO desde nivel 2 en adelante
-    if (nivelActual >= 2) {
-        return "img/mago.jpeg";
-    }
-
-    // 🟩 ENEMIGO NORMAL
+    if (enemigo.jefe) return "img/boss.jpeg";
+    if (nivelActual >= 2) return "img/mago.jpeg";
     return "img/enemigo1.jpeg";
 }
 
@@ -136,7 +130,6 @@ function getRutaEnemigo(enemigo) {
 // 🎯 DIBUJAR ENEMIGOS
 // ===============================
 function dibujarEnemigos() {
-    // Limpiar enemigos anteriores
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
 
     enemigos.forEach((e, index) => {
@@ -150,7 +143,6 @@ function dibujarEnemigos() {
         div.style.left = `${200 + index * 80}px`;
         div.style.top = `${300 + Math.random() * 100}px`;
 
-        // Imagen consistente según tipo
         const img = getRutaEnemigo(e);
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
@@ -158,14 +150,12 @@ function dibujarEnemigos() {
         div.style.backgroundPosition = "center";
         div.classList.add("animado");
 
-        // Filtro según IA
         switch (e.ia) {
             case "agresivo": div.style.filter = "hue-rotate(0deg)"; break;
             case "defensivo": div.style.filter = "hue-rotate(90deg)"; break;
             case "mago": div.style.filter = "hue-rotate(250deg)"; break;
         }
 
-        // Tamaño y animación
         if (e.jefe) {
             div.style.width = "100px";
             div.style.height = "100px";
@@ -176,7 +166,6 @@ function dibujarEnemigos() {
             div.style.height = "64px";
         }
 
-        // Barra de vida
         const barra = document.createElement("div");
         barra.classList.add("barra-vida");
         barra.style.position = "absolute";
@@ -199,6 +188,7 @@ function dibujarEnemigos() {
         gameArea.appendChild(div);
     });
 }
+
 // ===============================
 // GENERAR NIVEL
 // ===============================
@@ -220,7 +210,6 @@ function generarNivel() {
 function atacar() {
     if (jugador.vida <= 0 || enemigos.length === 0) return;
 
-    // Animación ataque
     jugadorDiv.classList.add("atacando");
     setTimeout(() => jugadorDiv.classList.remove("atacando"), 200);
 
@@ -364,8 +353,59 @@ document.addEventListener("keydown", e => {
 });
 
 // ===============================
+// FUNCIONALIDAD DE ARRASTRE
+// ===============================
+(function enableDrag() {
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    function startDrag(e) {
+        dragging = true;
+        const rect = jugadorDiv.getBoundingClientRect();
+        if (e.type.startsWith("touch")) {
+            offsetX = e.touches[0].clientX - rect.left;
+            offsetY = e.touches[0].clientY - rect.top;
+        } else {
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+        }
+        e.preventDefault();
+    }
+
+    function onDrag(e) {
+        if (!dragging) return;
+        let x, y;
+        if (e.type.startsWith("touch")) {
+            x = e.touches[0].clientX - offsetX;
+            y = e.touches[0].clientY - offsetY;
+        } else {
+            x = e.clientX - offsetX;
+            y = e.clientY - offsetY;
+        }
+        // Limitar dentro del gameArea
+        const maxX = gameArea.offsetWidth - jugadorDiv.offsetWidth;
+        const maxY = gameArea.offsetHeight - jugadorDiv.offsetHeight;
+        jugadorDiv.style.left = Math.min(Math.max(0, x), maxX) + "px";
+        jugadorDiv.style.top = Math.min(Math.max(0, y), maxY) + "px";
+    }
+
+    function stopDrag() {
+        dragging = false;
+    }
+
+    jugadorDiv.addEventListener("mousedown", startDrag);
+    document.addEventListener("mousemove", onDrag);
+    document.addEventListener("mouseup", stopDrag);
+
+    jugadorDiv.addEventListener("touchstart", startDrag);
+    document.addEventListener("touchmove", onDrag);
+    document.addEventListener("touchend", stopDrag);
+})();
+
+// ===============================
 // IA ENEMIGOS (MOVIMIENTO)
- // ===============================
+// ===============================
 (function iniciarIA() {
     const velocidadBase = 0.1;
     const rangoAtaque = 60;
