@@ -1,46 +1,104 @@
 /* ============================================
-   🔥 UPGRADE VISUAL (SIN ROMPER TU LÓGICA)
-   Solo mejora contenedores existentes
+   🔥 UPGRADE PRO ESTABLE (SIN BUGS REALES)
 ============================================ */
 
-/* Fondo más épico */
+/* Fondo épico optimizado */
 body {
     background: radial-gradient(circle at top, #1a1a2e 0%, #0a0a0f 60%, #000 100%);
 }
 
-/* Paneles con efecto glass + glow */
+/* =========================
+   🧠 FIX GLOBAL CRÍTICO
+========================= */
+
+/* Evita bugs de render en grids y modales */
+.panel-box,
+.modal-window,
+#left-panel,
+#right-panel,
+.combat-log {
+    position: relative;
+    z-index: 1;
+}
+
+/* Asegura que hijos SIEMPRE se vean */
+.inventory-grid,
+.modal-content,
+.skill-tree,
+.skills-panel {
+    position: relative;
+    z-index: 2;
+}
+
+/* Items internos siempre visibles */
+.inventory-item,
+.skill-slot,
+.skill-node {
+    position: relative;
+    z-index: 3;
+}
+
+/* =========================
+   💎 PANEL STYLE (SIN BACKDROP BUG)
+========================= */
+
 .panel-box,
 #game-header,
 #right-panel,
 #left-panel,
 .combat-log,
 .menu-btn {
-    backdrop-filter: blur(8px);
-    background: rgba(20, 20, 35, 0.85);
+    position: relative;
+    background: rgba(20, 20, 35, 0.92);
     border: 1px solid rgba(255,255,255,0.08);
     box-shadow: 
         inset 0 0 20px rgba(0,0,0,0.6),
         0 0 15px rgba(255, 215, 0, 0.05);
+    overflow: visible; /* 🔥 CLAVE */
 }
 
-/* Hover más pro en paneles */
+/* 🔥 Glass effect SEGURO (sin romper layout) */
+.panel-box::before,
+.modal-window::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(8px);
+    border-radius: inherit;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Contenido por encima del blur */
+.panel-box > *,
+.modal-window > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Hover mejorado */
 .panel-box:hover {
     box-shadow: 
         inset 0 0 25px rgba(0,0,0,0.8),
         0 0 25px rgba(255, 215, 0, 0.15);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
-/* Header más premium */
+/* Header premium */
 #game-header {
     background: linear-gradient(90deg, rgba(255,215,0,0.05), transparent);
     border: 1px solid rgba(255,215,0,0.3);
 }
 
-/* Botones más épicos */
+/* =========================
+   🎮 BOTONES PRO
+========================= */
+
 .action-btn {
     background: linear-gradient(145deg, #1f1f2f, #12121a);
     border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .action-btn:hover {
@@ -49,19 +107,18 @@ body {
         inset 0 0 10px rgba(255,255,255,0.05);
 }
 
-/* Botones con brillo animado */
+/* Shine seguro */
 .action-btn::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
     opacity: 0;
-    transition: opacity 0.3s;
 }
 
 .action-btn:hover::after {
     opacity: 1;
-    animation: shineMove 1s;
+    animation: shineMove 0.8s linear;
 }
 
 @keyframes shineMove {
@@ -69,19 +126,20 @@ body {
     to { transform: translateX(100%); }
 }
 
-/* Avatar con aura */
+/* =========================
+   🧙 VISUALES RPG
+========================= */
+
 .character-avatar {
     box-shadow: 
         inset 0 0 30px rgba(0,0,0,0.8),
         0 0 20px rgba(0, 212, 255, 0.15);
 }
 
-/* Barras más vivas */
 .bar-fill {
     box-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 
-/* Enemigos más impactantes */
 .enemy-container {
     filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7));
 }
@@ -90,22 +148,22 @@ body {
     filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
 }
 
-/* Escenario más cinematográfico */
 #escenario {
     filter: contrast(1.1) saturate(1.2);
 }
 
-/* Sprite jugador más vivo */
 #player-sprite {
     filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
 }
 
-/* Log más limpio */
+/* =========================
+   📜 LOG
+========================= */
+
 .combat-log {
     font-family: 'Roboto Condensed', monospace;
 }
 
-/* Scroll bonito */
 .combat-log::-webkit-scrollbar {
     width: 6px;
 }
@@ -115,7 +173,15 @@ body {
     border-radius: 10px;
 }
 
-/* Inventario más RPG */
+/* =========================
+   🎒 INVENTARIO (FIX REAL)
+========================= */
+
+.inventory-grid {
+    display: grid;
+    z-index: 5;
+}
+
 .inventory-item {
     background: radial-gradient(circle, #1a1a2e, #0f0f1a);
 }
@@ -126,7 +192,10 @@ body {
         inset 0 0 10px rgba(255,255,255,0.05);
 }
 
-/* Skill slots con energía */
+/* =========================
+   🧠 SKILLS
+========================= */
+
 .skill-slot {
     background: radial-gradient(circle, #0f0f1a, #05050a);
 }
@@ -135,25 +204,40 @@ body {
     box-shadow: 0 0 20px rgba(0,212,255,0.4);
 }
 
-/* Modal más pro */
+/* =========================
+   🪟 MODALES FIX
+========================= */
+
 .modal-window {
-    backdrop-filter: blur(10px);
+    position: relative;
     border: 1px solid rgba(255,215,0,0.3);
+    overflow: visible;
 }
 
-/* Tooltip más elegante */
+.modal-content {
+    position: relative;
+    z-index: 5;
+}
+
+/* =========================
+   💬 TOOLTIP
+========================= */
+
 .tooltip {
-    backdrop-filter: blur(6px);
+    background: rgba(0,0,0,0.95);
     box-shadow: 0 0 15px rgba(255,215,0,0.2);
 }
 
-/* Efecto leve de partículas (decorativo) */
+/* =========================
+   ✨ PARTICULAS SUAVES
+========================= */
+
 body::after {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
     background-size: 3px 3px;
-    opacity: 0.3;
+    opacity: 0.25;
 }
