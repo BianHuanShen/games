@@ -1,47 +1,44 @@
-/* ============================================
-   🔥 MEJORAS VISUALES RPG CON HUD IZQUIERDA/DERECHA
-============================================ */
+/* ======================================= */
+/* CSS BASE PROFESIONAL MINI RPG           */
+/* ======================================= */
 
-/* ===============================
-   RESET + BASE
-=============================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    font-family: 'Roboto Condensed', sans-serif;
-    background: radial-gradient(circle at center, #1a1a1a, #000);
-    color: #eee;
-    overflow: hidden;
+    background: linear-gradient(to bottom, #1a1a1a, #333);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* ===============================
-   TÍTULO RPG
-=============================== */
 h1 {
+    margin: 20px 0;
+    font-size: 2rem;
     text-align: center;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 3px;
-    font-size: 28px;
-    padding: 15px;
-    color: #ffd700;
-    text-shadow: 0 0 10px #ffd700, 0 0 25px rgba(255,215,0,0.5);
+    text-shadow: 2px 2px 5px #000;
 }
 
-/* ===============================
-   ESCENARIO
-=============================== */
+/* ======================================= */
+/* ESCENARIO Y GAME AREA                   */
+/* ======================================= */
 #escenario {
-    width: 100%;
-    height: 60vh;
-    border: 3px solid #333;
-    box-shadow: inset 0 0 50px black;
+    width: 90%;
+    max-width: 1200px;
+    height: 400px;
+    background: url('../img/fondo.jpg') no-repeat center center;
+    background-size: cover;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
     position: relative;
     overflow: hidden;
-    filter: contrast(1.1) saturate(1.2);
 }
 
 #gameArea {
@@ -50,203 +47,219 @@ h1 {
     position: relative;
 }
 
-/* ===============================
-   HUD (panel izquierdo/derecho)
-=============================== */
-.hud {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    gap: 20px;
-}
-
-/* ===============================
-   CAJAS RPG PRO
-=============================== */
-.caja {
-    background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-    border: 1px solid #3a3a4a;
-    border-radius: 12px;
-    padding: 15px;
-    width: 250px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.8),
-                0 0 15px rgba(255,215,0,0.08);
-    transition: all 0.3s ease;
-}
-
-.caja:hover {
-    border-color: #ffd700;
-    box-shadow: inset 0 0 25px rgba(0,0,0,0.9),
-                0 0 25px rgba(255,215,0,0.2);
-    transform: translateY(-3px);
-}
-
-.caja h2 {
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px #ffd700;
-    margin-bottom: 10px;
-}
-
-/* ===============================
-   BOTONES RPG PRO
-=============================== */
-button {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    font-family: 'Cinzel', serif;
-    font-weight: bold;
-    border: 1px solid #3a3a4a;
-    border-radius: 6px;
-    background: linear-gradient(145deg, #2a2a3a, #12121a);
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 8px rgba(0,0,0,0.8);
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    border-color: #ffd700;
-    box-shadow: 0 0 15px rgba(255,215,0,0.3),
-                inset 0 0 10px rgba(255,255,255,0.05);
-}
-
-button::after {
-    content: '';
+/* ======================================= */
+/* JUGADOR & ENEMIGOS                      */
+/* ======================================= */
+#jugador {
+    width: 64px;
+    height: 64px;
+    background: url('../img/jugador.png') no-repeat center center;
+    background-size: contain;
     position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
+    transition: left 0.1s, top 0.1s;
+    z-index: 10;
 }
 
-button:hover::after {
-    opacity: 1;
-    animation: shine 0.8s linear;
+.enemigo {
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: left 0.1s, top 0.1s, transform 0.1s;
+    z-index: 5;
 }
 
-@keyframes shine {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(100%); }
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-button:disabled {
-    background: #111;
-    color: #555;
-    cursor: not-allowed;
-}
-
-/* ===============================
-   BARRA DE VIDA RPG
-=============================== */
-.barra-vida {
+/* ======================================= */
+/* BARRA DE VIDA & MAGIA                   */
+/* ======================================= */
+.barra-vida, #barraMagia {
     width: 100%;
-    height: 18px;
-    background: #111;
-    border: 1px solid #3a3a4a;
-    border-radius: 8px;
+    height: 20px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid #fff;
+    border-radius: 5px;
     overflow: hidden;
     margin-bottom: 10px;
-    box-shadow: inset 0 0 10px black;
+}
+
+.barra-vida div, #barraMagiaFill {
+    height: 100%;
+    width: 100%;
+    transition: width 0.3s ease-in-out;
+    border-radius: 3px;
 }
 
 #vidaJugadorFill {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, #00ff88, #00aa55);
-    box-shadow: 0 0 10px rgba(0,255,136,0.5);
-    transition: width 0.3s ease;
+    background: #e74c3c;
 }
 
-/* ===============================
-   MENSAJE
-=============================== */
-.mensaje {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    white-space: pre-line;
+#barraMagiaFill {
+    background: #3498db;
+}
+
+/* ======================================= */
+/* HUD Y ACCIONES                          */
+/* ======================================= */
+.hud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.caja {
     background: rgba(0,0,0,0.7);
-    padding: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    max-width: 300px;
-    font-size: 13px;
-    backdrop-filter: blur(4px);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 15px;
+    flex: 1 1 250px;
+    min-width: 220px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
-/* ===============================
-   INVENTARIO (VENTANA MODAL RPG PRO)
-=============================== */
+.caja h2 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    color: #f1c40f;
+    text-align: center;
+    text-shadow: 1px 1px 3px #000;
+}
+
+.caja button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.caja button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.caja button:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #2ecc71;
+}
+
+/* ======================================= */
+/* MENSAJE JUEGO                            */
+/* ======================================= */
+.mensaje {
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(0,0,0,0.8);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 50px;
+    text-align: center;
+    white-space: pre-line;
+}
+
+/* ======================================= */
+/* VENTANA INVENTARIO                       */
+/* ======================================= */
 .ventana {
     display: none;
     position: fixed;
-    top: 0;
+    z-index: 100;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
     background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(4px);
-    z-index: 100;
 }
 
 .ventana-contenido {
-    background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-    border: 1px solid #3a3a4a;
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px;
+    background-color: #222;
     margin: 10% auto;
-    color: #fff;
-    box-shadow: 0 0 30px rgba(0,0,0,0.9),
-                0 0 20px rgba(255,215,0,0.1);
+    padding: 20px;
+    border: 2px solid #fff;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 .cerrar {
+    color: #f1c40f;
     float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 20px;
-    transition: all 0.2s ease;
 }
 
 .cerrar:hover {
-    color: #ff2a2a;
-    text-shadow: 0 0 10px red;
+    color: #e74c3c;
 }
 
-ul {
-    list-style: none;
-    margin-top: 10px;
-}
-
-ul li {
+#listaInventario li {
     padding: 5px 0;
-    border-bottom: 1px solid #333;
-    transition: all 0.2s ease;
+    font-size: 1.1rem;
 }
 
-ul li:hover {
-    color: #ffd700;
-    transform: translateX(6px);
-    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+/* ======================================= */
+/* ANIMACIONES                               */
+/* ======================================= */
+.animado {
+    animation: caminar 1s steps(4) infinite;
 }
 
-/* ===============================
-   EFECTO GLOBAL SUAVE
-=============================== */
-body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 3px 3px;
-    opacity: 0.2;
+@keyframes caminar {
+    from { background-position: 0 0; }
+    to { background-position: -256px 0; }
+}
+
+/* ======================================= */
+/* RESPONSIVE DESIGN                         */
+/* ======================================= */
+@media (max-width: 768px) {
+    .hud {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #escenario {
+        height: 300px;
+    }
+
+    #jugador, .enemigo {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    #escenario {
+        height: 250px;
+    }
+
+    .caja {
+        min-width: 180px;
+        padding: 10px;
+    }
+
+    .caja button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    #jugador, .enemigo {
+        width: 40px;
+        height: 40px;
+    }
 }
