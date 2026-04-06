@@ -22,7 +22,9 @@ const sonidoGolpe = new Audio("sonidos/golpe.mp3");
 const sonidoCritico = new Audio("sonidos/critico.mp3");
 const sonidoLoot = new Audio("sonidos/loot.mp3");
 
+// ===============================
 // ===== DOM =====
+// ===============================
 const gameArea = document.getElementById("gameArea");
 const vidaJugadorFill = document.getElementById("vidaJugadorFill");
 const ataqueJugadorEl = document.getElementById("ataqueJugador");
@@ -45,8 +47,9 @@ jugadorDiv.style.position = "absolute";
 jugadorDiv.style.left = "100px";
 jugadorDiv.style.top = "300px";
 gameArea.appendChild(jugadorDiv);
-
+// ===============================
 // ===== BOTONES =====
+// ===============================
 const atacarBtn = document.getElementById("atacarBtn");
 const curarBtn = document.getElementById("curarBtn");
 const equiparArmaBtn = document.getElementById("equiparArmaBtn");
@@ -56,7 +59,6 @@ const usarOrbeBtn = document.getElementById("usarOrbeBtn");
 const equiparEspadaLegendariaBtn = document.getElementById("equiparEspadaLegendariaBtn");
 const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
 const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
-
 // ===============================
 // BLOQUEO TOTAL AL MORIR
 // ===============================
@@ -245,7 +247,7 @@ function generarNivel() {
     dibujarEnemigos();
 }
 // ===============================
-// CLASES
+// ===== CLASES =====
 // ===============================
 class Personaje {
     constructor(vida, ataque, defensa, magia, nivel, puntaje, inventario) {
@@ -259,7 +261,6 @@ class Personaje {
         this.inventario = inventario;
     }
 }
-
 class Enemigo {
     constructor(vida, ataque, defensa, ia) {
         this.vida = vida;
@@ -468,8 +469,10 @@ function actualizarBarraMagia(maxMagia) {
     fill.style.width = porcentaje + "%";
 }
 // ===============================
-// EVENTOS
+// ===== EVENTOS =====
 // ===============================
+
+// Acciones básicas y items raros
 atacarBtn.addEventListener("click", atacar);
 curarBtn.addEventListener("click", curar);
 equiparArmaBtn.addEventListener("click", equiparArma);
@@ -480,9 +483,11 @@ equiparEspadaLegendariaBtn.addEventListener("click", equiparEspadaLegendaria);
 equiparArmaduraEpicaBtn.addEventListener("click", equiparArmaduraEpica);
 aprenderMagiaBtn.addEventListener("click", aprenderMagia);
 
+// Inventario
 abrirInventarioBtn.addEventListener("click", () => ventanaInventario.style.display = "block");
 cerrarInventario.addEventListener("click", () => ventanaInventario.style.display = "none");
 
+// Movimiento con teclado
 document.addEventListener("keydown", e => {
     const left = jugadorDiv.offsetLeft;
     if (e.key === "ArrowRight") jugadorDiv.style.left = left + 20 + "px";
