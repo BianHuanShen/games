@@ -457,11 +457,11 @@ document.addEventListener("keydown", e => {
 })();
 
 // ===============================
-// IA ENEMIGOS (MOVIMIENTO)
+// IA ENEMIGOS (MOVIMIENTO + DAÑO)
 // ===============================
 (function iniciarIA() {
-    const velocidadBase = 0.1;
-    const rangoAtaque = 60;
+    const velocidadBase = 0.3; // velocidad base normal
+    const rangoAtaque = 60;    // distancia para hacer daño
 
     function updateEnemigos() {
         const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
@@ -477,19 +477,29 @@ document.addEventListener("keydown", e => {
             const dy = jy - ey;
             const distancia = Math.sqrt(dx*dx + dy*dy);
 
+            // Ajustar velocidad según tipo
             let velocidad = velocidadBase;
-            if (enemigo.ia === "agresivo") velocidad *= 0.7;
-            if (enemigo.ia === "defensivo") velocidad *= 0.2;
-            if (enemigo.ia === "mago") velocidad *= 0.4;
-
+            if (enemigo.ia === "agresivo") velocidad *= 1.2;   // un poco más rápido
+            if (enemigo.ia === "defensivo") velocidad *= 0.7;  // más lento
+            if (enemigo.ia === "mago") velocidad *= 0.5;       // lento pero sigue
+         
+            // Solo se mueve si está lejos del jugador
             if (distancia > rangoAtaque) {
-                let moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 1.5;
-                let moveY = (dy / distancia) * velocidad;
+                const moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 0.5;
+                const moveY = (dy / distancia) * velocidad;
                 enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
                 enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
-            } else {
+            }
+
+            // Si está cerca del jugador, hacer daño
+            if (distancia <= rangoAtaque) {
                 enemigoDiv.style.transform = "scale(1.1)";
                 setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
+
+                // Hacer 1 de daño por frame cercano
+                jugador.vida -= 1;
+                jugador.vida = Math.max(0, jugador.vida);
+                actualizarUI();
             }
         });
 
@@ -498,7 +508,6 @@ document.addEventListener("keydown", e => {
 
     window.addEventListener("load", () => updateEnemigos());
 })();
-
 // ===============================
 // START
 // ===============================
