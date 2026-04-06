@@ -9,7 +9,6 @@
  */
 function darLoot(nivel, esBoss = false) {
     const r = Math.random();
-
     // ===============================
     // Escala base de loot según nivel
     // ===============================
@@ -33,7 +32,6 @@ function darLoot(nivel, esBoss = false) {
         { nombre: "⚔️ Espada Legendaria", inventario: "espadaLegendaria" },
         { nombre: "🛡️ Armadura Épica", inventario: "armaduraEpica" }
     ];
-
     // ===============================
     // Determinar y asignar loot
     // ===============================
