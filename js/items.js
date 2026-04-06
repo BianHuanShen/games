@@ -101,21 +101,3 @@ function equiparArmaduraEpica() {
     mensajeEl.textContent = `🛡️ Armadura Épica (+${boost} defensa)`;
     actualizarUI();
 }
-function aprenderMagia() {
-    asegurarInventario();
-    if (jugador.vida <= 0) return;
-
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
-
-    if (jugador.magia < maxMagia) {
-        jugador.magia++;
-        jugador.inventario.magia++;
-
-        mensajeEl.textContent = `✨ Aprendiste magia (${jugador.magia}/${maxMagia})`;
-    } else {
-        mensajeEl.textContent = `⚠️ Magia al máximo para nivel ${jugador.nivel}`;
-    }
-
-    actualizarUI();
-    actualizarBarraMagia(maxMagia);
-}
