@@ -1,28 +1,32 @@
 // ===============================
-// SEGURIDAD INVENTARIO (ANTI-NaN)
+// SEGURIDAD INVENTARIO (ANTI-NaN FIX)
 // ===============================
 function asegurarInventario() {
     const items = [
         "pocion", "espada", "armadura",
         "cristal", "orbe",
-        "espadaLegendaria", "armaduraEpica", "magia"
+        "espadaLegendaria", "armaduraEpica", "magia", "orbeUsados"
     ];
 
     items.forEach(item => {
         jugador.inventario[item] = Number(jugador.inventario[item]) || 0;
     });
 
+    // Evitar NaN en magia
     jugador.magia = Number(jugador.magia) || 0;
+    jugador.inventario.orbeUsados = Number(jugador.inventario.orbeUsados) || 0;
 }
 
 // ===============================
-// APRENDER MAGIA
+// APRENDER MAGIA FIX
 // ===============================
 function aprenderMagia() {
     if (jugador.vida <= 0) return;
 
+    asegurarInventario();
+
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
-    const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
+    const bonusOrbes = jugador.inventario.orbeUsados * 2;
     const maxMagia = maxMagiaBase + bonusOrbes;
 
     if (jugador.magia < maxMagia) {
@@ -78,6 +82,7 @@ function equiparArmadura() {
 // ITEMS
 // ===============================
 function usarCristal() {
+    asegurarInventario();
     if (jugador.inventario.cristal <= 0) return;
 
     jugador.ataque += 15;
@@ -92,11 +97,9 @@ function usarCristal() {
 // 🔮 ORBE FIX DEFINITIVO
 // ===============================
 function usarOrbe() {
-    if (jugador.inventario.orbe <= 0) return;
+    asegurarInventario();
 
-    if (!jugador.inventario.orbeUsados) {
-        jugador.inventario.orbeUsados = 0;
-    }
+    if (jugador.inventario.orbe <= 0) return;
 
     jugador.inventario.orbe--;
     jugador.inventario.orbeUsados++;
@@ -105,13 +108,8 @@ function usarOrbe() {
     const bonusOrbes = jugador.inventario.orbeUsados * 2;
     const maxMagia = maxMagiaBase + bonusOrbes;
 
-    // Subir magia real
     jugador.magia += 2;
-
-    // Evitar overflow
-    if (jugador.magia > maxMagia) {
-        jugador.magia = maxMagia;
-    }
+    if (jugador.magia > maxMagia) jugador.magia = maxMagia;
 
     mensajeEl.textContent = "🔮 +2 magia";
 
@@ -121,6 +119,7 @@ function usarOrbe() {
 }
 
 function equiparEspadaLegendaria() {
+    asegurarInventario();
     if (jugador.inventario.espadaLegendaria <= 0) return;
 
     jugador.ataque += 25;
@@ -132,6 +131,7 @@ function equiparEspadaLegendaria() {
 }
 
 function equiparArmaduraEpica() {
+    asegurarInventario();
     if (jugador.inventario.armaduraEpica <= 0) return;
 
     jugador.defensa += 15;
@@ -143,13 +143,11 @@ function equiparArmaduraEpica() {
 }
 
 // ===============================
-// ANIMACIÓN (FIX SEGURO)
+// ANIMACIÓN BOTONES
 // ===============================
 function animarBoton(btn) {
     if (!btn) return;
 
     btn.classList.add("usar-item-anim");
-    setTimeout(() => {
-        btn.classList.remove("usar-item-anim");
-    }, 300);
+    setTimeout(() => btn.classList.remove("usar-item-anim"), 300);
 }
