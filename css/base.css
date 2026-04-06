@@ -7,13 +7,11 @@
     box-sizing: border-box;
     font-family: "Trebuchet MS", "Segoe UI", sans-serif;
 }
-
 body {
     background: radial-gradient(circle at center, #1a1a1a, #000);
     color: #eee;
     overflow: hidden;
 }
-
 /* ===============================
    TÍTULO
 =============================== */
@@ -24,7 +22,6 @@ h1 {
     color: #ffd700;
     text-shadow: 0 0 10px #ffcc00;
 }
-
 /* ===============================
    ESCENARIO
 =============================== */
@@ -36,13 +33,11 @@ h1 {
     position: relative;
     overflow: hidden;
 }
-
 #gameArea {
     width: 100%;
     height: 100%;
     position: relative;
 }
-
 /* ===============================
    HUD
 =============================== */
@@ -65,13 +60,11 @@ h1 {
         0 0 10px rgba(0,0,0,0.8),
         inset 0 0 10px rgba(255,255,255,0.05);
 }
-
 .caja h2 {
     text-align: center;
     margin-bottom: 10px;
     color: #ffcc00;
 }
-
 /* ===============================
    BOTONES (estilo Blizzard)
 =============================== */
@@ -90,7 +83,6 @@ button {
     box-shadow: 0 0 8px rgba(0,0,0,0.8);
     transition: all 0.2s ease;
 }
-
 button:hover {
     background: linear-gradient(180deg, #666, #333);
     transform: scale(1.05);
@@ -106,7 +98,6 @@ button:disabled {
     color: #555;
     cursor: not-allowed;
 }
-
 /* ===============================
    BARRA DE VIDA
 =============================== */
@@ -119,14 +110,12 @@ button:disabled {
     overflow: hidden;
     margin-bottom: 10px;
 }
-
 #vidaJugadorFill {
     height: 100%;
     width: 100%;
     background: linear-gradient(90deg, #00ff88, #00aa55);
     transition: width 0.3s ease;
 }
-
 /* ===============================
    TEXTO INFO
 =============================== */
@@ -134,7 +123,6 @@ p {
     margin: 5px 0;
     font-size: 14px;
 }
-
 /* ===============================
    MENSAJE
 =============================== */
@@ -150,7 +138,6 @@ p {
     max-width: 300px;
     font-size: 13px;
 }
-
 /* ===============================
    INVENTARIO (VENTANA MODAL)
 =============================== */
@@ -164,7 +151,6 @@ p {
 
     background: rgba(0,0,0,0.8);
 }
-
 .ventana-contenido {
     background: #111;
     border: 2px solid #555;
