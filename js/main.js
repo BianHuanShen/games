@@ -57,7 +57,6 @@ const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn
 const usarCristalBtn = document.getElementById("usarCristalBtn");
 const usarOrbeBtn = document.getElementById("usarOrbeBtn");
 const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
-const abrirInventarioBtn = document.getElementById("abrirInventarioBtn");
 // ===============================
 // BLOQUEO TOTAL AL MORIR
 // ===============================
