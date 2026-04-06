@@ -406,23 +406,61 @@ function revisarEstado() {
     }
 }
 // ===============================
-// EVENTOS
+// EVENTOS (ACTUALIZADO PRO)
 // ===============================
-atacarBtn.addEventListener("click", atacar);
-curarBtn.addEventListener("click", curar);
-equiparArmaBtn.addEventListener("click", equiparArma);
-equiparArmaduraBtn.addEventListener("click", equiparArmadura);
-aprenderMagiaBtn.addEventListener("click", aprenderMagia);
 
-abrirInventarioBtn.addEventListener("click", () => ventanaInventario.style.display = "block");
-cerrarInventario.addEventListener("click", () => ventanaInventario.style.display = "none");
+// 🔹 Acciones básicas
+if (atacarBtn) atacarBtn.addEventListener("click", atacar);
+if (curarBtn) curarBtn.addEventListener("click", curar);
+if (equiparArmaBtn) equiparArmaBtn.addEventListener("click", equiparArma);
+if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", equiparArmadura);
+if (aprenderMagiaBtn) aprenderMagiaBtn.addEventListener("click", aprenderMagia);
 
+// 🔹 Items raros (NUEVO)
+if (usarCristalBtn) usarCristalBtn.addEventListener("click", usarCristal);
+if (usarOrbeBtn) usarOrbeBtn.addEventListener("click", usarOrbe);
+if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", equiparEspadaLegendaria);
+if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.addEventListener("click", equiparArmaduraEpica);
+
+// 🔹 Inventario
+if (abrirInventarioBtn) {
+    abrirInventarioBtn.addEventListener("click", () => {
+        ventanaInventario.style.display = "block";
+    });
+}
+
+if (cerrarInventario) {
+    cerrarInventario.addEventListener("click", () => {
+        ventanaInventario.style.display = "none";
+    });
+}
+
+// 🔹 Movimiento teclado (con límites)
 document.addEventListener("keydown", e => {
+    const step = 20;
     const left = jugadorDiv.offsetLeft;
-    if (e.key === "ArrowRight") jugadorDiv.style.left = left + 20 + "px";
-    if (e.key === "ArrowLeft") jugadorDiv.style.left = left - 20 + "px";
-});
+    const top = jugadorDiv.offsetTop;
 
+    const maxX = gameArea.offsetWidth - jugadorDiv.offsetWidth;
+
+    if (e.key === "ArrowRight") {
+        jugadorDiv.style.left = Math.min(left + step, maxX) + "px";
+    }
+
+    if (e.key === "ArrowLeft") {
+        jugadorDiv.style.left = Math.max(left - step, 0) + "px";
+    }
+
+    // (opcional) vertical si luego quieres
+    if (e.key === "ArrowUp") {
+        jugadorDiv.style.top = Math.max(top - step, 0) + "px";
+    }
+
+    if (e.key === "ArrowDown") {
+        const maxY = gameArea.offsetHeight - jugadorDiv.offsetHeight;
+        jugadorDiv.style.top = Math.min(top + step, maxY) + "px";
+    }
+});
 // ===============================
 // FUNCIONALIDAD DE ARRASTRE
 // ===============================
