@@ -12,7 +12,11 @@ function actualizarUI() {
     magiaJugadorEl.textContent = jugador.magia;
     nivelJugadorEl.textContent = jugador.nivel;
     puntajeEl.textContent = jugador.puntaje;
-
+    // Calcula magia máxima considerando bonus de Orbes
+    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
+    const bonusOrbes = jugador.inventario.orbeUsados || 0;
+    const maxMagia = maxMagiaBase + bonusOrbes;
+    
     // Inventario visual
     listaInventarioEl.innerHTML = `
         <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
