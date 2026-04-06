@@ -431,55 +431,6 @@ function revisarEstado() {
         generarNivel();
     }
 }
-
-// ===============================
-// ACCIONES JUGADOR
-// ===============================
-function curar() {
-    if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
-    jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
-    jugador.inventario.pocion--;
-    mensajeEl.textContent = "🧪 Usaste Poción";
-    actualizarUI();
-}
-
-function equiparArma() {
-    if (jugador.vida <= 0 || jugador.inventario.espada <= 0) return;
-    jugador.ataque += 5;
-    jugador.inventario.espada--;
-    mensajeEl.textContent = "🧪 Usaste 1 Espada";
-    actualizarUI();
-}
-
-function equiparArmadura() {
-    if (jugador.vida <= 0 || jugador.inventario.armadura <= 0) return;
-    jugador.defensa += 3;
-    jugador.inventario.armadura--;
-    mensajeEl.textContent = "🧪 Usaste 1 Armadura";
-    actualizarUI();
-}
-// ===============================
-// APRENDER MAGIA LIMITADA (CORREGIDA)
-// ===============================
-function aprenderMagia() {
-    if (jugador.vida <= 0) return;
-
-    // Cada 3 niveles se desbloquean hasta 2 puntos de magia
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
-
-    // Si todavía puedes aprender magia
-    if (jugador.magia < maxMagia) {
-        jugador.magia++;                   // Subir 1 punto
-        jugador.inventario.magia++;
-        const magiaRestante = maxMagia - jugador.magia;
-        mensajeEl.textContent = `✨ Aprendiste magia! Magia actual: ${jugador.magia} (faltan ${magiaRestante} para el límite del nivel)`;
-    } else {
-        mensajeEl.textContent = `⚠️ No puedes aumentar magia todavía (nivel ${jugador.nivel})`;
-    }
-
-    actualizarUI();
-    actualizarBarraMagia(maxMagia);
-}
 // ===============================
 // BARRA VISUAL DE MAGIA
 // ===============================
