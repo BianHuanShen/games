@@ -8,17 +8,17 @@
     <!-- CSS BASE -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/pj.css">
-    <link rel="stylesheet" href="css/barrammorpg.css">
+    <link rel="stylesheet" href="css/barrammorpg.css"> <!-- NUEVO -->
     <link rel="stylesheet" href="css/respo.css">
 </head>
 <body>
 
-<h1>Senda Épica</h1>
+<center><h1>Senda Épica</h1></center>
 
-<!-- 🔥 NUEVO LAYOUT PRINCIPAL -->
+<!-- 🔥 NUEVO LAYOUT (NO rompe JS) -->
 <div class="game-layout">
 
-    <!-- ACCIONES (IZQUIERDA) -->
+    <!-- ACCIONES -->
     <div id="acciones" class="caja">
         <h2>🎮 Acciones</h2>
         
@@ -34,12 +34,12 @@
         <button id="abrirInventarioBtn">🎒 Inventario</button>
     </div>
 
-    <!-- ESCENARIO (CENTRO) -->
+    <!-- ESCENARIO (igual ID = NO rompe nada) -->
     <div id="escenario">
         <div id="gameArea"></div>
     </div>
 
-    <!-- JUGADOR (DERECHA) -->
+    <!-- JUGADOR -->
     <div id="infoJugador" class="caja">
         <h2>🧙 Jugador</h2>
 
@@ -56,7 +56,7 @@
 
 </div>
 
-<!-- INVENTARIO -->
+<!-- INVENTARIO (SIN CAMBIOS) -->
 <div id="ventanaInventario" class="ventana">
     <div class="ventana-contenido">
         <span id="cerrarInventario" class="cerrar">&times;</span>
@@ -64,7 +64,8 @@
         <ul id="listaInventario"></ul>
     </div>
 </div>
-<!-- 🔥 BARRA MMORPG -->
+
+<!-- 🔥 NUEVA BARRA MMORPG (NO interfiere con nada existente) -->
 <div id="barraRPG">
 
     <!-- VIDA -->
@@ -79,7 +80,7 @@
         <div class="hud-fill magia" id="magiaBarra"></div>
     </div>
 
-    <!-- HABILIDADES -->
+    <!-- SKILLS (aún no conectadas, pero seguras) -->
     <div class="skills">
         <button id="skill1">⚔️</button>
         <button id="skill2">🔥</button>
@@ -88,8 +89,10 @@
     </div>
 
 </div>
+
 <p id="mensaje" class="mensaje"></p>
 
+<!-- JS (MISMO ORDEN = IMPORTANTE) -->
 <script src="js/ui.js"></script>
 <script src="js/esce.js"></script>
 <script src="js/items.js"></script>
