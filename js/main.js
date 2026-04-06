@@ -64,6 +64,7 @@ function bloquearBotones() {
     equiparArmaduraBtn.disabled = true;
     aprenderMagiaBtn.disabled = true;
 }
+/*
 // ===============================
 // DAR LOOT
 // ===============================
@@ -94,7 +95,7 @@ function darLoot(nivel, esBoss = false) {
         jugador.inventario.armadura += cantidad;
         return `🛡️ Armadura x${cantidad}`;
     }
-}
+}*/
 // ===============================
 // FUNCIONES UTILITARIAS
 // ===============================
