@@ -382,11 +382,11 @@ function ataqueEnemigos() {
 // IA ENEMIGOS (MOVIMIENTO)
 // ===============================
 (function iniciarMovimientoEnemigos() {
-    const velocidadBase = 0.3 * 0.9; // 10% más lento
+    const velocidadBase = 0.3;
     const rangoAtaque = 60;
     const aceleracion = 0.02; // suavizado de velocidad
-    const enemigosVelocidad = []; // velocidad actual de cada enemigo
-    const enemigosOscilacion = []; // oscilación aleatoria para cada enemigo
+    const enemigosVelocidad = [];
+    const enemigosOscilacion = [];
 
     function moverEnemigos() {
         const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
@@ -396,7 +396,7 @@ function ataqueEnemigos() {
             const enemigo = enemigos[i];
             if (!enemigo) return;
 
-            // Inicializar velocidad y oscilación si no existe
+            // Inicializar velocidad y oscilación si no existen
             if (!enemigosVelocidad[i]) enemigosVelocidad[i] = { vx: 0, vy: 0 };
             if (!enemigosOscilacion[i]) enemigosOscilacion[i] = Math.random() * Math.PI * 2;
 
@@ -406,7 +406,7 @@ function ataqueEnemigos() {
             const dy = jy - ey;
             const distancia = Math.sqrt(dx*dx + dy*dy);
 
-            // Velocidad objetivo según tipo
+            // Ajustar velocidad según tipo
             let velocidadObjetivo = velocidadBase;
             if (enemigo.ia === "agresivo") velocidadObjetivo *= 1.2;
             if (enemigo.ia === "defensivo") velocidadObjetivo *= 0.7;
@@ -417,16 +417,16 @@ function ataqueEnemigos() {
                 const dirX = dx / distancia;
                 const dirY = dy / distancia;
 
-                // Oscilación para curvas suaves (torpedeo)
-                enemigosOscilacion[i] += 0.05 + Math.random()*0.02; // pequeña variación cada frame
-                const curvaX = Math.sin(enemigosOscilacion[i]) * 0.5; // desviación horizontal
-                const curvaY = Math.cos(enemigosOscilacion[i]) * 0.5; // desviación vertical
+                // Oscilación para curvas suaves
+                enemigosOscilacion[i] += 0.05 + Math.random()*0.02;
+                const curvaX = Math.sin(enemigosOscilacion[i]) * 0.5;
+                const curvaY = Math.cos(enemigosOscilacion[i]) * 0.5;
 
                 // Velocidad deseada con curva
                 const targetVX = (dirX * velocidadObjetivo) + curvaX * 0.1;
                 const targetVY = (dirY * velocidadObjetivo) + curvaY * 0.1;
 
-                // Aceleración hacia la velocidad deseada
+                // Suavizado: aceleración gradual hacia la velocidad objetivo
                 enemigosVelocidad[i].vx += (targetVX - enemigosVelocidad[i].vx) * aceleracion;
                 enemigosVelocidad[i].vy += (targetVY - enemigosVelocidad[i].vy) * aceleracion;
 
