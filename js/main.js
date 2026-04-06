@@ -474,6 +474,10 @@ atacarBtn.addEventListener("click", atacar);
 curarBtn.addEventListener("click", curar);
 equiparArmaBtn.addEventListener("click", equiparArma);
 equiparArmaduraBtn.addEventListener("click", equiparArmadura);
+usarCristalBtn.addEventListener("click", usarCristal);
+usarOrbeBtn.addEventListener("click", usarOrbe);
+equiparEspadaLegendariaBtn.addEventListener("click", equiparEspadaLegendaria);
+equiparArmaduraEpicaBtn.addEventListener("click", equiparArmaduraEpica);
 aprenderMagiaBtn.addEventListener("click", aprenderMagia);
 
 abrirInventarioBtn.addEventListener("click", () => ventanaInventario.style.display = "block");
