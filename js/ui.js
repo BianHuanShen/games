@@ -111,19 +111,23 @@ function usarCristal() {
 function usarOrbe() {
     if (jugador.inventario.orbe <= 0) return;
 
-    // Inicializa el contador de Orbes usados si no existe
     if (!jugador.inventario.orbeUsados) jugador.inventario.orbeUsados = 0;
 
-    jugador.magia += 2;                  // Cada Orbe da +2 magia
-    jugador.inventario.orbe--;           
-    jugador.inventario.orbeUsados++;     // Suma al bonus de magia
+    jugador.inventario.orbe--;
+    jugador.inventario.orbeUsados++;
 
-    mensajeEl.textContent = `🔮 Usaste Orbe Arcano (+2 magia)`;
+    // Calcular nuevo límite
+    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
+    const bonusOrbes = jugador.inventario.orbeUsados * 2;
+    const maxMagia = maxMagiaBase + bonusOrbes;
+
+    // Subir magia hasta el nuevo límite
+    jugador.magia = Math.min(jugador.magia + 2, maxMagia);
+
+    mensajeEl.textContent = `🔮 Orbe usado (+2 magia)`;
+
     animarBoton(usarOrbeBtn);
     actualizarUI();
-
-    // Actualiza barra de magia considerando bonus de Orbes
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2 + jugador.inventario.orbeUsados;
     actualizarBarraMagia(maxMagia);
 }
 function equiparEspadaLegendaria() {
