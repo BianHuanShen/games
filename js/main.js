@@ -433,30 +433,6 @@ function revisarEstado() {
         generarNivel();
     }
 }
-// ===============================
-// ACTUALIZAR UI
-// ===============================
-function actualizarUI() {
-    vidaJugadorFill.style.width = `${Math.max(0, (jugador.vida / jugador.vidaMax) * 100)}%`;
-    ataqueJugadorEl.textContent = Math.floor(jugador.ataque);
-    defensaJugadorEl.textContent = Math.floor(jugador.defensa);
-    magiaJugadorEl.textContent = jugador.magia;
-    nivelJugadorEl.textContent = jugador.nivel;
-    puntajeEl.textContent = jugador.puntaje;
-
-    // Calcular máximo magia según nivel
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
-
-    listaInventarioEl.innerHTML = `
-        <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
-        <li>⚔️ Espadas: ${jugador.inventario.espada}</li>
-        <li>🛡️ Armaduras: ${jugador.inventario.armadura}</li>
-        <li>✨ Magia: ${jugador.magia} / ${maxMagia}</li>
-    `;
-
-    // Actualizar barra de magia visual
-    actualizarBarraMagia(maxMagia);
-}
 
 // ===============================
 // ACCIONES JUGADOR
