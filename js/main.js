@@ -328,19 +328,20 @@ function equiparArmadura() {
 }
 
 // ===============================
-// APRENDER MAGIA LIMITADA (VISUAL)
+// APRENDER MAGIA LIMITADA (CORREGIDA)
 // ===============================
 function aprenderMagia() {
     if (jugador.vida <= 0) return;
 
-    // Máximo magia permitida: 1-2 puntos cada 3 niveles
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2; // Cada 3 niveles -> +2 magia
-    const magiaRestante = maxMagia - jugador.magia;    // Puntos que puede aprender todavía
+    // Cada 3 niveles se desbloquean hasta 2 puntos de magia
+    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
 
-    if (magiaRestante > 0) {
-        jugador.magia++;
+    // Si todavía puedes aprender magia
+    if (jugador.magia < maxMagia) {
+        jugador.magia++;                   // Subir 1 punto
         jugador.inventario.magia++;
-        mensajeEl.textContent = `✨ Aprendiste magia! Magia actual: ${jugador.magia} (faltan ${magiaRestante - 1} para el límite del nivel)`;
+        const magiaRestante = maxMagia - jugador.magia;
+        mensajeEl.textContent = `✨ Aprendiste magia! Magia actual: ${jugador.magia} (faltan ${magiaRestante} para el límite del nivel)`;
     } else {
         mensajeEl.textContent = `⚠️ No puedes aumentar magia todavía (nivel ${jugador.nivel})`;
     }
@@ -348,13 +349,13 @@ function aprenderMagia() {
     actualizarUI();
     actualizarBarraMagia(maxMagia);
 }
+
 // ===============================
 // BARRA VISUAL DE MAGIA
 // ===============================
 function actualizarBarraMagia(maxMagia) {
     let barraMagia = document.getElementById("barraMagia");
-    
-    // Si la barra no existe, crearla
+
     if (!barraMagia) {
         barraMagia = document.createElement("div");
         barraMagia.id = "barraMagia";
