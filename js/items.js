@@ -14,90 +14,148 @@ function asegurarInventario() {
 
     jugador.magia = Number(jugador.magia) || 0;
 }
-function curar() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
 
-    jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
-    jugador.inventario.pocion--;
+// ===============================
+// APRENDER MAGIA
+// ===============================
+function aprenderMagia() {
+    if (jugador.vida <= 0) return;
 
-    mensajeEl.textContent = "🧪 Usaste Poción";
-    actualizarUI();
-}
-
-function equiparArma() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.espada <= 0) return;
-
-    jugador.ataque += 5;
-    jugador.inventario.espada--;
-
-    mensajeEl.textContent = "⚔️ Usaste 1 Espada (+5 ataque)";
-    actualizarUI();
-}
-
-function equiparArmadura() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.armadura <= 0) return;
-
-    jugador.defensa += 3;
-    jugador.inventario.armadura--;
-
-    mensajeEl.textContent = "🛡️ Usaste 1 Armadura (+3 defensa)";
-    actualizarUI();
-}
-function usarCristal() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.cristal <= 0) return;
-
-    const boost = 15 + Math.floor(jugador.nivel * 1.5);
-    jugador.ataque += boost;
-    jugador.inventario.cristal--;
-
-    mensajeEl.textContent = `💎 Cristal usado (+${boost} ataque)`;
-    actualizarUI();
-}
-
-function usarOrbe() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.orbe <= 0) return;
-
-    const maxMagia = Math.floor(jugador.nivel / 3) * 2;
+    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
+    const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
+    const maxMagia = maxMagiaBase + bonusOrbes;
 
     if (jugador.magia < maxMagia) {
-        const aumento = 3;
-        jugador.magia = Math.min(maxMagia, jugador.magia + aumento);
-        jugador.inventario.orbe--;
-
-        mensajeEl.textContent = `🔮 Orbe usado (+${aumento} magia)`;
+        jugador.magia++;
+        jugador.inventario.magia++;
+        const magiaRestante = maxMagia - jugador.magia;
+        mensajeEl.textContent = `✨ Magia: ${jugador.magia} (faltan ${magiaRestante})`;
     } else {
-        mensajeEl.textContent = "⚠️ Magia al máximo";
+        mensajeEl.textContent = `⚠️ Límite alcanzado`;
     }
 
     actualizarUI();
     actualizarBarraMagia(maxMagia);
 }
 
+// ===============================
+// ACCIONES BÁSICAS
+// ===============================
+function curar() {
+    if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
+    jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
+    jugador.inventario.pocion--;
+    mensajeEl.textContent = "🧪 Usaste Poción";
+    animarBoton(curarBtn);
+    actualizarUI();
+}
+
+function equiparArma() {
+    if (jugador.inventario.espada <= 0) return;
+    jugador.ataque += 5;
+    jugador.inventario.espada--;
+    mensajeEl.textContent = "⚔️ +5 ataque";
+    animarBoton(equiparArmaBtn);
+    actualizarUI();
+}
+
+function equiparArmadura() {
+    if (jugador.inventario.armadura <= 0) return;
+    jugador.defensa += 3;
+    jugador.inventario.armadura--;
+    mensajeEl.textContent = "🛡️ +3 defensa";
+    animarBoton(equiparArmaduraBtn);
+    actualizarUI();
+}
+
+// ===============================
+// ITEMS
+// ===============================
+function usarCristal() {
+    if (jugador.inventario.cristal <= 0) return;
+    jugador.ataque += 15;
+    jugador.inventario.cristal--;
+    mensajeEl.textContent = "💎 +15 ataque";
+    animarBoton(usarCristalBtn);
+    actualizarUI();
+}
+
+// ===============================
+// 🔮 ORBE FIX DEFINITIVO
+// ===============================
+function usarOrbe() {
+    if (jugador.inventario.orbe <= 0) return;
+
+    if (!jugador.inventario.orbeUsados) jugador.inventario.orbeUsados = 0;
+
+    jugador.inventario.orbe--;
+    jugador.inventario.orbeUsados++;
+
+    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
+    const bonusOrbes = jugador.inventario.orbeUsados * 2;
+    const maxMagia = maxMagiaBase + bonusOrbes;
+
+    // 🔥 subir magia REAL
+    jugador.magia += 2;
+
+    // 🔥 evitar overflow
+    if (jugador.magia > maxMagia) {
+        jugador.magia = maxMagia;
+    }
+
+    mensajeEl.textContent = "🔮 +2 magia";
+
+    animarBoton(usarOrbeBtn);
+    actualizarUI();
+    actualizarBarraMagia(maxMagia);
+}
+
 function equiparEspadaLegendaria() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.espadaLegendaria <= 0) return;
-
-    const boost = 25 + jugador.nivel * 2;
-    jugador.ataque += boost;
+    if (jugador.inventario.espadaLegendaria <= 0) return;
+    jugador.ataque += 25;
     jugador.inventario.espadaLegendaria--;
-
-    mensajeEl.textContent = `⚔️ Espada Legendaria (+${boost} ataque)`;
+    mensajeEl.textContent = "⚔️ +25 ataque";
+    animarBoton(equiparEspadaLegendariaBtn);
     actualizarUI();
 }
 
 function equiparArmaduraEpica() {
-    asegurarInventario();
-    if (jugador.vida <= 0 || jugador.inventario.armaduraEpica <= 0) return;
-
-    const boost = 15 + jugador.nivel * 2;
-    jugador.defensa += boost;
+    if (jugador.inventario.armaduraEpica <= 0) return;
+    jugador.defensa += 15;
     jugador.inventario.armaduraEpica--;
-
-    mensajeEl.textContent = `🛡️ Armadura Épica (+${boost} defensa)`;
+    mensajeEl.textContent = "🛡️ +15 defensa";
+    animarBoton(equiparArmaduraEpicaBtn);
     actualizarUI();
+}
+
+// ===============================
+// ANIMACIÓN
+// ===============================
+function animarBoton(btn) {
+    btn.classList.add("usar-item-anim");
+    setTimeout(() => btn.classList.remove("usar-item-anim"), 300);
+}
+
+// ===============================
+// BARRA DE MAGIA
+// ===============================
+function actualizarBarraMagia(maxMagia) {
+    let barraMagia = document.getElementById("barraMagia");
+
+    if (!barraMagia) {
+        barraMagia = document.createElement("div");
+        barraMagia.id = "barraMagia";
+
+        const fill = document.createElement("div");
+        fill.id = "barraMagiaFill";
+        fill.style.height = "100%";
+        fill.style.width = "0%";
+        fill.style.background = "#00f";
+
+        barraMagia.appendChild(fill);
+        document.getElementById("gameArea").appendChild(barraMagia);
+    }
+
+    const fill = document.getElementById("barraMagiaFill");
+    fill.style.width = maxMagia > 0 ? (jugador.magia / maxMagia) * 100 + "%" : "0%";
 }
