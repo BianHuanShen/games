@@ -5,55 +5,43 @@ function asegurarInventario() {
     const items = [
         // Básicos
         "pocion", "espada", "armadura",
-
         // Especiales
         "cristal", "orbe",
-
         // Magia
         "magia", "orbeUsados",
-
         // Legendarios / épicos
         "espadaLegendaria",
         "armaduraEpica",
         "armaduraLegendaria",
-
         // Equipamiento completo
         "casco",
         "camisa",
         "guantes",
         "pantalon",
         "botas",
-
         // Variantes épicas
         "botasEpicas",
         "cascoEpico",
-
         // Armas extra
         "daga",
         "arco"
     ];
-
     items.forEach(item => {
         jugador.inventario[item] = Number(jugador.inventario[item]) || 0;
     });
-
     // Evitar NaN en magia
     jugador.magia = Number(jugador.magia) || 0;
     jugador.inventario.orbeUsados = Number(jugador.inventario.orbeUsados) || 0;
 }
-
 // ===============================
 // APRENDER MAGIA
 // ===============================
 function aprenderMagia() {
     if (jugador.vida <= 0) return;
-
     asegurarInventario();
-
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
     const bonusOrbes = jugador.inventario.orbeUsados * 2;
     const maxMagia = maxMagiaBase + bonusOrbes;
-
     if (jugador.magia < maxMagia) {
         jugador.magia++;
         jugador.inventario.magia++;
@@ -62,25 +50,20 @@ function aprenderMagia() {
     } else {
         mensajeEl.textContent = `⚠️ Límite alcanzado`;
     }
-
     actualizarUI();
     actualizarBarraMagia(maxMagia);
 }
-
 // ===============================
 // ACCIONES BÁSICAS
 // ===============================
 function curar() {
     if (jugador.vida <= 0 || jugador.inventario.pocion <= 0) return;
-
     jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 25);
     jugador.inventario.pocion--;
     mensajeEl.textContent = "🧪 Usaste Poción";
-
     animarBoton(curarBtn);
     actualizarUI();
 }
-
 function equiparArma() {
     if (jugador.inventario.espada <= 0) return;
 
@@ -242,6 +225,58 @@ function equiparBotas() {
 
     actualizarUI();
 }
+function equiparCascoEpico() {
+    asegurarInventario();
+
+    if (jugador.inventario.cascoEpico <= 0) return;
+
+    jugador.defensa += 7;
+    jugador.vidaMax += 12;
+    jugador.inventario.cascoEpico--;
+
+    mensajeEl.textContent = `⛑️ Casco épico +7 defensa, +12 vida)`;
+
+    actualizarUI();
+}
+function equiparCamisaEpica() {
+    asegurarInventario();
+
+    if (jugador.inventario.camisa <= 0) return;
+       
+    jugador.defensa += 7;
+    jugador.vidaMax += 10;
+    jugador.inventario.camisa--;
+
+    mensajeEl.textContent = `👕 Camisa equipada +7 defensa, +10 vida)`;
+
+    actualizarUI();
+}
+function equiparGuantesEpicos() {
+    asegurarInventario();
+
+    if (jugador.inventario.cascoEpico <= 0) return;
+
+    jugador.defensa += 7;
+    jugador.vidaMax += 12;
+    jugador.inventario.cascoEpico--;
+
+    mensajeEl.textContent = `⛑️ Casco épico +7 defensa, +12 vida)`;
+
+    actualizarUI();
+}
+function equiparPantalonEpico() {
+    asegurarInventario();
+
+    if (jugador.inventario.camisa <= 0) return;
+       
+    jugador.defensa += 7;
+    jugador.vidaMax += 10;
+    jugador.inventario.camisa--;
+
+    mensajeEl.textContent = `👕 Camisa equipada +7 defensa, +10 vida)`;
+
+    actualizarUI();
+}
 function equiparBotasEpicas() {
     asegurarInventario();
 
@@ -253,19 +288,6 @@ function equiparBotasEpicas() {
     jugador.inventario.botasEpicas--;
 
     mensajeEl.textContent = `👢 Botas épicas +9 defensa, +10 vida)`;
-
-    actualizarUI();
-}
-function equiparCascoEpico() {
-    asegurarInventario();
-
-    if (jugador.inventario.cascoEpico <= 0) return;
-
-    jugador.defensa += 7;
-    jugador.vidaMax += 12;
-    jugador.inventario.cascoEpico--;
-
-    mensajeEl.textContent = `⛑️ Casco épico +7 defensa, +12 vida)`;
 
     actualizarUI();
 }
