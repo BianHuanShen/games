@@ -1,8 +1,8 @@
 // ===============================
-// MINI RPG - CORE SYSTEM v2.1
-// Sistema fusionado: Código base + Enemigos
+// MINI RPG PRO - CORE SYSTEM v2.1
+// Sistema fusionado: Código base + Enemigos Mejorados
 // ===============================
-// ===== CONFIGURACIÓN DE ENEMIGOS =====
+// ===== CONFIGURACIÓN DE ENEMIGOS (NUEVO) =====
 const TIPOS_ENEMIGO = {
     MAGO: { clase: 'mago', color: '#9b59b6', statMod: { ataque: 1.3, defensa: 0.7, velocidad: 0.8 } },
     GUERRERO: { clase: 'guerrero', color: '#e74c3c', statMod: { ataque: 1.2, defensa: 1.3, velocidad: 0.9 } },
@@ -286,160 +286,137 @@ function getIconoClase(clase) {
 // ===============================
 // 👾 CREACIÓN DE ENEMIGOS PRO MAX
 // ===============================
+// ===== CREAR ENEMIGO MEJORADO =====
 function crearEnemigo(nivel, jefe = false) {
+    // NUEVO: Sistema de clases
     const claseInfo = getClaseAleatoria();
-    const ia = tipoIA();
     const factor = 1 + (nivel * 0.15);
-    let vida = 30 + (nivel * 6 * factor);
+    const variante = getVarianteEnemigo(nivel);
+    // Stats base escalados
+    let vida = 30 + (nivel * 6 * factor) + (variante * 5);
     let ataque = 5 + (nivel * 1.2 * factor);
     let defensa = 2 + (nivel * 0.7 * factor);
-    let magia = Math.floor(nivel / 3);
-    // ===== MODIFICADOR POR CLASE =====
-    vida *= claseInfo.statMod.defensa;
+    let velocidad = 0.5;
+    // Aplicar modificadores de clase
     ataque *= claseInfo.statMod.ataque;
     defensa *= claseInfo.statMod.defensa;
-    // ===== IA =====
-    switch (ia) {
-        case "agresivo":
-            ataque *= 1.3;
-            defensa *= 0.9;
-            break;
-        case "defensivo":
-            defensa *= 1.4;
-            ataque *= 0.8;
-            break;
-        case "mago":
-            magia *= 2;
-            ataque *= 0.9;
-            break;
-    }
-    // ===== JEFE =====
+    velocidad *= claseInfo.statMod.velocidad;
+    // Multiplicador de jefe
     if (jefe) {
-        const bossFactor = 2 + (nivel * 0.05);
+        const bossFactor = 2.5 + (nivel * 0.08);
         vida *= bossFactor;
-        ataque *= (1.3 + nivel * 0.02);
-        defensa *= (1.2 + nivel * 0.02);
-        magia *= 1.5;
+        ataque *= 1.4;
+        defensa *= 1.3;
+        velocidad *= 0.8;
     }
     return {
         vida: Math.floor(vida),
         vidaMax: Math.floor(vida),
         ataque: Math.floor(ataque),
         defensa: Math.floor(defensa),
-        magia: Math.floor(magia),
-        jefe,
-        ia,
-        claseInfo // 🔥 CLAVE para imágenes y estilo
-        tipo: claseInfo.clase,
-        velocidad: claseInfo.statMod.velocidad || 0.5
+        velocidad: velocidad,
+        jefe: jefe,
+        claseInfo: claseInfo,
+        variante: variante,
+        nombre: generarNombreEnemigo(claseInfo.clase, variante, jefe),
+        // Mantener compatibilidad con código antiguo
+        ia: jefe ? 'jefe' : claseInfo.clase
     };
 }
-// ===============================
-// 🖼️ RUTA ENEMIGO (SISTEMA PRO)
-// ===============================
-function getRutaEnemigo(enemigo) {
-    const clase = enemigo.claseInfo.clase;
-    const variante = getVarianteEnemigo(nivelActual);
-    if (enemigo.jefe) {
-        const rutaJefe = RUTAS_IMAGENES.jefes[clase]?.[variante - 1];
-        if (rutaJefe) return rutaJefe;
-        return RUTAS_IMAGENES.fallback.boss;
-    } else {
-        const rutaNormal = RUTAS_IMAGENES.enemigos[clase]?.[variante - 1];
-        if (rutaNormal) return rutaNormal;
-        return RUTAS_IMAGENES.fallback[clase] || RUTAS_IMAGENES.fallback.guerrero;
-    }
+/ NUEVO: Generador de nombres épicos
+function generarNombreEnemigo(clase, variante, jefe) {
+    const prefijos = ['Oscuro', 'Infernal', 'Celestial', 'Venenoso', 'Cristal', 'Sombrío', 'Eterno', 'Salvaje', ' ancestral', 'Legendario'];
+    const prefijo = prefijos[variante - 1] || prefijos[0];
+    const titulo = jefe ? '★ JEFE ★' : '';
+    const claseCapitalizada = clase.charAt(0).toUpperCase() + clase.slice(1);
+    return `${titulo} ${prefijo} ${claseCapitalizada}`;
 }
 // ===============================
-// 🎯 DIBUJAR ENEMIGOS PRO MAX
+// 🎯 DIBUJAR ENEMIGOS
 // ===============================
 function dibujarEnemigos() {
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
     enemigos.forEach((e, index) => {
         const div = document.createElement("div");
         div.classList.add("enemigo");
-        // ===== DATA =====
         div.dataset.index = index;
         div.dataset.jefe = e.jefe;
-        div.dataset.clase = e.claseInfo.clase;
-        div.title = `${e.claseInfo.clase} - ${e.ia}`;
-        // ===== POSICIÓN =====
+        div.dataset.ia = e.ia;
+        div.dataset.clase = e.claseInfo.clase; // NUEVO
+        div.title = e.nombre; // NUEVO
+        // NUEVO: Posición distribuida en grid
+        const offsetX = 200 + (index % 4) * 100;
+        const offsetY = 100 + Math.floor(index / 4) * 120 + (Math.random() * 40);
         div.style.position = "absolute";
-        div.style.left = `${200 + index * 90}px`;
-        div.style.top = `${250 + Math.random() * 120}px`;
-        // ===== IMAGEN =====
+        div.style.left = `${Math.min(offsetX, gameArea.offsetWidth - 80)}px`;
+        div.style.top = `${Math.min(offsetY, gameArea.offsetHeight - 80)}px`;
         const img = getRutaEnemigo(e);
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
         div.style.backgroundRepeat = "no-repeat";
         div.style.backgroundPosition = "center";
-        // ===== COLOR POR CLASE =====
-        div.style.filter = `drop-shadow(0 0 10px ${e.claseInfo.color})`;
-        // ===== EFECTO IA =====
-        switch (e.ia) {
-            case "agresivo":
-                div.style.transform = "scale(1.1)";
-                break;
-            case "defensivo":
-                div.style.filter += " brightness(0.8)";
-                break;
-            case "mago":
-                div.style.filter += " hue-rotate(250deg)";
-                break;
-        }
-        // ===== JEFE =====
+        div.classList.add("animado");
+        // NUEVO: Borde de color según clase
+        div.style.border = `2px solid ${e.claseInfo.color}`;
+        div.style.borderRadius = "8px";
+        // Tamaño según tipo
         if (e.jefe) {
-            div.style.width = "110px";
-            div.style.height = "110px";
-            div.style.boxShadow = "0 0 30px red";
-            div.style.animation = "caminar 0.8s steps(4) infinite";
+            div.style.width = "100px";
+            div.style.height = "100px";
+            div.classList.add("jefe");
+            div.style.boxShadow = `0 0 20px ${e.claseInfo.color}`; // NUEVO
         } else {
-            div.style.width = "70px";
-            div.style.height = "70px";
+            div.style.width = "64px";
+            div.style.height = "64px";
         }
-        // ===============================
-        // ❤️ BARRA DE VIDA PRO
-        // ===============================
-        const barra = document.createElement("div");
-        barra.style.cssText = `
-            position:absolute;
-            bottom:-10px;
-            left:0;
-            width:100%;
-            height:6px;
-            background:rgba(0,0,0,0.5);
-            border-radius:3px;
+        // NUEVO: Indicador de clase (icono)
+        const claseIndicador = document.createElement("div");
+        claseIndicador.style.cssText = `
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: ${e.claseInfo.color};
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #fff;
         `;
+        claseIndicador.textContent = getIconoClase(e.claseInfo.clase);
+        div.appendChild(claseIndicador);
+        // Barra de vida mejorada
+        const barra = document.createElement("div");
+        barra.classList.add("barra-vida-enemigo");
         const fill = document.createElement("div");
-        const porcentaje = (e.vida / e.vidaMax) * 100;
-        fill.style.width = `${porcentaje}%`;
-        fill.style.height = "100%";
-        fill.style.borderRadius = "3px";
-        fill.style.background =
-            porcentaje > 60 ? "#2ecc71" :
-            porcentaje > 30 ? "#f1c40f" :
-            "#e74c3c";
+        fill.classList.add("barra-vida-enemigo-fill");
+        if (e.jefe) fill.classList.add("jefe");
+        fill.style.width = "100%";
+        // NUEVO: Color de barra según clase
+        fill.style.background = e.jefe ?
+            `linear-gradient(90deg, ${e.claseInfo.color}, #000)` :
+            e.claseInfo.color;
         barra.appendChild(fill);
         div.appendChild(barra);
-        // ===============================
-        // ⚡ LABEL CLASE
-        // ===============================
-        const label = document.createElement("div");
-        label.textContent = e.claseInfo.clase.toUpperCase();
-        label.style.cssText = `
-            position:absolute;
-            top:-15px;
-            left:0;
-            font-size:10px;
-            color:white;
-            text-shadow:0 0 5px black;
+        // NUEVO: Nombre del enemigo
+        const nombreTag = document.createElement("div");
+        nombreTag.textContent = e.nombre;
+        nombreTag.style.cssText = `
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            white-space: nowrap;
+            color: #fff;
+            text-shadow: 0 0 3px #000;
+            background: rgba(0,0,0,0.7);
+            padding: 2px 6px;
+            border-radius: 4px;
         `;
-        div.appendChild(label);
-        // ===============================
-        // 🎯 CLICK ATAQUE
-        // ===============================
-        div.addEventListener("click", () => atacarEnemigo?.(index));
-
+        div.appendChild(nombreTag);
         gameArea.appendChild(div);
     });
 }
