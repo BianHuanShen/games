@@ -83,7 +83,7 @@ function actualizarUI() {
     if (equiparGuantesEpicosBtn) equiparGuantesEpicosBtn.style.display = jugador.inventario.guantesEpicos > 0 ? "block" : "none";
     if (equiparPantalonEpicoBtn) equiparPantalonEpicoBtn.style.display jugador.inventario.pantalonEpico > 0 ? "block" : "none"; 
     if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.style.display = jugador.inventario.botasEpicas > 0 ? "block" : "none";
-    // Actualizar barra MMORPG
+        // Actualizar barra MMORPG
     actualizarBarraMMORPG(porcentajeVida, maxMagia);
 }
 
