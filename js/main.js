@@ -1,7 +1,38 @@
 // ===============================
-// MINI RPG PRO + ULTRA FINAL FIXED
+// MINI RPG PRO - CORE SYSTEM v2.1
+// Sistema fusionado: Código base + Enemigos Mejorados
 // ===============================
 
+// ===== CONFIGURACIÓN DE ENEMIGOS (NUEVO) =====
+const TIPOS_ENEMIGO = {
+    MAGO: { clase: 'mago', color: '#9b59b6', statMod: { ataque: 1.3, defensa: 0.7, velocidad: 0.8 } },
+    GUERRERO: { clase: 'guerrero', color: '#e74c3c', statMod: { ataque: 1.2, defensa: 1.3, velocidad: 0.9 } },
+    ARQUERO: { clase: 'arquero', color: '#27ae60', statMod: { ataque: 1.4, defensa: 0.6, velocidad: 1.3 } },
+    ESQUELETO: { clase: 'esqueleto', color: '#95a5a6', statMod: { ataque: 1.0, defensa: 0.8, velocidad: 1.0 } }
+};
+
+// Rutas de imágenes organizadas (10 tipos por clase)
+const RUTAS_IMAGENES = {
+    enemigos: {
+        mago: Array.from({ length: 10 }, (_, i) => `img/mago${i + 1}.jpeg`),
+        guerrero: Array.from({ length: 10 }, (_, i) => `img/guerrero${i + 1}.jpeg`),
+        arquero: Array.from({ length: 10 }, (_, i) => `img/arquero${i + 1}.jpeg`),
+        esqueleto: Array.from({ length: 10 }, (_, i) => `img/esqueleto${i + 1}.jpeg`)
+    },
+    jefes: {
+        mago: Array.from({ length: 10 }, (_, i) => `img/boss_mago${i + 1}.jpeg`),
+        guerrero: Array.from({ length: 10 }, (_, i) => `img/boss_guerrero${i + 1}.jpeg`),
+        arquero: Array.from({ length: 10 }, (_, i) => `img/boss_arquero${i + 1}.jpeg`),
+        esqueleto: Array.from({ length: 10 }, (_, i) => `img/boss_esqueleto${i + 1}.jpeg`)
+    },
+    fallback: {
+        mago: 'img/mago.jpeg',
+        guerrero: 'img/enemigo1.jpeg',
+        arquero: 'img/enemigo2.jpeg',
+        esqueleto: 'img/enemigo3.jpeg',
+        boss: 'img/boss.jpeg'
+    }
+};
 // ===== JUGADOR =====
 const jugador = {
     vida: 100,
@@ -11,18 +42,40 @@ const jugador = {
     magia: 0,
     nivel: 1,
     puntaje: 0,
-    inventario: { pocion: 30, espada: 1, armadura: 1, magia: 0 }
+    inventario: {
+        pocion: 30,
+         // ===== COMUNES =====
+        espada: 1,
+        armadura: 1,
+        casco: 0,
+        camisa: 0,      // 👈 NUEVO
+        botas: 0,
+        pantalon: 0,
+         // ===== RAROS =====
+        cristal: 0,
+        orbe: 0,
+        orbeUsados: 0,
+        arco: 0,
+        daga: 0,
+        guantes: 0,
+        // ===== ÉPICOS =====
+        armaduraEpica: 0,
+        botasEpicas: 0,
+        cascoEpico: 0,
+        // ===== LEGENDARIOS =====
+        espadaLegendaria: 0,
+        armaduraLegendaria: 0,
+    }
 };
-
 // ===== ESTADO =====
 let enemigos = [];
 let nivelActual = 1;
-
+let juegoActivo = true;
+let enemigosDerrotadosNivel = 0;
 // ===== SONIDOS =====
 const sonidoGolpe = new Audio("sonidos/golpe.mp3");
 const sonidoCritico = new Audio("sonidos/critico.mp3");
 const sonidoLoot = new Audio("sonidos/loot.mp3");
-
 // ===== DOM =====
 const gameArea = document.getElementById("gameArea");
 const vidaJugadorFill = document.getElementById("vidaJugadorFill");
