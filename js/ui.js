@@ -1,6 +1,3 @@
-// ===============================
-// UI SYSTEM - COMPLETO Y ESTABLE
-// ===============================
 function actualizarUI() {
     // Validar elementos
     if (!vidaJugadorFill || !ataqueJugadorEl || !mensajeEl) return;
@@ -24,15 +21,16 @@ function actualizarUI() {
     magiaJugadorEl.textContent = jugador.magia;
     nivelJugadorEl.textContent = jugador.nivel;
     puntajeEl.textContent = jugador.puntaje;
-    // ===== MAGIA =====
+
+    // Calcular magia máxima
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
     const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
     const maxMagia = maxMagiaBase + bonusOrbes;
        // ===== INVENTARIO COMPLETO =====
     if (listaInventarioEl) {
-        listaInventarioEl.innerHTML = `
+    listaInventarioEl.innerHTML = `
         <li><b>🟢 Posiones</b></li>
-            <li>🧪 Pociones: ${jugador.inventario.pocion || 0}</li>
+            <li>🧪 Pociones: ${jugador.inventario.pocion}</li>
 
             <li><b>🟢 Comunes</b></li>
             <li>⚔️ Espadas: ${jugador.inventario.espada}</li>
@@ -61,11 +59,9 @@ function actualizarUI() {
             <li>⚔️ Espada Legendaria: ${jugador.inventario.espadaLegendaria}</li>
             <li>🛡️ Armadura Legendaria: ${jugador.inventario.armaduraLegendaria}</li>
 
-            <li><b>✨ Magia:</b> ${jugador.magia} / ${maxMagia} 
-                ${bonusOrbes > 0 ? `(+${bonusOrbes} bonus)` : ""}
-            </li>
-        `;
-    }
+                 <li>✨ Magia: ${jugador.magia} / ${maxMagia} ${bonusOrbes > 0 ? `(+${bonusOrbes} Orbes)` : ""}</li>
+    `;
+}
 
     // 🔹 Mostrar u ocultar botones de items raros
     if (curarBtn) curarBtn.style.display = jugador.inventario.pocion > 0 ? "block" : "none";
