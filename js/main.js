@@ -184,7 +184,7 @@ function bloquearBotones() {
     aprenderMagiaBtn.disabled = true;
 }
 // ===============================
-// FUNCIONES UTILITARIAS PRO
+// FUNCIONES UTILITARIAS
 // ===============================
 // 🔥 CRÍTICO ESCALABLE
 function esCritico() {
@@ -192,19 +192,45 @@ function esCritico() {
     const bonus = jugador ? jugador.nivel * 0.005 : 0;
     return Math.random() < (base + bonus);
 }
-// 🧠 IA DINÁMICA
-function tipoIA() {
-    const tipos = ["agresivo", "defensivo", "mago", "equilibrado"];
-    return tipos[Math.floor(Math.random() * tipos.length)];
-}
 // 🎭 CLASE ALEATORIA (USA TIPOS_ENEMIGO)
 function getClaseAleatoria() {
     const claves = Object.keys(TIPOS_ENEMIGO);
     return TIPOS_ENEMIGO[claves[Math.floor(Math.random() * claves.length)]];
 }
+// NUEVO: Calcular variante según nivel (1-10)
+function getVarianteEnemigo(nivel) {
+    return Math.min(Math.ceil(nivel / 2), 10);
+}
+// 🧠 IA DINÁMICA
+function tipoIA() {
+    const tipos = ["agresivo", "defensivo", "mago", "equilibrado"];
+    return tipos[Math.floor(Math.random() * tipos.length)];
+}
 // 📈 VARIANTE SEGÚN NIVEL (1-10)
 function getVarianteEnemigo(nivel) {
     return Math.min(Math.ceil(nivel / 2), 10);
+}
+// NUEVO: Sistema de rutas mejorado
+function getRutaEnemigo(enemigo) {
+    const clase = enemigo.claseInfo.clase;
+    const variante = getVarianteEnemigo(nivelActual);
+    if (enemigo.jefe) {
+        // Intentar jefe específico primero
+        const rutaJefe = RUTAS_IMAGENES.jefes[clase]?.[variante - 1];
+        if (rutaJefe) return rutaJefe;
+        // Fallback a boss genérico
+        return RUTAS_IMAGENES.fallback.boss;
+    } else {
+        // Enemigo normal
+        const rutaNormal = RUTAS_IMAGENES.enemigos[clase]?.[variante - 1];
+        if (rutaNormal) return rutaNormal;
+        // Fallback por clase
+        return RUTAS_IMAGENES.fallback[clase] || RUTAS_IMAGENES.fallback.guerrero;
+    }
+}
+function getIconoClase(clase) {
+    const iconos = { mago: '🔮', guerrero: '⚔️', arquero: '🏹', esqueleto: '💀' };
+    return iconos[clase] || '👹';
 }
 // ===============================
 // 👾 CREACIÓN DE ENEMIGOS PRO MAX
