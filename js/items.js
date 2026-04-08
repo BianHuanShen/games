@@ -18,7 +18,7 @@ function asegurarInventario() {
 }
 
 // ===============================
-// APRENDER MAGIA FIX
+// APRENDER MAGIA
 // ===============================
 function aprenderMagia() {
     if (jugador.vida <= 0) return;
@@ -94,7 +94,7 @@ function usarCristal() {
 }
 
 // ===============================
-// 🔮 ORBE FIX DEFINITIVO
+// 🔮 ORBE
 // ===============================
 function usarOrbe() {
     asegurarInventario();
@@ -117,7 +117,6 @@ function usarOrbe() {
     actualizarUI();
     actualizarBarraMagia(maxMagia);
 }
-
 function equiparEspadaLegendaria() {
     asegurarInventario();
     if (jugador.inventario.espadaLegendaria <= 0) return;
@@ -129,15 +128,143 @@ function equiparEspadaLegendaria() {
     animarBoton(equiparEspadaLegendariaBtn);
     actualizarUI();
 }
-
 function equiparArmaduraEpica() {
     asegurarInventario();
     if (jugador.inventario.armaduraEpica <= 0) return;
 
-    jugador.defensa += 15;
+    jugador.defensa += 7;
     jugador.inventario.armaduraEpica--;
-    mensajeEl.textContent = "🛡️ +15 defensa";
+    mensajeEl.textContent = "🛡️ +7 defensa";
 
     animarBoton(equiparArmaduraEpicaBtn);
+    actualizarUI();
+}
+function equiparArmaduraLegendaria() {
+    asegurarInventario();
+    if (jugador.inventario.armaduraLegendaria <= 0) return;
+        
+    jugador.defensa += 15;
+    jugador.vidaMax += 25;
+    jugador.inventario.armaduraLegendaria--;
+
+    mensajeEl.textContent = `🛡️ Armadura LEGENDARIA +15 defensa, +25 vida)`;
+
+    actualizarUI();
+}
+function equiparCasco() {
+    asegurarInventario();
+
+    if (jugador.inventario.casco <= 0) return;
+
+    jugador.defensa += 5;
+    jugador.vidaMax += 3;
+    jugador.inventario.casco--;
+
+    mensajeEl.textContent = `⛑️ Casco +5 defensa, +3 vida)`;
+
+    actualizarUI();
+}
+function equiparCamisa() {
+    asegurarInventario();
+
+    if (jugador.inventario.camisa <= 0) return;
+       
+    jugador.defensa += 7;
+    jugador.vidaMax += 10;
+    jugador.inventario.camisa--;
+
+    mensajeEl.textContent = `👕 Camisa equipada +7 defensa, +10 vida)`;
+
+    actualizarUI();
+}
+function equiparGuantes() {
+    asegurarInventario();
+
+    if (jugador.inventario.guantes <= 0) return;
+      
+    jugador.ataque += 10;
+    jugador.magia += magia;
+    jugador.inventario.guantes--;
+
+    mensajeEl.textContent = `🧤 Guantes +10 ataque, +${magia} magia)`;
+
+    actualizarUI();
+}
+function equiparPantalon() {
+    asegurarInventario();
+
+    if (jugador.inventario.pantalon <= 0) return;
+    
+    jugador.defensa += 8;
+    jugador.vidaMax += 6;
+    jugador.inventario.pantalon--;
+
+    mensajeEl.textContent = `👖 Pantalón +8 defensa, +6 vida)`;
+
+    actualizarUI();
+}
+function equiparBotas() {
+    if (!juegoActivo) return;
+    asegurarInventario();
+
+    if (jugador.inventario.botas <= 0) return;
+
+    jugador.defensa += 6;
+    jugador.vidaMax += 2;
+    jugador.inventario.botas--;
+
+    mensajeEl.textContent = `👢 Botas +6 defensa, +2 vida)`;
+
+    actualizarUI();
+}
+function equiparBotasEpicas() {
+    asegurarInventario();
+
+    if (jugador.inventario.botasEpicas <= 0) return;
+
+
+    jugador.defensa += 9;
+    jugador.vidaMax += 10;
+    jugador.inventario.botasEpicas--;
+
+    mensajeEl.textContent = `👢 Botas épicas +9 defensa, +10 vida)`;
+
+    actualizarUI();
+}
+function equiparCascoEpico() {
+    asegurarInventario();
+
+    if (jugador.inventario.cascoEpico <= 0) return;
+
+    jugador.defensa += 7;
+    jugador.vidaMax += 12;
+    jugador.inventario.cascoEpico--;
+
+    mensajeEl.textContent = `⛑️ Casco épico +7 defensa, +12 vida)`;
+
+    actualizarUI();
+}
+function equiparDaga() {
+    asegurarInventario();
+
+    if (jugador.inventario.daga <= 0) return;
+
+    jugador.ataque += 15;
+    jugador.inventario.daga--;
+
+    mensajeEl.textContent = `🗡️ Daga +15 ataque)`;
+
+    actualizarUI();
+}
+function equiparArco() {
+    asegurarInventario();
+
+    if (jugador.inventario.daga <= 0) return;
+
+    jugador.ataque += 15;
+    jugador.inventario.daga--;
+
+    mensajeEl.textContent = `🗡️ Daga +15 ataque)`;
+
     actualizarUI();
 }
