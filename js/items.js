@@ -141,13 +141,3 @@ function equiparArmaduraEpica() {
     animarBoton(equiparArmaduraEpicaBtn);
     actualizarUI();
 }
-
-// ===============================
-// ANIMACIÓN BOTONES
-// ===============================
-function animarBoton(btn) {
-    if (!btn) return;
-
-    btn.classList.add("usar-item-anim");
-    setTimeout(() => btn.classList.remove("usar-item-anim"), 300);
-}
