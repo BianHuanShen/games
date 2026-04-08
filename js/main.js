@@ -189,8 +189,14 @@ if (equiparCascoEpicoBtn) equiparCascoEpicoBtn.addEventListener("click", () => {
 if (equiparArmaduraEpica) equiparArmaduraEpica.addEventListener("click", () => { );
         if (typeof equiparArmaduraEpica === 'function') equiparArmaduraEpica();
     });
-if (equiparpantalonEpicoBtn) equiparpantalonEpicoBtn.addEventListener("click", () => { );
-        if (typeof equiparpantalonEpico === 'function') equiparpantalonEpico();
+if (equiparCamisaEpicaBtn) equiparcamisaEpicaBtn.addEventListener("click", () => { );
+        if (typeof equiparcamisaEpica === 'function') equiparcamisaEpica();
+    });
+if (equiparGuantesEpicosBtn) equiGuantesEpicosBtn.addEventListener("click", () => { );
+        if (typeof equiparGuantesEpicos === 'function') equiparGuantesEpicos();
+    });
+if (equiparPantalonEpicoBtn) equiparPantalonEpicoBtn.addEventListener("click", () => { );
+        if (typeof equiparPantalonEpico === 'function') equiparPantalonEpico();
     });
 if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.addEventListener("click", () => { );
         if (typeof equiparBotasEpicas === 'function') equiparBotasEpicas();
