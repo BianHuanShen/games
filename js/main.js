@@ -114,9 +114,12 @@ const equiparBotasBtn = document.getElementById("equiparBotasBtn");
 const equiparArcoBtn = document.getElementById("equiparArcoBtn");
 const equiparDagaBtn = document.getElementById("equiparDagaBtn");
 // Épicos
-const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
-const equiparBotasEpicasBtn = document.getElementById("equiparBotasEpicasBtn");
 const equiparCascoEpicoBtn = document.getElementById("equiparCascoEpicoBtn");
+const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
+const equiparCamisaEpicaBtn = document.getElementById("equiparCamisaEpicaBtn");
+const equiparGuantesEpicosBtn = document.getElementById("equiparGuantesEpicosBtn");
+const equiparPantalonEpicoBtn = document.getElementById("equiparPantalonEpicoBtn");
+const equiparBotasEpicasBtn = document.getElementById("equiparBotasEpicasBtn");
 // Legendarios
 const equiparEspadaLegendariaBtn = document.getElementById("equiparEspadaLegendariaBtn");
 const equiparArmaduraLegendariaBtn = document.getElementById("equiparArmaduraLegendariaBtn");
@@ -135,25 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (aprenderMagiaBtn) aprenderMagiaBtn.addEventListener("click", () => {
         if (typeof aprenderMagia === 'function') aprenderMagia();
     });
-
-    if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", () => {
-        if (typeof equiparEspadaLegendaria === 'function') equiparEspadaLegendaria();
-    });
-    if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.addEventListener("click", () => {
-        if (typeof equiparArmaduraEpica === 'function') equiparArmaduraEpica();
-    });
-
-    // Inventario
-    if (abrirInventarioBtn) {
-        abrirInventarioBtn.addEventListener("click", () => {
-            if (ventanaInventario) ventanaInventario.style.display = "block";
-        });
-    }
-    if (cerrarInventario) {
-        cerrarInventario.addEventListener("click", () => {
-            if (ventanaInventario) ventanaInventario.style.display = "none";
-        });
-    }
 // ===============================
 // 🧪 CONSUMIBLES
 // ===============================
@@ -169,10 +153,9 @@ if (usarCristalBtn) usarCristalBtn.addEventListener("click", () => {
  if (equiparArmaBtn) equiparArmaBtn.addEventListener("click", () => {
         if (typeof equiparArma === 'function') equiparArma();
     });
-    if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", () => {
+if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", () => {
         if (typeof equiparArmadura === 'function') equiparArmadura();
     });
-    
 if (equiparCascoBtn) equiparCascoBtn.addEventListener("click", () => { );
         if (typeof equiparCasco === 'function') equiparCasco();
     });
@@ -224,16 +207,17 @@ if (equiparArmaduraLegendariaBtn) equiparArmaduraLegendariaBtn.addEventListener(
 // ===============================
 // 🎒 INVENTARIO UI
 // ===============================
-if (abrirInventarioBtn) {
-    abrirInventarioBtn.addEventListener("click", () => {
-        ventanaInventario.style.display = "block";
-    });
-}
-if (cerrarInventario) {
-    cerrarInventario.addEventListener("click", () => {
-        ventanaInventario.style.display = "none";
-    });
-}
+ // Inventario
+ if (abrirInventarioBtn) {
+     abrirInventarioBtn.addEventListener("click", () => {
+         if (ventanaInventario) ventanaInventario.style.display = "block";
+     });
+ }
+ if (cerrarInventario) {
+     cerrarInventario.addEventListener("click", () => {
+         if (ventanaInventario) ventanaInventario.style.display = "none";
+     });
+ }
 // ===============================
 // BLOQUEO TOTAL AL MORIR
 // ===============================
