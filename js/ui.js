@@ -121,7 +121,7 @@ function aprenderMagia() {
     actualizarUI();
     actualizarBarraMagia(maxMagia);
 }
-
+/*
 // ===============================
 // ACCIONES JUGADOR
 // ===============================
@@ -203,7 +203,7 @@ function equiparArmaduraEpica() {
     mensajeEl.textContent = "🛡️ Usaste Armadura Épica (+15 defensa)";
     animarBoton(equiparArmaduraEpicaBtn);
     actualizarUI();
-}
+}*/
    // ===== BARRAS =====
     actualizarBarraVida(porcentajeVida);
     actualizarBarraMagia(maxMagia);
