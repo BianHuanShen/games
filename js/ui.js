@@ -37,11 +37,11 @@ function actualizarUI() {
             <li><b>🟢 Comunes</b></li>
             <li>⚔️ Espadas: ${jugador.inventario.espada}</li>
             <li>🛡️ Armaduras: ${jugador.inventario.armadura}</li>
-            <li>⛑️ Cascos: ${jugador.inventario.casco}</li>
+            <li>⛑️ Casco: ${jugador.inventario.casco}</li>
             <li>👕 Camisas: ${jugador.inventario.camisa}</li>
             <li>🧤 Guantes: ${jugador.inventario.guantes}</li>
-            <li>👢 Botas: ${jugador.inventario.botas}</li>
             <li>👖 Pantalones: ${jugador.inventario.pantalon}</li>
+            <li>👢 Botas: ${jugador.inventario.botas}</li>
 
             <li><b>🔵 Raros</b></li>
             <li>💎 Cristales: ${jugador.inventario.cristal}</li>
@@ -50,9 +50,12 @@ function actualizarUI() {
             <li>🗡️ Dagas: ${jugador.inventario.daga}</li>
 
             <li><b>🟣 Épicos</b></li>
-            <li>🛡️ Armadura Épica: ${jugador.inventario.armaduraEpica}</li>
-            <li>👢 Botas Épicas: ${jugador.inventario.botasEpicas}</li>
             <li>⛑️ Casco Épico: ${jugador.inventario.cascoEpico}</li>
+            <li>🛡️ Armadura Épica: ${jugador.inventario.armaduraEpica}</li>
+            <li>👕 Camisa Épica: ${jugador.inventario.camisaEpica}</li>
+            <li>🧤 Guantes: ${jugador.inventario.guantesEpicos}</li>
+            <li>👖 Pantalones: ${jugador.inventario.pantalonEpico}</li>
+            <li>👢 Botas: ${jugador.inventario.botasEpicas}</li>
 
             <li><b>🟡 Legendarios</b></li>
             <li>⚔️ Espada Legendaria: ${jugador.inventario.espadaLegendaria}</li>
@@ -69,7 +72,6 @@ function actualizarUI() {
     if (usarCristalBtn) usarCristalBtn.style.display = jugador.inventario.cristal > 0 ? "block" : "none";
     if (usarOrbeBtn) usarOrbeBtn.style.display = jugador.inventario.orbe > 0 ? "block" : "none";
     if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.style.display = jugador.inventario.espadaLegendaria > 0 ? "block" : "none";
-    if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.style.display = jugador.inventario.armaduraEpica > 0 ? "block" : "none";
     if (equiparArmaBtn) equiparArmaBtn.style.display = jugador.inventario.espada > 0 ? "block" : "none";
     if (equiparArmaduraBtn) equiparArmaduraBtn.style.display = jugador.inventario.armadura > 0 ? "block" : "none";
     if (equiparCascoBtn) equiparCascoBtn.style.display = jugador.inventario.equiparCasco > 0 ? "block" : "none";
@@ -79,10 +81,12 @@ function actualizarUI() {
     if (equiparBotasBtn) equiparBotasBtn.style.display = jugador.inventario.botas > 0 ? "block" : "none";
     if (equiparArcoBtn) equiparArcoBtn.style.display = jugador.inventario.arco > 0 ? "block" : "none";
     if (equiparDagaBtn) equiparDagaBtn.style.display = jugador.inventario.daga > 0 ? "block" : "none";
-    if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.style.display = jugador.inventario.botasEpicas > 0 ? "block" : "none";
     if (equiparCascoEpicoBtn) equiparCascoEpicoBtn.style.display = jugador.inventario.cascoEpico > 0 ? "block" : "none"; 
-    if (equiparArmaduraLegendariaBtn) equiparArmaduraLegendariaBtn.style.display jugador.inventario.armaduraLegendaria > 0 ? "block" : "none"; 
-    
+    if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.style.display = jugador.inventario.armaduraEpica > 0 ? "block" : "none";
+    if (equiparCamisaEpicaBtn) equiparCamisaEpicaBtn.style.display jugador.inventario.camisaEpica > 0 ? "block" : "none"; 
+    if (equiparGuantesEpicosBtn) equiparGuantesEpicosBtn.style.display = jugador.inventario.guantesEpicos > 0 ? "block" : "none";
+    if (equiparPantalonEpicoBtn) equiparPantalonEpicoBtn.style.display jugador.inventario.pantalonEpico > 0 ? "block" : "none"; 
+    if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.style.display = jugador.inventario.botasEpicas > 0 ? "block" : "none";
     // Actualizar barra MMORPG
     actualizarBarraMMORPG(porcentajeVida, maxMagia);
 }
