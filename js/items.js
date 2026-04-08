@@ -3,9 +3,34 @@
 // ===============================
 function asegurarInventario() {
     const items = [
+        // Básicos
         "pocion", "espada", "armadura",
+
+        // Especiales
         "cristal", "orbe",
-        "espadaLegendaria", "armaduraEpica", "magia", "orbeUsados"
+
+        // Magia
+        "magia", "orbeUsados",
+
+        // Legendarios / épicos
+        "espadaLegendaria",
+        "armaduraEpica",
+        "armaduraLegendaria",
+
+        // Equipamiento completo
+        "casco",
+        "camisa",
+        "guantes",
+        "pantalon",
+        "botas",
+
+        // Variantes épicas
+        "botasEpicas",
+        "cascoEpico",
+
+        // Armas extra
+        "daga",
+        "arco"
     ];
 
     items.forEach(item => {
