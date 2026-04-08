@@ -2,7 +2,7 @@
 // MINI RPG - CORE SYSTEM v2.1
 // Sistema fusionado: Código base + Enemigos
 // ===============================
-// ===== CONFIGURACIÓN DE ENEMIGOS (NUEVO) =====
+// ===== CONFIGURACIÓN DE ENEMIGOS =====
 const TIPOS_ENEMIGO = {
     MAGO: { clase: 'mago', color: '#9b59b6', statMod: { ataque: 1.3, defensa: 0.7, velocidad: 0.8 } },
     GUERRERO: { clase: 'guerrero', color: '#e74c3c', statMod: { ataque: 1.2, defensa: 1.3, velocidad: 0.9 } },
@@ -106,7 +106,7 @@ const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
 const equiparArmaBtn = document.getElementById("equiparArmaBtn");
 const equiparArmaduraBtn = document.getElementById("equiparArmaduraBtn");
 const equiparCascoBtn = document.getElementById("equiparCascoBtn");
-const equiparCamisaBtn = document.getElementById("equiparCamisaBtn"); // 👕
+const equiparCamisaBtn = document.getElementById("equiparCamisaBtn"); 
 const equiparGuantesBtn = document.getElementById("equiparGuantesBtn");
 const equiparPantalonBtn = document.getElementById("equiparPantalonBtn");
 const equiparBotasBtn = document.getElementById("equiparBotasBtn");
@@ -126,40 +126,101 @@ const abrirInventarioBtn = document.getElementById("abrirInventarioBtn");
 // EVENTOS
 // ===============================
 // 🔹 ACCIONES BÁSICAS
-if (atacarBtn) atacarBtn.addEventListener("click", atacar);
-if (curarBtn) curarBtn.addEventListener("click", curar);
-if (aprenderMagiaBtn) aprenderMagiaBtn.addEventListener("click", aprenderMagia);
+document.addEventListener("DOMContentLoaded", () => {
+    // Botones de acción
+    if (atacarBtn) atacarBtn.addEventListener("click", atacar);
+    if (curarBtn) curarBtn.addEventListener("click", () => {
+        if (typeof curar === 'function') curar();
+    });
+    if (aprenderMagiaBtn) aprenderMagiaBtn.addEventListener("click", () => {
+        if (typeof aprenderMagia === 'function') aprenderMagia();
+    });
+
+    if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", () => {
+        if (typeof equiparEspadaLegendaria === 'function') equiparEspadaLegendaria();
+    });
+    if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.addEventListener("click", () => {
+        if (typeof equiparArmaduraEpica === 'function') equiparArmaduraEpica();
+    });
+
+    // Inventario
+    if (abrirInventarioBtn) {
+        abrirInventarioBtn.addEventListener("click", () => {
+            if (ventanaInventario) ventanaInventario.style.display = "block";
+        });
+    }
+    if (cerrarInventario) {
+        cerrarInventario.addEventListener("click", () => {
+            if (ventanaInventario) ventanaInventario.style.display = "none";
+        });
+    }
 // ===============================
 // 🧪 CONSUMIBLES
 // ===============================
-if (usarCristalBtn) usarCristalBtn.addEventListener("click", usarCristal);
-if (usarOrbeBtn) usarOrbeBtn.addEventListener("click", usarOrbe);
+if (usarCristalBtn) usarCristalBtn.addEventListener("click", () => {
+        if (typeof usarCristal === 'function') usarCristal();
+    });
+    if (usarOrbeBtn) usarOrbeBtn.addEventListener("click", () => {
+        if (typeof usarOrbe === 'function') usarOrbe();
+    });
 // ===============================
 // ⚔️ EQUIPO COMÚN
 // ===============================
-if (equiparArmaBtn) equiparArmaBtn.addEventListener("click", equiparArma);
-if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", equiparArmadura);
-if (equiparCascoBtn) equiparCascoBtn.addEventListener("click", equiparCasco);
-if (equiparCamisaBtn) equiparCamisaBtn.addEventListener("click", equiparCamisa);
-if (equiparGuantesBtn) equiparGuantesBtn.addEventListener("click", equiparGuantes);
-if (equiparPantalonBtn) equiparPantalonBtn.addEventListener("click", equiparPantalon);
-if (equiparBotasBtn) equiparBotasBtn.addEventListener("click", equiparBotas);
+ if (equiparArmaBtn) equiparArmaBtn.addEventListener("click", () => {
+        if (typeof equiparArma === 'function') equiparArma();
+    });
+    if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", () => {
+        if (typeof equiparArmadura === 'function') equiparArmadura();
+    });
+    
+if (equiparCascoBtn) equiparCascoBtn.addEventListener("click", () => { );
+        if (typeof equiparCasco === 'function') equiparCasco();
+    });
+if (equiparCamisaBtn) equiparCamisaBtn.addEventListener("click", () => { );
+        if (typeof equiparCamisa === 'function') equiparCamisa();
+    });
+if (equiparGuantesBtn) equiparGuantesBtn.addEventListener("click", () => { );
+        if (typeof equiparGuantes === 'function') equiparGuantes();
+    });
+if (equiparPantalonBtn) equiparPantalonBtn.addEventListener("click", () => { );
+        if (typeof equiparPantalon === 'function') equiparPantalon();
+    });
+if (equiparBotasBtn) equiparBotasBtn.addEventListener("click", () => { );
+        if (typeof equiparBotas === 'function') equiparBotas();
+    });
 // ===============================
 // 🏹 EQUIPO RARO
 // ===============================
-if (equiparArcoBtn) equiparArcoBtn.addEventListener("click", equiparArco);
-if (equiparDagaBtn) equiparDagaBtn.addEventListener("click", equiparDaga);
+if (equiparDagaBtn) equiparDagaBtn.addEventListener("click", () => { );
+        if (typeof equiparDaga === 'function') equiparDaga();
+    });
+if (equiparArcoBtn) equiparArcoBtn.addEventListener("click", () => { );
+        if (typeof equiparArco === 'function') equiparArco();
+    });
 // ===============================
 // 🟣 EQUIPO ÉPICO
 // ===============================
-if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.addEventListener("click", equiparArmaduraEpica);
-if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.addEventListener("click", equiparBotasEpicas);
-if (equiparCascoEpicoBtn) equiparCascoEpicoBtn.addEventListener("click", equiparCascoEpico);
+if (equiparCascoEpicoBtn) equiparCascoEpicoBtn.addEventListener("click", () => { );
+        if (typeof equiparCascoEpico === 'function') equiparCascoEpico();
+    });
+if (equiparArmaduraEpica) equiparArmaduraEpica.addEventListener("click", () => { );
+        if (typeof equiparArmaduraEpica === 'function') equiparArmaduraEpica();
+    });
+if (equiparpantalonEpicoBtn) equiparpantalonEpicoBtn.addEventListener("click", () => { );
+        if (typeof equiparpantalonEpico === 'function') equiparpantalonEpico();
+    });
+if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.addEventListener("click", () => { );
+        if (typeof equiparBotasEpicas === 'function') equiparBotasEpicas();
+    });
 // ===============================
 // 🟡 EQUIPO LEGENDARIO
 // ===============================
-if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", equiparEspadaLegendaria);
-if (equiparArmaduraLegendariaBtn) equiparArmaduraLegendariaBtn.addEventListener("click", equiparArmaduraLegendaria);
+if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", () => { );
+        if (typeof equiparEspadaLegendaria === 'function') equiparEspadaLegendaria();
+    });
+if (equiparArmaduraLegendariaBtn) equiparArmaduraLegendariaBtn.addEventListener("click", () => { );
+        if (typeof equiparArmaduraLegendaria === 'function') equiparArmaduraLegendaria();
+    });
 // ===============================
 // 🎒 INVENTARIO UI
 // ===============================
@@ -393,7 +454,7 @@ function dibujarEnemigos() {
     });
 }
 // ===============================
-// GENERAR NIVEL PRO MAX
+// GENERAR NIVEL
 // ===============================
 function generarNivel() {
     // Reset estado
@@ -788,7 +849,6 @@ function revisarEstado() {
         mensajeEl.textContent += "\n💀 Has sido derrotado";
         bloquearBotones();
     }
-
     if (enemigos.length === 0) {
         jugador.nivel++;
         nivelActual++;
@@ -796,83 +856,68 @@ function revisarEstado() {
         generarNivel();
     }
 }
-// 🔹 Movimiento teclado (con límites)
+// 🔹 Movimiento teclado
 document.addEventListener("keydown", e => {
     const step = 20;
     const left = jugadorDiv.offsetLeft;
     const top = jugadorDiv.offsetTop;
-
     const maxX = gameArea.offsetWidth - jugadorDiv.offsetWidth;
-
     if (e.key === "ArrowRight") {
         jugadorDiv.style.left = Math.min(left + step, maxX) + "px";
     }
-
     if (e.key === "ArrowLeft") {
         jugadorDiv.style.left = Math.max(left - step, 0) + "px";
     }
-
     // (opcional) vertical si luego quieres
     if (e.key === "ArrowUp") {
         jugadorDiv.style.top = Math.max(top - step, 0) + "px";
     }
-
     if (e.key === "ArrowDown") {
         const maxY = gameArea.offsetHeight - jugadorDiv.offsetHeight;
         jugadorDiv.style.top = Math.min(top + step, maxY) + "px";
     }
 });
-// ===============================
-// FUNCIONALIDAD DE ARRASTRE
-// ===============================
-(function enableDrag() {
+    // Arrastre del jugador
     let dragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
+    let offsetX = 0, offsetY = 0;
     function startDrag(e) {
         dragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
         const rect = jugadorDiv.getBoundingClientRect();
-        if (e.type.startsWith("touch")) {
-            offsetX = e.touches[0].clientX - rect.left;
-            offsetY = e.touches[0].clientY - rect.top;
-        } else {
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
-        }
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+        jugadorDiv.style.cursor = "grabbing";
         e.preventDefault();
     }
-
     function onDrag(e) {
         if (!dragging) return;
-        let x, y;
-        if (e.type.startsWith("touch")) {
-            x = e.touches[0].clientX - offsetX;
-            y = e.touches[0].clientY - offsetY;
-        } else {
-            x = e.clientX - offsetX;
-            y = e.clientY - offsetY;
-        }
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const gameRect = gameArea.getBoundingClientRect();
+        let x = clientX - gameRect.left - offsetX;
+        let y = clientY - gameRect.top - offsetY;
         const maxX = gameArea.offsetWidth - jugadorDiv.offsetWidth;
         const maxY = gameArea.offsetHeight - jugadorDiv.offsetHeight;
-        jugadorDiv.style.left = Math.min(Math.max(0, x), maxX) + "px";
-        jugadorDiv.style.top = Math.min(Math.max(0, y), maxY) + "px";
+        jugadorDiv.style.left = Math.max(0, Math.min(x, maxX)) + "px";
+        jugadorDiv.style.top = Math.max(0, Math.min(y, maxY)) + "px";
+        ataqueEnemigos();
     }
-
     function stopDrag() {
         dragging = false;
+        jugadorDiv.style.cursor = "grab";
     }
-
     jugadorDiv.addEventListener("mousedown", startDrag);
     document.addEventListener("mousemove", onDrag);
     document.addEventListener("mouseup", stopDrag);
-
     jugadorDiv.addEventListener("touchstart", startDrag);
     document.addEventListener("touchmove", onDrag);
     document.addEventListener("touchend", stopDrag);
-})();
-// ===============================
-// START
-// ===============================
-generarNivel();
-actualizarUI();
+    // Iniciar loops
+    moverEnemigos();
+    setInterval(() => {
+        if (juegoActivo) ataqueEnemigos();
+    }, 800);
+    // Generar primer nivel
+    generarNivel();
+});
