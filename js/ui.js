@@ -82,24 +82,41 @@ function actualizarUI() {
     if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.style.display = jugador.inventario.botasEpicas > 0 ? "block" : "none";
     if (equiparCascoEpicoBtn) equiparCascoEpicoBtn.style.display = jugador.inventario.cascoEpico > 0 ? "block" : "none"; 
     if (equiparArmaduraLegendariaBtn) equiparArmaduraLegendariaBtn.style.display jugador.inventario.armaduraLegendaria > 0 ? "block" : "none"; 
+    
     // Actualizar barra MMORPG
     actualizarBarraMMORPG(porcentajeVida, maxMagia);
 }
 
-// ===============================
-// CSS AUTOMÁTICO
-// ===============================
-(function () {
-    const style = document.createElement("style");
-    style.textContent = `
-        .usar-item-anim {
-            animation: pulse 0.3s ease;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); box-shadow: 0 0 20px currentColor; }
-            100% { transform: scale(1); }
-        }
-    `;
-    document.head.appendChild(style);
-})();
+function actualizarBarraMMORPG(porcentajeVida, maxMagia) {
+    const vidaBarra = document.getElementById("vidaBarra");
+    const magiaBarra = document.getElementById("magiaBarra");
+
+    if (vidaBarra) {
+        vidaBarra.style.width = `${porcentajeVida}%`;
+    }
+
+    if (magiaBarra) {
+        const porcentajeMagia = maxMagia > 0 ? (jugador.magia / maxMagia) * 100 : 0;
+        magiaBarra.style.width = `${porcentajeMagia}%`;
+    }
+}
+
+function animarBoton(btn) {
+    if (!btn) return;
+    btn.classList.add("usar-item-anim");
+    setTimeout(() => btn.classList.remove("usar-item-anim"), 300);
+}
+
+// CSS para animación de botones
+const style = document.createElement("style");
+style.textContent = `
+    .usar-item-anim {
+        animation: pulse 0.3s ease;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); box-shadow: 0 0 20px currentColor; }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
