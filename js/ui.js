@@ -24,11 +24,6 @@ function actualizarUI() {
     magiaJugadorEl.textContent = jugador.magia;
     nivelJugadorEl.textContent = jugador.nivel;
     puntajeEl.textContent = jugador.puntaje;
-
-    // Calcular magia máxima
-    const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
-    const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
-    const maxMagia = maxMagiaBase + bonusOrbes;
     // ===== MAGIA =====
     const maxMagiaBase = Math.floor(jugador.nivel / 3) * 2;
     const bonusOrbes = (jugador.inventario.orbeUsados || 0) * 2;
