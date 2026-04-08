@@ -38,6 +38,7 @@ function actualizarUI() {
             <li>🛡️ Armaduras: ${jugador.inventario.armadura || 0}</li>
             <li>⛑️ Cascos: ${jugador.inventario.casco || 0}</li>
             <li>👕 Camisas: ${jugador.inventario.camisa || 0}</li>
+            <li>🧤 Guantes: ${jugador.inventario.guantes || 0}</li>
             <li>👢 Botas: ${jugador.inventario.botas || 0}</li>
             <li>👖 Pantalones: ${jugador.inventario.pantalon || 0}</li>
 
@@ -46,7 +47,6 @@ function actualizarUI() {
             <li>🔮 Orbes: ${jugador.inventario.orbe || 0}</li>
             <li>🏹 Arcos: ${jugador.inventario.arco || 0}</li>
             <li>🗡️ Dagas: ${jugador.inventario.daga || 0}</li>
-            <li>🧤 Guantes: ${jugador.inventario.guantes || 0}</li>
 
             <li><b>🟣 Épicos</b></li>
             <li>🛡️ Armadura Épica: ${jugador.inventario.armaduraEpica || 0}</li>
