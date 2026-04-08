@@ -1,8 +1,7 @@
 // ===============================
-// MINI RPG PRO - CORE SYSTEM v2.1
-// Sistema fusionado: Código base + Enemigos Mejorados
+// MINI RPG - CORE SYSTEM v2.1
+// Sistema fusionado: Código base + Enemigos
 // ===============================
-
 // ===== CONFIGURACIÓN DE ENEMIGOS (NUEVO) =====
 const TIPOS_ENEMIGO = {
     MAGO: { clase: 'mago', color: '#9b59b6', statMod: { ataque: 1.3, defensa: 0.7, velocidad: 0.8 } },
@@ -10,7 +9,6 @@ const TIPOS_ENEMIGO = {
     ARQUERO: { clase: 'arquero', color: '#27ae60', statMod: { ataque: 1.4, defensa: 0.6, velocidad: 1.3 } },
     ESQUELETO: { clase: 'esqueleto', color: '#95a5a6', statMod: { ataque: 1.0, defensa: 0.8, velocidad: 1.0 } }
 };
-
 // Rutas de imágenes organizadas (10 tipos por clase)
 const RUTAS_IMAGENES = {
     enemigos: {
@@ -48,7 +46,7 @@ const jugador = {
         espada: 1,
         armadura: 1,
         casco: 0,
-        camisa: 0,      // 👈 NUEVO
+        camisa: 0,
         botas: 0,
         pantalon: 0,
          // ===== RAROS =====
@@ -87,11 +85,9 @@ const puntajeEl = document.getElementById("puntaje");
 const listaInventarioEl = document.getElementById("listaInventario");
 const mensajeEl = document.getElementById("mensaje");
 const escenario = document.getElementById("escenario");
-
 const abrirInventarioBtn = document.getElementById("abrirInventarioBtn");
 const ventanaInventario = document.getElementById("ventanaInventario");
 const cerrarInventario = document.getElementById("cerrarInventario");
-
 // jugador visual
 const jugadorDiv = document.createElement("div");
 jugadorDiv.id = "jugador";
@@ -99,17 +95,84 @@ jugadorDiv.style.position = "absolute";
 jugadorDiv.style.left = "100px";
 jugadorDiv.style.top = "300px";
 gameArea.appendChild(jugadorDiv);
-
 // ===== BOTONES =====
 const atacarBtn = document.getElementById("atacarBtn");
 const curarBtn = document.getElementById("curarBtn");
-const equiparArmaBtn = document.getElementById("equiparArmaBtn");
-const equiparArmaduraBtn = document.getElementById("equiparArmaduraBtn");
-const equiparEspadaLegendariaBtn = document.getElementById("equiparEspadaLegendariaBtn");
-const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
+// Consumibles
 const usarCristalBtn = document.getElementById("usarCristalBtn");
 const usarOrbeBtn = document.getElementById("usarOrbeBtn");
 const aprenderMagiaBtn = document.getElementById("aprenderMagiaBtn");
+// Comunes
+const equiparArmaBtn = document.getElementById("equiparArmaBtn");
+const equiparArmaduraBtn = document.getElementById("equiparArmaduraBtn");
+const equiparCascoBtn = document.getElementById("equiparCascoBtn");
+const equiparCamisaBtn = document.getElementById("equiparCamisaBtn"); // 👕
+const equiparGuantesBtn = document.getElementById("equiparGuantesBtn");
+const equiparPantalonBtn = document.getElementById("equiparPantalonBtn");
+const equiparBotasBtn = document.getElementById("equiparBotasBtn");
+// Raros
+const equiparArcoBtn = document.getElementById("equiparArcoBtn");
+const equiparDagaBtn = document.getElementById("equiparDagaBtn");
+// Épicos
+const equiparArmaduraEpicaBtn = document.getElementById("equiparArmaduraEpicaBtn");
+const equiparBotasEpicasBtn = document.getElementById("equiparBotasEpicasBtn");
+const equiparCascoEpicoBtn = document.getElementById("equiparCascoEpicoBtn");
+// Legendarios
+const equiparEspadaLegendariaBtn = document.getElementById("equiparEspadaLegendariaBtn");
+const equiparArmaduraLegendariaBtn = document.getElementById("equiparArmaduraLegendariaBtn");
+// Extra
+const abrirInventarioBtn = document.getElementById("abrirInventarioBtn");
+// ===============================
+// EVENTOS
+// ===============================
+// 🔹 ACCIONES BÁSICAS
+if (atacarBtn) atacarBtn.addEventListener("click", atacar);
+if (curarBtn) curarBtn.addEventListener("click", curar);
+if (aprenderMagiaBtn) aprenderMagiaBtn.addEventListener("click", aprenderMagia);
+// ===============================
+// 🧪 CONSUMIBLES
+// ===============================
+if (usarCristalBtn) usarCristalBtn.addEventListener("click", usarCristal);
+if (usarOrbeBtn) usarOrbeBtn.addEventListener("click", usarOrbe);
+// ===============================
+// ⚔️ EQUIPO COMÚN
+// ===============================
+if (equiparArmaBtn) equiparArmaBtn.addEventListener("click", equiparArma);
+if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", equiparArmadura);
+if (equiparCascoBtn) equiparCascoBtn.addEventListener("click", equiparCasco);
+if (equiparCamisaBtn) equiparCamisaBtn.addEventListener("click", equiparCamisa);
+if (equiparGuantesBtn) equiparGuantesBtn.addEventListener("click", equiparGuantes);
+if (equiparPantalonBtn) equiparPantalonBtn.addEventListener("click", equiparPantalon);
+if (equiparBotasBtn) equiparBotasBtn.addEventListener("click", equiparBotas);
+// ===============================
+// 🏹 EQUIPO RARO
+// ===============================
+if (equiparArcoBtn) equiparArcoBtn.addEventListener("click", equiparArco);
+if (equiparDagaBtn) equiparDagaBtn.addEventListener("click", equiparDaga);
+// ===============================
+// 🟣 EQUIPO ÉPICO
+// ===============================
+if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.addEventListener("click", equiparArmaduraEpica);
+if (equiparBotasEpicasBtn) equiparBotasEpicasBtn.addEventListener("click", equiparBotasEpicas);
+if (equiparCascoEpicoBtn) equiparCascoEpicoBtn.addEventListener("click", equiparCascoEpico);
+// ===============================
+// 🟡 EQUIPO LEGENDARIO
+// ===============================
+if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", equiparEspadaLegendaria);
+if (equiparArmaduraLegendariaBtn) equiparArmaduraLegendariaBtn.addEventListener("click", equiparArmaduraLegendaria);
+// ===============================
+// 🎒 INVENTARIO UI
+// ===============================
+if (abrirInventarioBtn) {
+    abrirInventarioBtn.addEventListener("click", () => {
+        ventanaInventario.style.display = "block";
+    });
+}
+if (cerrarInventario) {
+    cerrarInventario.addEventListener("click", () => {
+        ventanaInventario.style.display = "none";
+    });
+}
 // ===============================
 // BLOQUEO TOTAL AL MORIR
 // ===============================
@@ -120,151 +183,244 @@ function bloquearBotones() {
     equiparArmaduraBtn.disabled = true;
     aprenderMagiaBtn.disabled = true;
 }
-
 // ===============================
-// FUNCIONES UTILITARIAS
+// FUNCIONES UTILITARIAS PRO
 // ===============================
+// 🔥 CRÍTICO ESCALABLE
 function esCritico() {
-    return Math.random() < 0.2;
+    const base = 0.2;
+    const bonus = jugador ? jugador.nivel * 0.005 : 0;
+    return Math.random() < (base + bonus);
 }
-
+// 🧠 IA DINÁMICA
 function tipoIA() {
-    const tipos = ["agresivo", "defensivo", "mago"];
+    const tipos = ["agresivo", "defensivo", "mago", "equilibrado"];
     return tipos[Math.floor(Math.random() * tipos.length)];
 }
+// 🎭 CLASE ALEATORIA (USA TIPOS_ENEMIGO)
+function getClaseAleatoria() {
+    const claves = Object.keys(TIPOS_ENEMIGO);
+    return TIPOS_ENEMIGO[claves[Math.floor(Math.random() * claves.length)]];
+}
+// 📈 VARIANTE SEGÚN NIVEL (1-10)
+function getVarianteEnemigo(nivel) {
+    return Math.min(Math.ceil(nivel / 2), 10);
+}
+// ===============================
+// 👾 CREACIÓN DE ENEMIGOS PRO MAX
+// ===============================
 function crearEnemigo(nivel, jefe = false) {
+    const claseInfo = getClaseAleatoria();
+    const ia = tipoIA();
     const factor = 1 + (nivel * 0.15);
-
     let vida = 30 + (nivel * 6 * factor);
     let ataque = 5 + (nivel * 1.2 * factor);
     let defensa = 2 + (nivel * 0.7 * factor);
-
-    let ia = tipoIA();
-
+    let magia = Math.floor(nivel / 3);
+    // ===== MODIFICADOR POR CLASE =====
+    vida *= claseInfo.statMod.defensa;
+    ataque *= claseInfo.statMod.ataque;
+    defensa *= claseInfo.statMod.defensa;
+    // ===== IA =====
+    switch (ia) {
+        case "agresivo":
+            ataque *= 1.3;
+            defensa *= 0.9;
+            break;
+        case "defensivo":
+            defensa *= 1.4;
+            ataque *= 0.8;
+            break;
+        case "mago":
+            magia *= 2;
+            ataque *= 0.9;
+            break;
+    }
+    // ===== JEFE =====
     if (jefe) {
         const bossFactor = 2 + (nivel * 0.05);
-        vida *= bossFactor * 0.9;
-        ataque *= (1.3 + nivel * 0.01);
-        defensa *= (1.2 + nivel * 0.01);
+        vida *= bossFactor;
+        ataque *= (1.3 + nivel * 0.02);
+        defensa *= (1.2 + nivel * 0.02);
+        magia *= 1.5;
     }
-
     return {
         vida: Math.floor(vida),
         vidaMax: Math.floor(vida),
         ataque: Math.floor(ataque),
         defensa: Math.floor(defensa),
+        magia: Math.floor(magia),
         jefe,
-        ia
+        ia,
+        claseInfo // 🔥 CLAVE para imágenes y estilo
+        tipo: claseInfo.clase,
+        velocidad: claseInfo.statMod.velocidad || 0.5
     };
 }
-
 // ===============================
-// IMAGEN ENEMIGO (FIX PRO)
+// 🖼️ RUTA ENEMIGO (SISTEMA PRO)
 // ===============================
 function getRutaEnemigo(enemigo) {
-    if (enemigo.jefe) return "img/boss.jpeg";
-    if (nivelActual >= 2) return "img/mago.jpeg";
-    return "img/enemigo1.jpeg";
+    const clase = enemigo.claseInfo.clase;
+    const variante = getVarianteEnemigo(nivelActual);
+    if (enemigo.jefe) {
+        const rutaJefe = RUTAS_IMAGENES.jefes[clase]?.[variante - 1];
+        if (rutaJefe) return rutaJefe;
+        return RUTAS_IMAGENES.fallback.boss;
+    } else {
+        const rutaNormal = RUTAS_IMAGENES.enemigos[clase]?.[variante - 1];
+        if (rutaNormal) return rutaNormal;
+        return RUTAS_IMAGENES.fallback[clase] || RUTAS_IMAGENES.fallback.guerrero;
+    }
 }
-
 // ===============================
-// 🎯 DIBUJAR ENEMIGOS
+// 🎯 DIBUJAR ENEMIGOS PRO MAX
 // ===============================
 function dibujarEnemigos() {
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
-
     enemigos.forEach((e, index) => {
         const div = document.createElement("div");
         div.classList.add("enemigo");
+        // ===== DATA =====
         div.dataset.index = index;
         div.dataset.jefe = e.jefe;
-        div.title = e.ia;
-
+        div.dataset.clase = e.claseInfo.clase;
+        div.title = `${e.claseInfo.clase} - ${e.ia}`;
+        // ===== POSICIÓN =====
         div.style.position = "absolute";
-        div.style.left = `${200 + index * 80}px`;
-        div.style.top = `${300 + Math.random() * 100}px`;
-
+        div.style.left = `${200 + index * 90}px`;
+        div.style.top = `${250 + Math.random() * 120}px`;
+        // ===== IMAGEN =====
         const img = getRutaEnemigo(e);
         div.style.backgroundImage = `url('${img}')`;
         div.style.backgroundSize = "contain";
         div.style.backgroundRepeat = "no-repeat";
         div.style.backgroundPosition = "center";
-        div.classList.add("animado");
-
+        // ===== COLOR POR CLASE =====
+        div.style.filter = `drop-shadow(0 0 10px ${e.claseInfo.color})`;
+        // ===== EFECTO IA =====
         switch (e.ia) {
-            case "agresivo": div.style.filter = "hue-rotate(0deg)"; break;
-            case "defensivo": div.style.filter = "hue-rotate(90deg)"; break;
-            case "mago": div.style.filter = "hue-rotate(250deg)"; break;
+            case "agresivo":
+                div.style.transform = "scale(1.1)";
+                break;
+            case "defensivo":
+                div.style.filter += " brightness(0.8)";
+                break;
+            case "mago":
+                div.style.filter += " hue-rotate(250deg)";
+                break;
         }
-
+        // ===== JEFE =====
         if (e.jefe) {
-            div.style.width = "100px";
-            div.style.height = "100px";
+            div.style.width = "110px";
+            div.style.height = "110px";
             div.style.boxShadow = "0 0 30px red";
             div.style.animation = "caminar 0.8s steps(4) infinite";
         } else {
-            div.style.width = "64px";
-            div.style.height = "64px";
+            div.style.width = "70px";
+            div.style.height = "70px";
         }
-
+        // ===============================
+        // ❤️ BARRA DE VIDA PRO
+        // ===============================
         const barra = document.createElement("div");
-        barra.classList.add("barra-vida");
-        barra.style.position = "absolute";
-        barra.style.bottom = "-10px";
-        barra.style.left = "0";
-        barra.style.width = "100%";
-        barra.style.height = "6px";
-        barra.style.background = "rgba(0,0,0,0.5)";
-        barra.style.borderRadius = "3px";
-
+        barra.style.cssText = `
+            position:absolute;
+            bottom:-10px;
+            left:0;
+            width:100%;
+            height:6px;
+            background:rgba(0,0,0,0.5);
+            border-radius:3px;
+        `;
         const fill = document.createElement("div");
-        fill.style.width = "100%";
+        const porcentaje = (e.vida / e.vidaMax) * 100;
+        fill.style.width = `${porcentaje}%`;
         fill.style.height = "100%";
-        fill.style.background = e.jefe ? "red" : "limegreen";
         fill.style.borderRadius = "3px";
-
+        fill.style.background =
+            porcentaje > 60 ? "#2ecc71" :
+            porcentaje > 30 ? "#f1c40f" :
+            "#e74c3c";
         barra.appendChild(fill);
         div.appendChild(barra);
+        // ===============================
+        // ⚡ LABEL CLASE
+        // ===============================
+        const label = document.createElement("div");
+        label.textContent = e.claseInfo.clase.toUpperCase();
+        label.style.cssText = `
+            position:absolute;
+            top:-15px;
+            left:0;
+            font-size:10px;
+            color:white;
+            text-shadow:0 0 5px black;
+        `;
+        div.appendChild(label);
+        // ===============================
+        // 🎯 CLICK ATAQUE
+        // ===============================
+        div.addEventListener("click", () => atacarEnemigo?.(index));
 
         gameArea.appendChild(div);
     });
 }
 // ===============================
-// GENERAR NIVEL PROFESIONAL
+// GENERAR NIVEL PRO MAX
 // ===============================
 function generarNivel() {
+    // Reset estado
     enemigos = [];
+    enemigosDerrotadosNivel = 0;
+    // Limpiar pantalla
     gameArea.querySelectorAll(".enemigo").forEach(e => e.remove());
-
-    // Calcular dificultad base según el nivel
-    // Nivel 1-2: fácil, nivel 3: un poco más difícil, progresivo
-    const dificultadBase = 1 + Math.floor(nivelActual / 2); // aumenta cada 2 niveles
-    const multiplicadorDificultad = 1 + (nivelActual * 0.1); // 10% más fuerte por nivel
-
-    // Número de enemigos: de 1 a 8, aumenta con el nivel pero no demasiado
+    // ===== CONFIGURACIÓN NIVEL =====
+    const esNivelJefe = (nivelActual % 5 === 0);
+    const dificultadBase = 1 + Math.floor(nivelActual / 2);
+    const multiplicadorDificultad = 1 + (nivelActual * 0.1);
+    // ===== CANTIDAD ENEMIGOS =====
     let numEnemigos;
-    if (nivelActual % 5 === 0) { 
-        // jefe cada 5 niveles
+    if (esNivelJefe) {
         numEnemigos = 1;
     } else {
-        numEnemigos = Math.min(3 + dificultadBase, 8); 
+        numEnemigos = Math.min(3 + dificultadBase, 8);
     }
-
+    // ===== GENERACIÓN =====
     for (let i = 0; i < numEnemigos; i++) {
-        // Crear enemigos con stats ajustadas por dificultad
-        const esJefe = (nivelActual % 5 === 0);
+        // 🔥 Mini-jefe aleatorio (más dinámico)
+        const esMiniJefe = (Math.random() < 0.1 && nivelActual > 3);
+        const esJefe = esNivelJefe || esMiniJefe;
         const enemigo = crearEnemigo(nivelActual, esJefe);
-
-        // Ajustar stats por nivel: vida, ataque, defensa
+        // ===== ESCALADO FINAL =====
         enemigo.vidaMax = Math.floor(enemigo.vidaMax * multiplicadorDificultad);
         enemigo.vida = enemigo.vidaMax;
         enemigo.ataque = Math.floor(enemigo.ataque * multiplicadorDificultad);
         enemigo.defensa = Math.floor(enemigo.defensa * multiplicadorDificultad);
-
+        enemigo.magia = Math.floor(enemigo.magia * multiplicadorDificultad);
+        // 🔥 BONUS extra si es mini-jefe (sin ser jefe principal)
+        if (esMiniJefe && !esNivelJefe) {
+            enemigo.vida *= 1.3;
+            enemigo.ataque *= 1.2;
+            enemigo.defensa *= 1.2;
+        }
         enemigos.push(enemigo);
     }
-
+    // ===============================
+    // 🧾 MENSAJE DINÁMICO
+    // ===============================
+    if (mensajeEl) {
+        mensajeEl.innerHTML = esNivelJefe
+            ? `👑 <b>Nivel ${nivelActual}</b> - <span style="color:#e74c3c">¡JEFE FINAL!</span>`
+            : `⚔️ <b>Nivel ${nivelActual}</b> - ${numEnemigos} enemigos`;
+    }
+    // ===============================
+    // 🎨 RENDER + UI
+    // ===============================
     dibujarEnemigos();
+    if (typeof actualizarUI === "function") {
+        actualizarUI();
+    }
 }
 // ===============================
 // CLASES
@@ -281,7 +437,6 @@ class Personaje {
         this.inventario = inventario;
     }
 }
-
 class Enemigo {
     constructor(vida, ataque, defensa, ia) {
         this.vida = vida;
@@ -291,155 +446,312 @@ class Enemigo {
         this.ia = ia; // "agresivo", "defensivo", "mago"
     }
 }
-
 // ===============================
 // ATAQUE DEL JUGADOR
 // ===============================
 function atacar() {
-    if (jugador.vida <= 0 || enemigos.length === 0) return;
-
+    if (!juegoActivo || jugador.vida <= 0 || enemigos.length === 0) return;
     const enemigo = enemigos[0];
     const enemigoDiv = gameArea.querySelector(`.enemigo[data-index="0"]`);
-
+    if (!enemigoDiv) return;
+    // ===== DAÑO BASE =====
     let daño = jugador.ataque + jugador.magia - enemigo.defensa;
-    if (esCritico()) {
-        daño *= 2;
-        mensajeEl.textContent = "💥 CRÍTICO!";
-        sonidoCritico.play();
-    } else {
-        sonidoGolpe.play();
+    // ===== BONUS POR CLASE =====
+    if (enemigo.claseInfo) {
+        switch (enemigo.claseInfo.clase) {
+            case "mago":
+                daño *= 1.1; // magos reciben más daño
+                break;
+            case "guerrero":
+                daño *= 0.9; // guerreros resisten más
+                break;
+            case "arquero":
+                daño *= 1.05;
+                break;
+            case "esqueleto":
+                daño *= 1.15;
+                break;
+        }
     }
-
+    // ===== CRÍTICO =====
+    let esCrit = esCritico();
+    if (esCrit) {
+        daño *= 2;
+        mensajeEl.innerHTML = `💥 <span style="color:#f1c40f">¡CRÍTICO!</span>`;
+        sonidoCritico?.play().catch(() => {});
+    } else {
+        mensajeEl.textContent = `⚔️ Atacas al enemigo`;
+        sonidoGolpe?.play().catch(() => {});
+    }
+    // ===== DAÑO MÍNIMO =====
     if (daño < 2) daño = 2;
-
+    daño = Math.floor(daño);
+    // ===== APLICAR DAÑO =====
     enemigo.vida -= daño;
     enemigo.vida = Math.max(0, enemigo.vida);
-
-    enemigoDiv.querySelector(".barra-vida div").style.width = `${(enemigo.vida / enemigo.vidaMax) * 100}%`;
-    mensajeEl.textContent += `\n⚔️ Daño: ${Math.floor(daño)}`;
-
-    // Si el enemigo muere
+    // ===== ACTUALIZAR BARRA VIDA =====
+    const fill = enemigoDiv.querySelector(".vida-fill");
+    if (fill) {
+        const porcentaje = (enemigo.vida / enemigo.vidaMax) * 100;
+        fill.style.width = `${porcentaje}%`;
+        // Color dinámico
+        fill.style.background =
+            porcentaje > 60 ? "#2ecc71" :
+            porcentaje > 30 ? "#f1c40f" :
+            "#e74c3c";
+    }
+    // ===== EFECTO VISUAL DE GOLPE =====
+    enemigoDiv.style.transform = "scale(1.15)";
+    enemigoDiv.style.filter = "brightness(1.8)";
+    setTimeout(() => {
+        enemigoDiv.style.transform = "";
+        enemigoDiv.style.filter = "";
+    }, 150);
+    mensajeEl.innerHTML += `<br>⚔️ Daño: <span style="color:#e74c3c">${daño}</span>`;
+    // ===============================
+    // ☠️ MUERTE DEL ENEMIGO
+    // ===============================
     if (enemigo.vida <= 0) {
+        enemigosDerrotadosNivel++;
+        // ===== PUNTOS =====
+        let puntos = 10;
+        if (enemigo.jefe) puntos = 50;
+        else if (enemigo.claseInfo?.clase === "esqueleto") puntos = 15;
+        jugador.puntaje += puntos;
+        // ===== CURACIÓN =====
+        const curacion = enemigo.jefe ? 30 : 10;
+        jugador.vida = Math.min(jugador.vidaMax, jugador.vida + curacion);
+        mensajeEl.innerHTML += `
+            <br><span style="color:#2ecc71">
+            ★ Enemigo derrotado! +${puntos} pts, +${curacion} HP
+            </span>
+        `;
+        // ===== LOOT INTELIGENTE =====
+        let loot = null;
+        if (typeof darLootEspecial === "function" && enemigo.claseInfo) {
+            loot = darLootEspecial(enemigo.claseInfo.clase, enemigo.jefe);
+        } else if (typeof darLoot === "function") {
+            loot = darLoot();
+        }
+        if (loot) {
+            mensajeEl.innerHTML += `<br>🎁 ${loot}`;
+        }
+        sonidoLoot?.play().catch(() => {});
+        // ===== ELIMINAR ENEMIGO =====
         enemigos.shift();
         enemigoDiv.remove();
-
-        const loot = darLoot();
-        sonidoLoot.play();
-        jugador.puntaje += 10;
-        jugador.vida = Math.min(jugador.vidaMax, jugador.vida + 15);
-
-        mensajeEl.textContent += `\n🎁 ${loot}`;
-
         dibujarEnemigos();
     }
-
-    // Enemigos reaccionan si estás cerca
-    ataqueEnemigos();
-
-    revisarEstado();
+    // ===== RESPUESTA ENEMIGA =====
+    if (typeof ataqueEnemigos === "function") {
+        ataqueEnemigos();
+    }
+    // ===== ESTADO DEL JUEGO =====
+    if (typeof revisarEstado === "function") {
+        revisarEstado();
+    }
     actualizarUI();
 }
-
 // ===============================
 // ATAQUE ENEMIGOS
 // ===============================
 function ataqueEnemigos() {
-    enemigos.forEach(e => {
-        let daño = e.ataque;
-        if (e.ia === "agresivo") daño *= 1.2;
-        if (e.ia === "defensivo") daño *= 0.7;
-        if (e.ia === "mago") daño += 3;
-        daño -= jugador.defensa;
-        if (daño < 1) daño = 1;
-        jugador.vida -= daño;
+    if (!juegoActivo || jugador.vida <= 0) return;
+    const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
+    const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
+    document.querySelectorAll(".enemigo").forEach((enemigoDiv, i) => {
+        const enemigo = enemigos[i];
+        if (!enemigo || enemigo.vida <= 0) return;
+        const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
+        const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
+        const distancia = Math.sqrt((jx - ex) ** 2 + (jy - ey) ** 2);
+        const clase = enemigo.claseInfo?.clase || "guerrero";
+        // ===== RANGO DINÁMICO =====
+        let rangoAtaque = 70;
+        if (clase === "arquero") rangoAtaque = 120;
+        if (clase === "mago") rangoAtaque = 100;
+        if (distancia <= rangoAtaque) {
+            let daño = enemigo.ataque;
+            // ===== MODIFICADORES POR CLASE =====
+            switch (clase) {
+                case "arquero":
+                    daño *= 1.2;
+                    if (Math.random() < 0.3) {
+                        mensajeEl.innerHTML += `<br><span style="color:#3498db">🏹 Esquivaste la flecha</span>`;
+                        return;
+                    }
+                    break;
+                case "mago":
+                    daño += 5;
+                    daño += Math.floor(jugador.defensa * 0.3); // ignora defensa
+                    break;
+                case "esqueleto":
+                    daño *= 1.1;
+                    enemigo.vida = Math.min(enemigo.vidaMax, enemigo.vida + 2); // vampirismo
+                    break;
+            }
+            // ===== IA =====
+            if (enemigo.ia === "agresivo") daño *= 1.2;
+            if (enemigo.ia === "defensivo") daño *= 0.7;
+            // ===== DEFENSA =====
+            daño -= jugador.defensa;
+            if (daño < 1) daño = 1;
+            daño = Math.floor(daño);
+            // ===== APLICAR DAÑO =====
+            jugador.vida -= daño;
+            jugador.vida = Math.max(0, jugador.vida);
+            // ===== ANIMACIÓN ENEMIGO =====
+            enemigoDiv.style.transform = "scale(1.2)";
+            setTimeout(() => enemigoDiv.style.transform = "", 150);
+            // ===== EFECTO EN JUGADOR =====
+            jugadorDiv.style.filter = "brightness(2) sepia(1) hue-rotate(-50deg)";
+            setTimeout(() => jugadorDiv.style.filter = "", 200);
+            // ===== MENSAJES DINÁMICOS =====
+            if (Math.random() < 0.3) {
+                const mensajes = {
+                    guerrero: "⚔️ Golpe brutal",
+                    mago: "🔮 Magia oscura",
+                    arquero: "🏹 Disparo preciso",
+                    esqueleto: "💀 Ataque óseo"
+                };
+                mensajeEl.innerHTML = `
+                    <span style="color:#e74c3c">
+                    ${mensajes[clase] || "Ataque enemigo"} -${daño} HP
+                    </span>
+                `;
+            }
+            actualizarUI();
+        }
     });
 }
 // ===============================
-// IA ENEMIGOS (ATAQUE POR PROXIMIDAD)
+// IA ENEMIGOS
 // ===============================
 (function iniciarAtaqueEnemigos() {
-    const rangoAtaque = 60;
-
     function atacarEnemigos() {
+        if (!juegoActivo || jugador.vida <= 0) {
+            requestAnimationFrame(atacarEnemigos);
+            return;
+        }
         const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
         const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
-
         document.querySelectorAll(".enemigo").forEach((enemigoDiv, i) => {
             const enemigo = enemigos[i];
-            if (!enemigo) return;
-
+            if (!enemigo || enemigo.vida <= 0) return;
             const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
             const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
             const dx = jx - ex;
             const dy = jy - ey;
-            const distancia = Math.sqrt(dx*dx + dy*dy);
-
-            // Ataque solo si está dentro del rango
+            const distancia = Math.sqrt(dx * dx + dy * dy);
+            const clase = enemigo.claseInfo?.clase || "guerrero";
+            // ===== RANGO DINÁMICO =====
+            let rangoAtaque = 70;
+            if (clase === "arquero") rangoAtaque = 120;
+            if (clase === "mago") rangoAtaque = 100;
             if (distancia <= rangoAtaque) {
                 let daño = enemigo.ataque;
+                // ===== CLASES =====
+                switch (clase) {
+                    case "arquero":
+                        daño *= 1.2;
+                        if (Math.random() < 0.3) {
+                            mensajeEl.innerHTML += `<br><span style="color:#3498db">🏹 Esquivaste flecha</span>`;
+                            return;
+                        }
+                        break;
+                    case "mago":
+                        daño += 5;
+                        daño += Math.floor(jugador.defensa * 0.3);
+                        break;
+                    case "esqueleto":
+                        daño *= 1.1;
+                        enemigo.vida = Math.min(enemigo.vidaMax, enemigo.vida + 2);
+                        break;
+                }
+                // ===== IA =====
                 if (enemigo.ia === "agresivo") daño *= 1.2;
                 if (enemigo.ia === "defensivo") daño *= 0.7;
-                if (enemigo.ia === "mago") daño += 3;
-
+                // ===== DEFENSA =====
                 daño -= jugador.defensa;
                 if (daño < 1) daño = 1;
-
+                daño = Math.floor(daño);
+                // ===== APLICAR DAÑO =====
                 jugador.vida -= daño;
                 jugador.vida = Math.max(0, jugador.vida);
-
-                // Animación de ataque
-                enemigoDiv.style.transform = "scale(1.1)";
-                setTimeout(() => enemigoDiv.style.transform = "scale(1)", 100);
-
+                // ===== ANIMACIÓN =====
+                enemigoDiv.style.transform = "scale(1.2)";
+                setTimeout(() => enemigoDiv.style.transform = "", 150);
+                jugadorDiv.style.filter = "brightness(2) sepia(1) hue-rotate(-50deg)";
+                setTimeout(() => jugadorDiv.style.filter = "", 200);
+                // ===== MENSAJE =====
+                if (Math.random() < 0.3) {
+                    const mensajes = {
+                        guerrero: "⚔️ Golpe pesado!",
+                        mago: "🔮 Magia oscura!",
+                        arquero: "🏹 Flecha certera!",
+                        esqueleto: "💀 Ataque óseo!"
+                    };
+                    mensajeEl.innerHTML = `
+                        <span style="color:#e74c3c">
+                        ${mensajes[clase] || "Ataque enemigo"} -${daño} HP
+                        </span>
+                    `;
+                }
                 actualizarUI();
             }
         });
-
         requestAnimationFrame(atacarEnemigos);
     }
-
-    window.addEventListener("load", () => atacarEnemigos());
+    window.addEventListener("load", atacarEnemigos);
 })();
 // ===============================
-// IA ENEMIGOS (MOVIMIENTO)
+// IA ENEMIGOS
 // ===============================
 (function iniciarMovimientoEnemigos() {
-    const velocidadBase = 0.3;
-    const rangoAtaque = 60;
-
     function moverEnemigos() {
+        if (!juegoActivo) {
+            requestAnimationFrame(moverEnemigos);
+            return;
+        }
         const jx = jugadorDiv.offsetLeft + jugadorDiv.offsetWidth / 2;
         const jy = jugadorDiv.offsetTop + jugadorDiv.offsetHeight / 2;
-
         document.querySelectorAll(".enemigo").forEach((enemigoDiv, i) => {
             const enemigo = enemigos[i];
-            if (!enemigo) return;
-
+            if (!enemigo || enemigo.vida <= 0) return;
             const ex = enemigoDiv.offsetLeft + enemigoDiv.offsetWidth / 2;
             const ey = enemigoDiv.offsetTop + enemigoDiv.offsetHeight / 2;
             const dx = jx - ex;
             const dy = jy - ey;
-            const distancia = Math.sqrt(dx*dx + dy*dy);
-
-            // Ajustar velocidad según tipo
-            let velocidad = velocidadBase;
-            if (enemigo.ia === "agresivo") velocidad *= 1.2;
-            if (enemigo.ia === "defensivo") velocidad *= 0.7;
-            if (enemigo.ia === "mago") velocidad *= 0.5;
-
-            // Movimiento solo si está lejos
-            if (distancia > rangoAtaque) {
-                const moveX = (dx / distancia) * velocidad + Math.sin(Date.now()/300 + i) * 0.5;
+            const distancia = Math.sqrt(dx * dx + dy * dy);
+            const clase = enemigo.claseInfo?.clase || "guerrero";
+            // ===== VELOCIDAD =====
+            let velocidad = enemigo.velocidad || 0.5;
+            // ===== COMPORTAMIENTO =====
+            if (clase === "arquero") {
+                if (distancia < 80) velocidad *= -1; // huye
+            } else if (clase === "mago") {
+                velocidad *= 0.6;
+            } else if (enemigo.ia === "agresivo") {
+                velocidad *= 1.3;
+            } else if (enemigo.ia === "defensivo") {
+                velocidad *= 0.6;
+            }
+            const rangoAtaque = clase === "arquero" ? 100 : 60;
+            // ===== MOVIMIENTO =====
+            if (distancia > rangoAtaque || (clase === "arquero" && distancia < 60)) {
+                const moveX = (dx / distancia) * velocidad + Math.sin(Date.now() / 300 + i) * 0.5;
                 const moveY = (dy / distancia) * velocidad;
-                enemigoDiv.style.left = enemigoDiv.offsetLeft + moveX + "px";
-                enemigoDiv.style.top = enemigoDiv.offsetTop + moveY + "px";
+                const newLeft = enemigoDiv.offsetLeft + moveX;
+                const newTop = enemigoDiv.offsetTop + moveY;
+                const maxX = gameArea.offsetWidth - enemigoDiv.offsetWidth;
+                const maxY = gameArea.offsetHeight - enemigoDiv.offsetHeight;
+                enemigoDiv.style.left = Math.max(0, Math.min(newLeft, maxX)) + "px";
+                enemigoDiv.style.top = Math.max(0, Math.min(newTop, maxY)) + "px";
             }
         });
-
         requestAnimationFrame(moverEnemigos);
     }
-
-    window.addEventListener("load", () => moverEnemigos());
+    window.addEventListener("load", moverEnemigos);
 })();
 // ===============================
 // REVISAR ESTADO JUEGO
@@ -458,36 +770,6 @@ function revisarEstado() {
         generarNivel();
     }
 }
-// ===============================
-// EVENTOS (ACTUALIZADO PRO)
-// ===============================
-
-// 🔹 Acciones básicas
-if (atacarBtn) atacarBtn.addEventListener("click", atacar);
-if (curarBtn) curarBtn.addEventListener("click", curar);
-if (equiparArmaBtn) equiparArmaBtn.addEventListener("click", equiparArma);
-if (equiparArmaduraBtn) equiparArmaduraBtn.addEventListener("click", equiparArmadura);
-if (aprenderMagiaBtn) aprenderMagiaBtn.addEventListener("click", aprenderMagia);
-
-// 🔹 Items raros (NUEVO)
-if (usarCristalBtn) usarCristalBtn.addEventListener("click", usarCristal);
-if (usarOrbeBtn) usarOrbeBtn.addEventListener("click", usarOrbe);
-if (equiparEspadaLegendariaBtn) equiparEspadaLegendariaBtn.addEventListener("click", equiparEspadaLegendaria);
-if (equiparArmaduraEpicaBtn) equiparArmaduraEpicaBtn.addEventListener("click", equiparArmaduraEpica);
-
-// 🔹 Inventario
-if (abrirInventarioBtn) {
-    abrirInventarioBtn.addEventListener("click", () => {
-        ventanaInventario.style.display = "block";
-    });
-}
-
-if (cerrarInventario) {
-    cerrarInventario.addEventListener("click", () => {
-        ventanaInventario.style.display = "none";
-    });
-}
-
 // 🔹 Movimiento teclado (con límites)
 document.addEventListener("keydown", e => {
     const step = 20;
